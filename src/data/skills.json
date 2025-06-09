@@ -1,0 +1,8 @@
+[
+  { "name": "React", "level": 90, "type": "Frontend" },
+  { "name": "Tailwind", "level": 85, "type": "Frontend" },
+  { "name": "Laravel", "level": 80, "type": "Backend" },
+  { "name": "PHP", "level": 80, "type": "Backend" },
+  { "name": "Docker", "level": 70, "type": "DevOps" },
+  { "name": "Git", "level": 75, "type": "DevOps" }
+] 

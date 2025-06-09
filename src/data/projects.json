@@ -1,0 +1,58 @@
+{
+  "projects": [
+    {
+      "name": "Portfolio Personal",
+      "description": "Portfolio profesional desarrollado con React, TypeScript y Tailwind CSS. Incluye animaciones suaves, modo oscuro y diseño responsive.",
+      "technologies": ["React", "TypeScript", "Tailwind", "Git"],
+      "github": "https://github.com/tuusuario/portfolio-react",
+      "demo": "https://tudominio.com",
+      "image": "/src/assets/projects/portfolio.jpg",
+      "features": ["Diseño Moderno", "Modo Oscuro", "Animaciones", "Responsive"]
+    },
+    {
+      "name": "E-commerce Platform",
+      "description": "Plataforma de comercio electrónico completa con carrito de compras, sistema de pagos y panel de administración.",
+      "technologies": ["Laravel", "React", "PHP", "Docker"],
+      "github": "https://github.com/tuusuario/ecommerce",
+      "demo": "https://ecommerce.tudominio.com",
+      "image": "/src/assets/projects/ecommerce.jpg",
+      "features": ["Carrito de Compras", "Sistema de Pagos", "Panel Admin", "API REST"]
+    },
+    {
+      "name": "Task Management App",
+      "description": "Aplicación de gestión de tareas con funcionalidades de arrastrar y soltar, filtros y notificaciones en tiempo real.",
+      "technologies": ["React", "Laravel", "Docker", "Git"],
+      "github": "https://github.com/tuusuario/task-manager",
+      "demo": "https://tasks.tudominio.com",
+      "image": "/src/assets/projects/taskmanager.jpg",
+      "features": ["Drag & Drop", "Tiempo Real", "Filtros", "Notificaciones"]
+    },
+    {
+      "name": "Blog Platform",
+      "description": "Plataforma de blog con sistema de comentarios, categorías y búsqueda avanzada. Incluye editor WYSIWYG.",
+      "technologies": ["Laravel", "PHP", "Tailwind", "Docker"],
+      "github": "https://github.com/tuusuario/blog-platform",
+      "demo": "https://blog.tudominio.com",
+      "image": "/src/assets/projects/blog.jpg",
+      "features": ["Editor WYSIWYG", "Comentarios", "Categorías", "Búsqueda"]
+    },
+    {
+      "name": "Social Media Dashboard",
+      "description": "Dashboard para redes sociales con análisis de métricas, programación de publicaciones y gestión de contenido.",
+      "technologies": ["React", "Laravel", "Docker", "Git"],
+      "github": "https://github.com/tuusuario/social-dashboard",
+      "demo": "https://social.tudominio.com",
+      "image": "/src/assets/projects/social.jpg",
+      "features": ["Análisis", "Programación", "Métricas", "API Social"]
+    },
+    {
+      "name": "Real Estate Platform",
+      "description": "Plataforma inmobiliaria con búsqueda avanzada, filtros por ubicación y sistema de reservas de visitas.",
+      "technologies": ["React", "Laravel", "PHP", "Docker"],
+      "github": "https://github.com/tuusuario/real-estate",
+      "demo": "https://realestate.tudominio.com",
+      "image": "/src/assets/projects/realestate.jpg",
+      "features": ["Búsqueda Avanzada", "Mapas", "Reservas", "Filtros"]
+    }
+  ]
+} 

@@ -1,0 +1,62 @@
+export default {
+  nav: {
+    home: 'Home',
+    about: 'About',
+    projects: 'Projects',
+    skills: 'Skills',
+    contact: 'Contact'
+  },
+  home: {
+    greeting: 'Hi, I am',
+    role: 'Full Stack Developer',
+    description: 'I create modern and professional web applications with the latest technologies.',
+    downloadCV: 'Download CV',
+    viewProjects: 'View Projects'
+  },
+  about: {
+    title: 'About Me',
+    subtitle: 'Get to know me better',
+    description: 'I am a passionate Full Stack Developer with experience in creating modern web applications. I love learning new technologies and solving complex problems.',
+    experience: 'Experience',
+    education: 'Education',
+    softSkills: 'Soft Skills',
+    technologies: 'Technologies'
+  },
+  projects: {
+    title: 'Projects',
+    subtitle: 'My recent work',
+    viewCode: 'View Code',
+    viewDemo: 'View Demo',
+    technologies: 'Technologies',
+    features: 'Features'
+  },
+  skills: {
+    title: 'Skills',
+    subtitle: 'Technologies and tools I use to create digital solutions',
+    frontend: 'Frontend',
+    backend: 'Backend',
+    database: 'Database',
+    devops: 'DevOps',
+    testing: 'Testing'
+  },
+  contact: {
+    title: 'Contact',
+    subtitle: 'Let\'s talk about your project',
+    description: 'Have a project in mind? Let\'s talk! I\'m here to help you make it happen.',
+    name: 'Name',
+    email: 'Email',
+    subject: 'Subject',
+    message: 'Message',
+    send: 'Send Message',
+    sending: 'Sending...',
+    success: 'Message sent successfully! I\'ll get back to you soon.',
+    error: 'There was an error sending the message. Please try again.',
+    contactInfo: 'Contact Information',
+    socialMedia: 'Social Media'
+  },
+  footer: {
+    rights: 'All rights reserved',
+    madeWith: 'Made with',
+    by: 'by'
+  }
+}; 
