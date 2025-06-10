@@ -61,6 +61,15 @@ jobs:
             echo "Deploying application..."
             cd ~/portfolio-react
             
+            echo "Checking what's using port 80..."
+            lsof -i :80 || true
+            netstat -tulpn | grep :80 || true
+            
+            echo "Stopping any existing web server..."
+            systemctl stop nginx || true
+            systemctl stop apache2 || true
+            systemctl stop httpd || true
+            
             echo "Stopping and removing existing containers..."
             docker-compose down --remove-orphans --volumes --timeout 30 || true
             
@@ -74,4 +83,7 @@ jobs:
             docker-compose up -d --force-recreate --remove-orphans
             
             echo "Verifying container is running..."
-            docker ps | grep portfolio-react-app 
+            docker ps | grep portfolio-react-app
+            
+            echo "Checking if port 80 is now available..."
+            netstat -tulpn | grep :80 || true 
