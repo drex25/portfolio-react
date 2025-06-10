@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   portfolio:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME}/portfolio-react:latest
     ports:
-      - "80:80"
+      - "5356:80"
     restart: unless-stopped 
