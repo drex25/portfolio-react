@@ -42,7 +42,16 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 5356
+          debug: true
           script: |
+            echo "Current directory: $(pwd)"
+            echo "Listing directory contents:"
+            ls -la
+            echo "Checking SSH directory:"
+            ls -la ~/.ssh
+            echo "Checking authorized_keys:"
+            cat ~/.ssh/authorized_keys
+            echo "Deploying application..."
             cd ~/portfolio-react
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-react:latest
             docker-compose down
