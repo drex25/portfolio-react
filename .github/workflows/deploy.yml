@@ -61,6 +61,12 @@ jobs:
             echo "Deploying application..."
             cd ~/portfolio-react
             
+            echo "Checking for processes using port 5356..."
+            if lsof -i :5356; then
+              echo "Port 5356 is in use. Stopping processes..."
+              lsof -ti :5356 | xargs kill -9 || true
+            fi
+            
             echo "Stopping and removing existing containers..."
             docker-compose down --remove-orphans --volumes --timeout 30 || true
             
@@ -71,4 +77,7 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-react:latest
             
             echo "Starting new container..."
-            docker-compose up -d --force-recreate --remove-orphans 
+            docker-compose up -d --force-recreate --remove-orphans
+            
+            echo "Verifying container is running..."
+            docker ps | grep portfolio-react-app 
