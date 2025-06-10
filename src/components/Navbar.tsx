@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaMoon, FaSun, FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
-import { MdLanguage } from 'react-icons/md';
+import { FaMoon, FaSun, FaBars, FaTimes } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface Language {

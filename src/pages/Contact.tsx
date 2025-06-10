@@ -64,13 +64,14 @@ const Contact: React.FC = () => {
     formState: { errors }
   } = useForm<ContactFormInputs>();
 
-  const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<ContactFormInputs> = async (formData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
       // Aquí iría tu lógica para enviar el formulario
       // Por ejemplo, una llamada a una API
+      console.log('Form data:', formData); // Log the form data
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simulación de envío
       
       setSubmitStatus('success');
