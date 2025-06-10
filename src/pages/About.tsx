@@ -130,7 +130,7 @@ const About: React.FC = () => {
               Tecnologías
             </h3>
             <div className="flex flex-wrap gap-3">
-              {techs.map((tech, index) => (
+              {techs.map((tech) => (
                 <motion.span
                   key={tech.name}
                   whileHover={{ scale: 1.1, rotate: 2 }}
@@ -153,7 +153,7 @@ const About: React.FC = () => {
               Soft Skills
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              {softSkills.map((skill, index) => (
+              {softSkills.map((skill) => (
                 <motion.div
                   key={skill.name}
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(var(--primary-500), 0.1)" }}
@@ -182,7 +182,7 @@ const About: React.FC = () => {
               Experiencia
             </h3>
             <div className="space-y-8">
-              {experiences.map((exp, index) => (
+              {experiences.map((exp) => (
                 <motion.div
                   key={exp.title}
                   whileHover={{ scale: 1.02 }}
@@ -213,7 +213,7 @@ const About: React.FC = () => {
               Educación
             </h3>
             <div className="space-y-6">
-              {education.map((edu, index) => (
+              {education.map((edu) => (
                 <motion.div
                   key={edu.degree}
                   whileHover={{ scale: 1.02 }}

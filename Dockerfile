@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
@@ -7,13 +7,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy all files
 COPY . .
-
-# Ensure assets directory exists and has correct permissions
-RUN mkdir -p src/assets && chmod -R 755 src/assets
 
 # Build the app
 RUN npm run build
