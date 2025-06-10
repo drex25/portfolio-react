@@ -5,11 +5,14 @@ on:
     branches:
       - main
   pull_request:
+    types: [closed]
     branches:
       - main
 
 jobs:
   deploy:
+    # Solo ejecutar si es un push directo a main o un PR que se ha cerrado (merged)
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     
     steps:
