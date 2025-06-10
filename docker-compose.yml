@@ -3,7 +3,7 @@ version: '3.8'
 services:
   portfolio:
     container_name: portfolio-react-app
-    image: ${DOCKERHUB_USERNAME}/portfolio-react:latest
+    image: drex422/portfolio-react:latest
     ports:
       - "80:80"
     restart: unless-stopped 
