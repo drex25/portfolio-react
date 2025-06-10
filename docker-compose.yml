@@ -5,5 +5,5 @@ services:
     container_name: portfolio-react-app
     image: ${DOCKERHUB_USERNAME}/portfolio-react:latest
     ports:
-      - "5356:5356"
+      - "80:80"
     restart: unless-stopped 
