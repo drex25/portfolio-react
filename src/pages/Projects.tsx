@@ -28,9 +28,13 @@ const Projects: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
 
   useEffect(() => {
-    fetch('/src/data/projects.json')
+    fetch('/data/projects.json')
       .then(res => res.json())
-      .then(data => setProjects(data.projects));
+      .then(data => setProjects(data.projects))
+      .catch(error => {
+        console.error('Error loading projects:', error);
+        setProjects([]);
+      });
   }, []);
 
   const filteredProjects = filter === 'all' 
