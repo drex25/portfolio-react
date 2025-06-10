@@ -9,6 +9,11 @@ echo "🚀 Starting deployment process..."
 echo "📥 Pulling latest changes from git..."
 git pull origin main
 
+# Ensure assets directory exists
+echo "Creating assets directory if it doesn't exist..."
+mkdir -p src/assets
+chmod -R 755 src/assets
+
 # Pull latest Docker image
 echo "🐳 Pulling latest Docker image..."
 docker pull drex422/portfolio-react:latest
