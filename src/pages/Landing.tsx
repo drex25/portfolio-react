@@ -98,7 +98,7 @@ const ProfileSection: React.FC<{
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <motion.img 
-        src="/src/assets/DREX.jpeg" 
+        src="/assets/DREX.jpeg" 
         alt="Foto de perfil de Sylvain Drexler" 
         className="object-cover w-full h-full"
         animate={{
