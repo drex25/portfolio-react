@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   portfolio:
+    container_name: portfolio-react-app
     image: ${DOCKERHUB_USERNAME}/portfolio-react:latest
     ports:
       - "5356:80"

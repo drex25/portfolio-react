@@ -60,6 +60,15 @@ jobs:
             
             echo "Deploying application..."
             cd ~/portfolio-react
+            
+            echo "Stopping and removing existing containers..."
+            docker-compose down --remove-orphans --volumes --timeout 30 || true
+            
+            echo "Removing any existing containers with the same name..."
+            docker rm -f portfolio-react-app || true
+            
+            echo "Pulling latest image..."
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-react:latest
-            docker-compose down
-            docker-compose up -d 
+            
+            echo "Starting new container..."
+            docker-compose up -d --force-recreate --remove-orphans 
