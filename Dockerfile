@@ -12,6 +12,9 @@ RUN npm install
 # Copy all files
 COPY . .
 
+# Ensure assets directory exists and has correct permissions
+RUN mkdir -p src/assets && chmod -R 755 src/assets
+
 # Build the app
 RUN npm run build
 
