@@ -58,6 +58,8 @@ const Navbar: React.FC = () => {
 
   const changeLanguage = (langCode: string) => {
     i18n.changeLanguage(langCode);
+    const newLanguage = languages.find(lang => lang.code === langCode) || languages[0];
+    setCurrentLanguage(newLanguage);
     setIsLanguageMenuOpen(false);
   };
 
