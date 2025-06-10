@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaArrowRight, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
 
 const Landing: React.FC = () => {
