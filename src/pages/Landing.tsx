@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaArrowRight, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 // Constants
 const ANIMATION_CONFIG = {
@@ -131,60 +132,64 @@ const ProfileSection: React.FC<{
   </motion.div>
 );
 
-const ActionButtons: React.FC = () => (
-  <motion.div
-    custom={3}
-    variants={textVariants}
-    initial="hidden"
-    animate="visible"
-    className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
-  >
-    <motion.a
-      href="/src/assets/CV.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group px-8 py-3 bg-primary-500 text-white rounded-lg shadow-lg hover:bg-primary-600 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      aria-label="Descargar CV"
+const ActionButtons: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <motion.div
+      custom={3}
+      variants={textVariants}
+      initial="hidden"
+      animate="visible"
+      className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
     >
-      <motion.span
-        className="absolute inset-0 bg-white/20"
-        initial={{ x: "-100%" }}
-        whileHover={{ x: "100%" }}
-        transition={{ duration: 0.5 }}
-      />
-      Descargar CV
-      <motion.div
-        animate={{ x: [0, 5, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+      <motion.a
+        href="/src/assets/CV.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group px-8 py-3 bg-primary-500 text-white rounded-lg shadow-lg hover:bg-primary-600 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label={t('home.downloadCV')}
       >
-        <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-      </motion.div>
-    </motion.a>
-    <motion.a
-      href="/projects"
-      className="group px-8 py-3 bg-white dark:bg-gray-800 text-primary-500 border-2 border-primary-500 rounded-lg shadow hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      aria-label="Ver proyectos"
-    >
-      <motion.span
-        className="absolute inset-0 bg-primary-500/10"
-        initial={{ x: "-100%" }}
-        whileHover={{ x: "100%" }}
-        transition={{ duration: 0.5 }}
-      />
-      Ver Proyectos
-      <motion.div
-        animate={{ x: [0, 5, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+        <motion.span
+          className="absolute inset-0 bg-white/20"
+          initial={{ x: "-100%" }}
+          whileHover={{ x: "100%" }}
+          transition={{ duration: 0.5 }}
+        />
+        {t('home.downloadCV')}
+        <motion.div
+          animate={{ x: [0, 5, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+        </motion.div>
+      </motion.a>
+      
+      <motion.a
+        href="/projects"
+        className="group px-8 py-3 bg-white dark:bg-gray-800 text-primary-500 border-2 border-primary-500 rounded-lg shadow hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label={t('home.viewProjects')}
       >
-        <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-      </motion.div>
-    </motion.a>
-  </motion.div>
-);
+        <motion.span
+          className="absolute inset-0 bg-primary-500/10"
+          initial={{ x: "-100%" }}
+          whileHover={{ x: "100%" }}
+          transition={{ duration: 0.5 }}
+        />
+        {t('home.viewProjects')}
+        <motion.div
+          animate={{ x: [0, 5, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+        </motion.div>
+      </motion.a>
+    </motion.div>
+  );
+};
 
 const SocialLinks: React.FC = () => (
   <motion.div
@@ -232,6 +237,7 @@ const textVariants = {
 };
 
 const Landing: React.FC = () => {
+  const { t } = useTranslation();
   const { scrollY } = useScroll();
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -295,7 +301,7 @@ const Landing: React.FC = () => {
           initial="hidden"
           animate="visible"
         >
-          ¡Hola! Soy <span className="text-primary-600 dark:text-primary-400">Sylvain Drexler</span>
+          {t('home.greeting')} <span className="text-primary-600 dark:text-primary-400">Sylvain Drexler</span>
         </motion.h1>
         
         <motion.p
@@ -305,7 +311,7 @@ const Landing: React.FC = () => {
           animate="visible"
           className="text-xl md:text-2xl mb-4 text-gray-700 dark:text-gray-200 font-medium"
         >
-          Transformo ideas en productos digitales modernos y escalables
+          {t('home.role')}
         </motion.p>
         
         <motion.p
@@ -315,7 +321,7 @@ const Landing: React.FC = () => {
           animate="visible"
           className="text-lg text-gray-600 dark:text-gray-300 mb-8"
         >
-          Full Stack Developer | React, Laravel, PHP, Tailwind, Docker, Git y más
+          {t('home.description')}
         </motion.p>
 
         <ActionButtons />

@@ -57,6 +57,7 @@ export default {
   footer: {
     rights: 'All rights reserved',
     madeWith: 'Made with',
-    by: 'by'
+    by: 'by',
+    brandDescription: 'Transforming ideas into exceptional digital experiences.'
   }
 }; 

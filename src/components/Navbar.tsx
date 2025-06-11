@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaMoon, FaSun, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface Language {
@@ -32,12 +32,12 @@ const pageTitles: Record<string, string> = {
   '/contact': 'Contacto - Sylvain Drexler',
 };
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onLanguageChange: (lng: string) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   const { t, i18n } = useTranslation();
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    return savedMode ? JSON.parse(savedMode) : false;
-  });
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -60,15 +60,6 @@ const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const changeLanguage = (langCode: string) => {
     i18n.changeLanguage(langCode);
@@ -115,7 +106,7 @@ const Navbar: React.FC = () => {
       variants={navVariants}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-lg'
+          ? 'bg-gray-900/80 backdrop-blur-lg shadow-lg'
           : 'bg-transparent'
       }`}
     >
@@ -131,7 +122,7 @@ const Navbar: React.FC = () => {
               D
             </motion.div>
             <motion.span 
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-300"
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-300"
               whileHover={{ scale: 1.05 }}
             >
               Drex
@@ -144,15 +135,15 @@ const Navbar: React.FC = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300 ${
-                  location.pathname === link.path ? 'text-primary-500 dark:text-primary-400' : ''
+                className={`relative text-gray-200 hover:text-primary-400 transition-colors duration-300 ${
+                  location.pathname === link.path ? 'text-primary-400' : ''
                 }`}
               >
                 {t(link.label)}
                 {location.pathname === link.path && (
                   <motion.div
                     layoutId="activeLink"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-500 dark:bg-primary-400"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-400"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
@@ -168,7 +159,7 @@ const Navbar: React.FC = () => {
             <div className="relative">
               <motion.button
                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center justify-center px-3 py-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
+                className="flex items-center justify-center px-3 py-2 rounded-lg bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -182,20 +173,20 @@ const Navbar: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-48 rounded-lg bg-white dark:bg-gray-800 shadow-xl overflow-hidden"
+                    className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-800 shadow-xl overflow-hidden"
                   >
                     {languages.map((lang) => (
                       <motion.button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 ${
-                          i18n.language === lang.code ? 'bg-primary-50 dark:bg-primary-900/20' : ''
+                        className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-700 transition-colors duration-200 ${
+                          i18n.language === lang.code ? 'bg-primary-900/20' : ''
                         }`}
                         whileHover={{ x: 5 }}
                         whileTap={{ scale: 0.98 }}
                       >
                         <span className="text-2xl">{lang.flag}</span>
-                        <span className="text-gray-700 dark:text-gray-200">{lang.name}</span>
+                        <span className="text-gray-200">{lang.name}</span>
                         {i18n.language === lang.code && (
                           <motion.div
                             layoutId="activeLanguage"
@@ -209,26 +200,12 @@ const Navbar: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Dark Mode Toggle */}
-            <motion.button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isDarkMode ? (
-                <FaSun className="text-yellow-500 text-xl" />
-              ) : (
-                <FaMoon className="text-primary-500 text-xl" />
-              )}
-            </motion.button>
-
             {/* Mobile Menu Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
+              className="md:hidden p-2 rounded-lg bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
             >
               {isMobileMenuOpen ? (
                 <FaTimes className="text-primary-500 text-xl" />
@@ -248,9 +225,9 @@ const Navbar: React.FC = () => {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white dark:bg-gray-900 shadow-lg"
+            className="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-gray-900 shadow-lg"
           >
-            <div className="flex flex-col p-4 space-y-4">
+            <div className="p-4 space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -258,8 +235,8 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`relative group px-4 py-2 rounded-lg ${
                     location.pathname === link.path
-                      ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-500'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ? 'bg-primary-900/20 text-primary-400'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   {t(link.label)}
