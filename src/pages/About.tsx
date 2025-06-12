@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaBriefcase, FaGraduationCap, FaCode, FaLightbulb, FaStar, FaChevronDown } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaCode, FaLightbulb, FaStar, FaGithub, FaLinkedin, FaLanguage } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const experiences = [
   {
@@ -88,15 +89,10 @@ const techs = [
 ];
 
 const About: React.FC = () => {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  };
 
   return (
     <section className="min-h-screen relative overflow-hidden bg-black" id="about">
@@ -136,97 +132,153 @@ const About: React.FC = () => {
           className="text-center mb-20"
         >
           <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mb-6">
-            Sobre mí
+            {t('about.title', 'Sobre mí')}
           </h2>
           <div className="w-48 h-1 bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mx-auto rounded-full" />
         </motion.div>
 
         {/* Main content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left column - Profile */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Left column - Profile and Skills */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-4 flex flex-col gap-8"
+            className="space-y-8"
           >
-            <div className="flex flex-col gap-8">
-              {/* Perfil */}
-              <div className="relative group flex flex-col items-center">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-black rounded-2xl p-8 flex flex-col items-center">
+            {/* Profile Card */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
+                <div className="flex flex-col items-center">
                   <motion.div
-                    className="w-56 h-56 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl mb-6"
-                    animate={{
-                      rotate: isHovering ? mousePosition.x * 0.1 : 0,
-                      scale: isHovering ? 1.05 : 1,
-                    }}
+                    className="w-48 h-48 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl mb-6"
+                    whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    onHoverStart={() => setIsHovering(true)}
-                    onHoverEnd={() => setIsHovering(false)}
-                    onMouseMove={handleMouseMove}
                   >
-                    <motion.img
+                    <img
                       src="/assets/DREX.jpeg"
                       alt="Foto de perfil de Sylvain Drexler"
                       className="object-cover w-full h-full"
-                      animate={{ scale: isHovering ? 1.1 : 1 }}
-                      transition={{ duration: 0.3 }}
                     />
                   </motion.div>
                   <h1 className="text-3xl font-bold text-white mb-2 text-center">Sylvain Drexler Wilvins</h1>
                   <h2 className="text-xl font-semibold text-purple-400 mb-4 text-center">Web Developer & Analista de Sistemas</h2>
-                  <p className="text-gray-300 leading-relaxed text-center">
+                  <p className="text-gray-300 leading-relaxed text-center mb-6">
                     ¡Hola! Soy un técnico en programación y analista de sistemas con más de 5 años de experiencia en el desarrollo web.
                   </p>
+                  <div className="flex gap-4">
+                    <motion.a
+                      href="https://github.com/tuusuario"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-2xl text-gray-400 hover:text-purple-400 transition-colors"
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FaGithub />
+                    </motion.a>
+                    <motion.a
+                      href="https://linkedin.com/in/tuusuario"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-2xl text-gray-400 hover:text-purple-400 transition-colors"
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FaLinkedin />
+                    </motion.a>
+                  </div>
                 </div>
               </div>
-              {/* Idiomas */}
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-black rounded-2xl p-6">
+            </div>
+
+            {/* Skills Grid */}
+            <div className="grid grid-cols-2 gap-4 min-h-[220px]">
+              {/* Languages */}
+              <div className="relative group h-full">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+                <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-6 h-full">
                   <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <span className="text-purple-400">🌐</span> Idiomas
+                    <FaLanguage className="text-purple-400" /> Idiomas
                   </h3>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="space-y-2">
                     {languages.map(lang => (
-                      <span key={lang.name} className="px-3 py-1 rounded-full bg-purple-700/30 text-purple-200 font-semibold text-sm border border-purple-500">
-                        {lang.name} <span className="text-gray-400 font-normal">({lang.level})</span>
-                      </span>
+                      <div key={lang.name} className="flex justify-between items-center">
+                        <span className="text-gray-300">{lang.name}</span>
+                        <span className="text-purple-400 text-sm">{lang.level}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
+
               {/* Soft Skills */}
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-black rounded-2xl p-6">
+              <div className="relative group h-full">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+                <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-6 h-full">
                   <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
                     <FaLightbulb className="text-purple-400" /> Soft Skills
                   </h3>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="space-y-2">
                     {softSkills.map(skill => (
-                      <span key={skill.name} className="flex items-center gap-2 px-3 py-1 rounded-full bg-purple-700/30 text-purple-200 font-semibold text-sm border border-purple-500">
-                        <span className="text-lg">{skill.icon}</span> {skill.name}
-                      </span>
+                      <div key={skill.name} className="flex items-center gap-2">
+                        <span className="text-lg">{skill.icon}</span>
+                        <span className="text-gray-300">{skill.name}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Education Timeline - moved here */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
+                <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+                  <FaGraduationCap className="text-purple-400" />
+                  Educación
+                </h3>
+                <div className="space-y-6">
+                  {education.map((edu, index) => (
+                    <motion.div
+                      key={edu.degree}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="relative pl-8 border-l-2 border-purple-500/30"
+                    >
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
+                      >
+                        <h4 className="text-xl font-bold text-white mb-2">{edu.degree}</h4>
+                        <p className="text-purple-400 font-medium text-lg">{edu.institution}</p>
+                        <p className="text-gray-400 text-sm">{edu.period}</p>
+                        {edu.description && (
+                          <p className="text-gray-300 mt-2">{edu.description}</p>
+                        )}
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Right column - Experience and Education */}
+          {/* Right column - Experience only */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="lg:col-span-8 flex flex-col"
+            className="space-y-8 h-full flex flex-col"
           >
-            {/* Experience */}
-            <div className="relative group mb-8">
+            {/* Experience Timeline */}
+            <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-black rounded-2xl p-8">
+              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
                 <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
                   <FaBriefcase className="text-purple-400" />
                   Experiencia
@@ -248,7 +300,7 @@ const About: React.FC = () => {
                         <h4 className="text-xl font-bold text-white mb-2">{exp.title}</h4>
                         <p className="text-purple-400 font-medium text-lg">{exp.company}</p>
                         <p className="text-gray-400 text-sm mb-3">{exp.period}</p>
-                        <p className="text-gray-300 leading-relaxed">{exp.description}</p>
+                        <p className="text-gray-300">{exp.description}</p>
                       </motion.div>
                     </motion.div>
                   ))}
@@ -256,60 +308,19 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Educación y Tecnologías alineadas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-              {/* Educación */}
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-black rounded-2xl p-8 h-full">
-                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-                    <FaGraduationCap className="text-purple-400" />
-                    Educación
-                  </h3>
-                  <div className="space-y-6">
-                    {education.map((edu, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="relative pl-8 border-l-2 border-purple-500/30"
-                      >
-                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
-                        >
-                          <h4 className="text-xl font-bold text-white mb-2">{edu.degree}</h4>
-                          <p className="text-purple-400 font-medium text-lg">{edu.institution}</p>
-                          <p className="text-gray-400 text-sm mb-3">{edu.period}</p>
-                          {edu.description && <p className="text-gray-300 leading-relaxed">{edu.description}</p>}
-                        </motion.div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* Tecnologías */}
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-black rounded-2xl p-8 h-full">
-                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-                    <FaCode className="text-purple-400" />
-                    Tecnologías
-                  </h3>
-                  <div className="flex flex-wrap gap-3">
-                    {techs.map((tech) => (
-                      <motion.span
-                        key={tech.name}
-                        whileHover={{ scale: 1.1, rotate: 2 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-5 py-2.5 rounded-full text-white font-medium text-sm shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer bg-gradient-to-r from-purple-600 to-blue-600"
-                      >
-                        {tech.name}
-                      </motion.span>
-                    ))}
-                  </div>
+            {/* Technologies Box */}
+            <div className="relative group flex-1">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8 h-full flex flex-col items-center justify-center">
+                <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                  <FaCode className="text-purple-400" /> Tecnologías
+                </h3>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {techs.map(tech => (
+                    <span key={tech.name} className={`px-3 py-1 rounded-full text-white font-semibold text-sm ${tech.color}`}>
+                      {tech.name}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
