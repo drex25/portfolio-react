@@ -57,6 +57,9 @@ export default {
   footer: {
     rights: 'Todos los derechos reservados',
     madeWith: 'Hecho con',
-    by: 'por'
+    by: 'por',
+    brandDescription: 'Transformando ideas en experiencias digitales excepcionales.',
+    quickLinks: 'Enlaces rápidos',
+    connect: 'Conecta conmigo'
   }
 }; 

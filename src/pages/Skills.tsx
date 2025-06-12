@@ -66,14 +66,38 @@ const Skills: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+    <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-black">
+      {/* Fondo animado de neón (fijo, sin movimiento) */}
+      <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
+        background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
+        filter: 'blur(80px) opacity(0.7)'
+      }} />
+      {/* Partículas y destellos */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {[...Array(18)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full"
+            style={{
+              background: `radial-gradient(circle, #00fff7 0%, #005bea 100%)`,
+              boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
+              opacity: 0.7
+            }}
+            animate={{
+              x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
+              y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 2
+            }}
+          />
+        ))}
+      </div>
       <div className="container mx-auto px-4">
-        {/* Background decoration */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
-        </div>
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -81,14 +105,13 @@ const Skills: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] drop-shadow-[0_0_16px_#00fff7] font-mono tracking-tight">
             Habilidades
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-[#e0e0e0] font-mono drop-shadow-[0_0_8px_#00fff7] max-w-2xl mx-auto">
             Tecnologías y herramientas que utilizo para crear soluciones digitales
           </p>
         </motion.div>
-
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category, index) => (
@@ -97,17 +120,16 @@ const Skills: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+              className="backdrop-blur-xs bg-black/70 border border-[#00fff7]/20 rounded-2xl p-6 shadow-[0_0_8px_2px_#00fff7,0_0_16px_4px_#005bea] flex flex-col items-center hover:shadow-[0_0_16px_4px_#00fff7,0_0_32px_8px_#005bea] transition-shadow duration-300"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <div className="w-12 h-12 rounded-lg bg-[#00fff7]/10 flex items-center justify-center text-[#00fff7] shadow-[0_0_4px_#00fff7]">
                   {category.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-[#00fff7] font-mono drop-shadow-[0_0_4px_#00fff7]">
                   {category.title}
                 </h3>
               </div>
-
               <div className="grid grid-cols-3 gap-4">
                 {skills
                   .filter(skill => skill.category === category.id)
@@ -117,10 +139,10 @@ const Skills: React.FC = () => {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: skillIndex * 0.05 }}
-                      className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-[#00fff7]/10 transition-colors"
                     >
-                      {skill.icon}
-                      <span className="text-sm text-gray-600 dark:text-gray-300 text-center">
+                      <span className="drop-shadow-[0_0_4px_#00fff7]">{skill.icon}</span>
+                      <span className="text-sm text-[#e0e0e0] font-mono text-center drop-shadow-[0_0_2px_#00fff7]">
                         {skill.name}
                       </span>
                     </motion.div>
@@ -134,4 +156,4 @@ const Skills: React.FC = () => {
   );
 };
 
-export default Skills; 
+export default Skills;
