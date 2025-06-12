@@ -1,31 +1,71 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaBriefcase, FaGraduationCap, FaCode, FaLightbulb, FaStar, FaChevronDown } from 'react-icons/fa';
 
 const experiences = [
   {
-    title: 'Desarrollador Full Stack',
-    company: 'Empresa Tech',
-    period: '2022 - Presente',
-    description: 'Desarrollo de aplicaciones web modernas con React, Laravel y Docker.',
+    title: 'Web Developer',
+    company: 'TSGroup',
+    period: 'abr. 2023 - actualidad',
+    description: 'Gestión y desarrollo de sitios web corporativos. Tecnologías: PHP, JavaScript, HTML, CSS, WordPress, React, Laravel. Trabajo híbrido en Posadas, Misiones, Argentina.',
     icon: FaCode
   },
   {
-    title: 'Desarrollador Frontend',
-    company: 'Startup Web',
-    period: '2020 - 2022',
-    description: 'Implementación de interfaces responsivas y animadas con React y Tailwind.',
+    title: 'Web Designer',
+    company: 'Wiltechnology',
+    period: 'mar. 2020 - abr. 2023',
+    description: 'Creación y diseño de sitios web a medida para clientes. Desarrollo de soluciones personalizadas.',
+    icon: FaCode
+  },
+  {
+    title: 'Desarrollador WordPress (ATM Misiones)',
+    company: 'Agencia Tributaria de Misiones',
+    period: '2024',
+    description: 'Desarrollo de un plugin de calendario de vencimientos y un tema hijo de Divi para personalizar y optimizar la web institucional de la Agencia Tributaria de Misiones, mejorando la experiencia de usuario y la gestión de contenidos.',
+    icon: FaCode
+  },
+  {
+    title: 'Desarrollador Freelance eCommerce & Dropshipping',
+    company: 'Freelance',
+    period: '2019 - actualidad',
+    description: 'Desarrollo de múltiples sitios eCommerce y tiendas de dropshipping para clientes, utilizando WordPress, WooCommerce y AliDropship. Implementación de soluciones personalizadas para que negocios puedan vender sus productos online de forma eficiente y profesional.',
     icon: FaCode
   }
 ];
 
 const education = [
   {
-    degree: 'Lic. en Sistemas',
-    institution: 'Universidad X',
-    period: '2017 - 2021',
+    degree: 'Educación Secundaria (Completa)',
+    institution: 'Nouveau Collège Bird (HAITI)',
+    period: '2008 - 2015',
+    description: 'Desarrollador Web',
+    icon: FaGraduationCap
+  },
+  {
+    degree: 'Desarrollo Web Completo con HTML5, CSS3, JS, AJAX, PHP y MySQL',
+    institution: 'Coderhouse',
+    period: 'dic. 2021 - mar. 2022',
+    icon: FaGraduationCap
+  },
+  {
+    degree: 'Desarrollo Web Completo',
+    institution: 'Udemy',
+    period: 'Finalizado',
+    icon: FaGraduationCap
+  },
+  {
+    degree: 'Tecnicatura, Análisis de sistemas informáticos/Analista',
+    institution: 'Instituto Tecnologico nro.3',
+    period: 'mar. 2019 - dic. 2022',
     icon: FaGraduationCap
   }
+];
+
+const languages = [
+  { name: 'Creole', level: 'Nativo' },
+  { name: 'Francés', level: 'Segundo idioma' },
+  { name: 'Inglés', level: 'Avanzado' },
+  { name: 'Español', level: 'Avanzado' }
 ];
 
 const softSkills = [
@@ -43,191 +83,239 @@ const techs = [
   { name: 'React Native', color: 'bg-blue-400' },
   { name: 'Tailwind', color: 'bg-teal-500' },
   { name: 'Docker', color: 'bg-blue-600' },
-  { name: 'Git', color: 'bg-orange-500' }
+  { name: 'Git', color: 'bg-orange-500' },
+  { name: 'WordPress', color: 'bg-blue-800' }
 ];
 
 const About: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100
-      }
-    }
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   return (
-    <section className="py-20 max-w-6xl mx-auto px-4 relative overflow-hidden" id="about">
-      {/* Enhanced Background decoration */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-300/5 rounded-full blur-3xl animate-pulse" />
+    <section className="min-h-screen relative overflow-hidden bg-black" id="about">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-blue-900">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
+        </div>
       </div>
 
-      {/* Enhanced Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, type: "spring" }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-400 to-primary-300 dark:from-primary-400 dark:via-primary-300 dark:to-primary-200">
-          Sobre mí
-        </h2>
-        <div className="w-32 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto rounded-full" />
-      </motion.div>
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            animate={{
+              x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
+              y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          />
+        ))}
+      </div>
 
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid md:grid-cols-2 gap-12 items-start"
-      >
-        {/* Left column - Summary and Skills */}
+      <div className="max-w-7xl mx-auto px-4 py-20 relative">
+        {/* Header */}
         <motion.div
-          variants={itemVariants}
-          className="space-y-8"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          {/* Enhanced Summary */}
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300"
-          >
-            <h3 className="text-2xl font-semibold mb-4 flex items-center gap-3 text-primary-500">
-              <FaLightbulb className="text-primary-500 text-2xl" />
-              Resumen
-            </h3>
-            <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-lg">
-              Soy un desarrollador apasionado por la tecnología y la creación de soluciones digitales. 
-              Tengo experiencia en desarrollo web y móvil, trabajando con tecnologías modernas y buenas prácticas. 
-              Me gusta aprender y enfrentar nuevos desafíos.
-            </p>
-          </motion.div>
-
-          {/* Enhanced Technologies */}
-          <motion.div 
-            variants={itemVariants}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700"
-          >
-            <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-primary-500">
-              <FaCode className="text-primary-500 text-2xl" />
-              Tecnologías
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {techs.map((tech) => (
-                <motion.span
-                  key={tech.name}
-                  whileHover={{ scale: 1.1, rotate: 2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`${tech.color} text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer`}
-                >
-                  {tech.name}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Enhanced Soft Skills */}
-          <motion.div 
-            variants={itemVariants}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700"
-          >
-            <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-primary-500">
-              <FaLightbulb className="text-primary-500 text-2xl" />
-              Soft Skills
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {softSkills.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(var(--primary-500), 0.1)" }}
-                  className="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 p-4 rounded-xl hover:shadow-md transition-all duration-300"
-                >
-                  <span className="text-2xl">{skill.icon}</span>
-                  <span className="text-gray-700 dark:text-gray-200 font-medium">{skill.name}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mb-6">
+            Sobre mí
+          </h2>
+          <div className="w-48 h-1 bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Right column - Experience and Education */}
-        <motion.div
-          variants={itemVariants}
-          className="space-y-8"
-        >
-          {/* Enhanced Experience */}
-          <motion.div 
-            variants={itemVariants}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700"
+        {/* Main content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left column - Profile */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-4 flex flex-col gap-8"
           >
-            <h3 className="text-2xl font-semibold mb-8 flex items-center gap-3 text-primary-500">
-              <FaBriefcase className="text-primary-500 text-2xl" />
-              Experiencia
-            </h3>
-            <div className="space-y-8">
-              {experiences.map((exp) => (
-                <motion.div
-                  key={exp.title}
-                  whileHover={{ scale: 1.02 }}
-                  className="relative pl-8 border-l-2 border-primary-500/30"
-                >
-                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 animate-pulse" />
-                  <motion.div 
-                    whileHover={{ backgroundColor: "rgba(var(--primary-500), 0.05)" }}
-                    className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 transition-colors duration-300"
+            <div className="flex flex-col gap-8">
+              {/* Perfil */}
+              <div className="relative group flex flex-col items-center">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-black rounded-2xl p-8 flex flex-col items-center">
+                  <motion.div
+                    className="w-56 h-56 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl mb-6"
+                    animate={{
+                      rotate: isHovering ? mousePosition.x * 0.1 : 0,
+                      scale: isHovering ? 1.05 : 1,
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    onHoverStart={() => setIsHovering(true)}
+                    onHoverEnd={() => setIsHovering(false)}
+                    onMouseMove={handleMouseMove}
                   >
-                    <h4 className="font-bold text-xl text-gray-900 dark:text-white mb-2">{exp.title}</h4>
-                    <p className="text-primary-500 font-medium text-lg">{exp.company}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{exp.period}</p>
-                    <p className="text-gray-700 dark:text-gray-200 leading-relaxed">{exp.description}</p>
+                    <motion.img
+                      src="/assets/DREX.jpeg"
+                      alt="Foto de perfil de Sylvain Drexler"
+                      className="object-cover w-full h-full"
+                      animate={{ scale: isHovering ? 1.1 : 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </motion.div>
-                </motion.div>
-              ))}
+                  <h1 className="text-3xl font-bold text-white mb-2 text-center">Sylvain Drexler Wilvins</h1>
+                  <h2 className="text-xl font-semibold text-purple-400 mb-4 text-center">Web Developer & Analista de Sistemas</h2>
+                  <p className="text-gray-300 leading-relaxed text-center">
+                    ¡Hola! Soy un técnico en programación y analista de sistemas con más de 5 años de experiencia en el desarrollo web.
+                  </p>
+                </div>
+              </div>
+              {/* Idiomas */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-black rounded-2xl p-6">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span className="text-purple-400">🌐</span> Idiomas
+                  </h3>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {languages.map(lang => (
+                      <span key={lang.name} className="px-3 py-1 rounded-full bg-purple-700/30 text-purple-200 font-semibold text-sm border border-purple-500">
+                        {lang.name} <span className="text-gray-400 font-normal">({lang.level})</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Soft Skills */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-black rounded-2xl p-6">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <FaLightbulb className="text-purple-400" /> Soft Skills
+                  </h3>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {softSkills.map(skill => (
+                      <span key={skill.name} className="flex items-center gap-2 px-3 py-1 rounded-full bg-purple-700/30 text-purple-200 font-semibold text-sm border border-purple-500">
+                        <span className="text-lg">{skill.icon}</span> {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
 
-          {/* Enhanced Education */}
-          <motion.div 
-            variants={itemVariants}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700"
+          {/* Right column - Experience and Education */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="lg:col-span-8 flex flex-col"
           >
-            <h3 className="text-2xl font-semibold mb-8 flex items-center gap-3 text-primary-500">
-              <FaGraduationCap className="text-primary-500 text-2xl" />
-              Educación
-            </h3>
-            <div className="space-y-6">
-              {education.map((edu) => (
-                <motion.div
-                  key={edu.degree}
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 hover:shadow-md transition-all duration-300"
-                >
-                  <h4 className="font-bold text-xl text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
-                  <p className="text-primary-500 font-medium text-lg">{edu.institution}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{edu.period}</p>
-                </motion.div>
-              ))}
+            {/* Experience */}
+            <div className="relative group mb-8">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black rounded-2xl p-8">
+                <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+                  <FaBriefcase className="text-purple-400" />
+                  Experiencia
+                </h3>
+                <div className="space-y-6">
+                  {experiences.map((exp, index) => (
+                    <motion.div
+                      key={exp.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="relative pl-8 border-l-2 border-purple-500/30"
+                    >
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
+                      >
+                        <h4 className="text-xl font-bold text-white mb-2">{exp.title}</h4>
+                        <p className="text-purple-400 font-medium text-lg">{exp.company}</p>
+                        <p className="text-gray-400 text-sm mb-3">{exp.period}</p>
+                        <p className="text-gray-300 leading-relaxed">{exp.description}</p>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Educación y Tecnologías alineadas */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+              {/* Educación */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-black rounded-2xl p-8 h-full">
+                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <FaGraduationCap className="text-purple-400" />
+                    Educación
+                  </h3>
+                  <div className="space-y-6">
+                    {education.map((edu, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="relative pl-8 border-l-2 border-purple-500/30"
+                      >
+                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
+                        >
+                          <h4 className="text-xl font-bold text-white mb-2">{edu.degree}</h4>
+                          <p className="text-purple-400 font-medium text-lg">{edu.institution}</p>
+                          <p className="text-gray-400 text-sm mb-3">{edu.period}</p>
+                          {edu.description && <p className="text-gray-300 leading-relaxed">{edu.description}</p>}
+                        </motion.div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Tecnologías */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-black rounded-2xl p-8 h-full">
+                  <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <FaCode className="text-purple-400" />
+                    Tecnologías
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {techs.map((tech) => (
+                      <motion.span
+                        key={tech.name}
+                        whileHover={{ scale: 1.1, rotate: 2 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-5 py-2.5 rounded-full text-white font-medium text-sm shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer bg-gradient-to-r from-purple-600 to-blue-600"
+                      >
+                        {tech.name}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };
