@@ -1,377 +1,157 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaArrowRight, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
-// Constants
-const ANIMATION_CONFIG = {
-  spring: { stiffness: 100, damping: 30, restDelta: 0.001 },
-  scroll: {
-    background: [0, 1000],
-    content: [0, 1000],
-    opacity: [0, 300],
-    scale: [0, 300],
-  },
-};
-
-// Types
-interface MousePosition {
-  x: number;
-  y: number;
-}
-
-// Components
-const BackgroundElements: React.FC<{ backgroundY: any }> = ({ backgroundY }) => (
-  <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
-    {[
-      { top: 'top-0', left: 'left-1/2', size: 'w-[800px] h-[800px]', color: 'bg-primary-500/10', duration: 20 },
-      { top: 'bottom-0', left: 'right-0', size: 'w-96 h-96', color: 'bg-primary-400/10', duration: 15 },
-      { top: 'top-1/4', left: 'left-0', size: 'w-72 h-72', color: 'bg-primary-300/10', duration: 18 },
-    ].map((config, index) => (
-      <motion.div
-        key={index}
-        className={`absolute ${config.top} ${config.left} ${config.size} ${config.color} rounded-full blur-3xl`}
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.5, 0.7, 0.5],
-          rotate: [0, 180, 360],
-        }}
-        transition={{
-          duration: config.duration,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      />
-    ))}
-  </motion.div>
-);
-
-const TechStackIcons: React.FC = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {[...Array(20)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute text-gray-400/20 dark:text-gray-600/20"
-        initial={{
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          scale: Math.random() * 0.5 + 0.5,
-        }}
-        animate={{
-          y: [0, -20, 0],
-          rotate: [0, 360],
-        }}
-        transition={{
-          duration: Math.random() * 5 + 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: Math.random() * 2,
-        }}
-      >
-        {[<FaCode />, <FaServer />, <FaDatabase />][i % 3]}
-      </motion.div>
-    ))}
-  </div>
-);
-
-const ProfileSection: React.FC<{
-  contentY: any;
-  scale: any;
-  isHovering: boolean;
-  mousePosition: MousePosition;
-  setIsHovering: (value: boolean) => void;
-}> = ({ contentY, scale, isHovering, mousePosition, setIsHovering }) => (
-  <motion.div
-    initial={{ scale: 0, opacity: 0 }}
-    animate={{ scale: 1, opacity: 1 }}
-    transition={{ duration: 0.8, type: 'spring' }}
-    className="relative mb-8"
-    style={{ y: contentY, scale }}
-    onHoverStart={() => setIsHovering(true)}
-    onHoverEnd={() => setIsHovering(false)}
-  >
-    <motion.div 
-      className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary-500 shadow-xl bg-white dark:bg-gray-800 group relative"
-      animate={{
-        rotate: isHovering ? mousePosition.x * 0.1 : 0,
-        scale: isHovering ? 1.05 : 1,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-    >
-      <motion.img 
-        src="/assets/DREX.jpeg" 
-        alt="Foto de perfil de Sylvain Drexler" 
-        className="object-cover w-full h-full"
-        animate={{
-          scale: isHovering ? 1.1 : 1,
-        }}
-        transition={{ duration: 0.3 }}
-      />
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-t from-primary-500/20 to-transparent"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovering ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-      />
-    </motion.div>
-    <motion.div 
-      className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white"
-      animate={{
-        y: [0, -10, 0],
-        rotate: [0, 10, 0],
-        scale: [1, 1.1, 1],
-      }}
-      transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-    >
-      <span className="text-xl" role="img" aria-label="waving hand">👋</span>
-    </motion.div>
-  </motion.div>
-);
-
-const ActionButtons: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <motion.div
-      custom={3}
-      variants={textVariants}
-      initial="hidden"
-      animate="visible"
-      className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
-    >
-      <motion.a
-        href="/src/assets/CV.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group px-8 py-3 bg-primary-500 text-white rounded-lg shadow-lg hover:bg-primary-600 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label={t('home.downloadCV')}
-      >
-        <motion.span
-          className="absolute inset-0 bg-white/20"
-          initial={{ x: "-100%" }}
-          whileHover={{ x: "100%" }}
-          transition={{ duration: 0.5 }}
-        />
-        {t('home.downloadCV')}
-        <motion.div
-          animate={{ x: [0, 5, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-        </motion.div>
-      </motion.a>
-      
-      <motion.a
-        href="/projects"
-        className="group px-8 py-3 bg-white dark:bg-gray-800 text-primary-500 border-2 border-primary-500 rounded-lg shadow hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all duration-300 font-semibold text-lg flex items-center gap-2 relative overflow-hidden"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label={t('home.viewProjects')}
-      >
-        <motion.span
-          className="absolute inset-0 bg-primary-500/10"
-          initial={{ x: "-100%" }}
-          whileHover={{ x: "100%" }}
-          transition={{ duration: 0.5 }}
-        />
-        {t('home.viewProjects')}
-        <motion.div
-          animate={{ x: [0, 5, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <FaArrowRight className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-        </motion.div>
-      </motion.a>
-    </motion.div>
-  );
-};
-
-const SocialLinks: React.FC = () => (
-  <motion.div
-    custom={4}
-    variants={textVariants}
-    initial="hidden"
-    animate="visible"
-    className="flex gap-6 justify-center items-center"
-  >
-    {[
-      { icon: <FaGithub />, href: "https://github.com/tuusuario", label: "GitHub" },
-      { icon: <FaLinkedin />, href: "https://linkedin.com/in/tuusuario", label: "LinkedIn" }
-    ].map((social, index) => (
-      <motion.a 
-        key={index}
-        href={social.href}
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-2xl text-gray-500 hover:text-primary-500 transition-colors duration-300 relative group"
-        whileHover={{ scale: 1.2, rotate: index === 0 ? 5 : -5 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label={`Visitar perfil de ${social.label}`}
-      >
-        <motion.span
-          className="absolute -inset-2 bg-primary-500/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"
-        />
-        {social.icon}
-      </motion.a>
-    ))}
-  </motion.div>
-);
-
-// Animation variants
-const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.5,
-      ease: "easeOut"
-    }
-  })
-};
-
-const ParticleBackground: React.FC = () => (
-  <div className="absolute inset-0 pointer-events-none z-0">
-    {[...Array(20)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute w-1 h-1 bg-white rounded-full"
-        animate={{
-          x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-          y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-          opacity: [0, 1, 0],
-        }}
-        transition={{
-          duration: Math.random() * 10 + 10,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      />
-    ))}
-  </div>
-);
-
-const Landing: React.FC = () => {
-  const { t } = useTranslation();
-  const { scrollY } = useScroll();
-  const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  // Scroll effects
-  const backgroundY = useSpring(
-    useTransform(scrollY, ANIMATION_CONFIG.scroll.background, [0, 300]),
-    ANIMATION_CONFIG.spring
-  );
-  const contentY = useSpring(
-    useTransform(scrollY, ANIMATION_CONFIG.scroll.content, [0, 100]),
-    ANIMATION_CONFIG.spring
-  );
-  const opacity = useSpring(
-    useTransform(scrollY, ANIMATION_CONFIG.scroll.opacity, [1, 0]),
-    ANIMATION_CONFIG.spring
-  );
-  const scale = useSpring(
-    useTransform(scrollY, ANIMATION_CONFIG.scroll.scale, [1, 0.8]),
-    ANIMATION_CONFIG.spring
-  );
-
-  // Mouse parallax effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 20;
-      const y = (clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+// Componente extraído para partículas de neón
+const NeonParticles: React.FC = () => {
+  // Genera posiciones y transiciones solo una vez
+  const particles = useMemo(() => {
+    return Array.from({ length: 18 }).map(() => ({
+      x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
+      y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
+      opacity: [0.5, 1, 0.5],
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 2
+    }));
   }, []);
 
   return (
-    <section 
-      className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-gradient-to-br from-purple-900 via-black to-blue-900"
-      role="banner"
-      aria-label="Página principal"
-    >
-      <ParticleBackground />
-      <TechStackIcons />
-      
-      <ProfileSection
-        contentY={contentY}
-        scale={scale}
-        isHovering={isHovering}
-        mousePosition={mousePosition}
-        setIsHovering={setIsHovering}
-      />
+    <div className="absolute inset-0 pointer-events-none z-0">
+      {particles.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #00fff7 0%, #005bea 100%)',
+            boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
+            opacity: 0.7
+          }}
+          animate={{ x: p.x, y: p.y, opacity: p.opacity }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: p.delay
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
+const Landing: React.FC = () => {
+  const { t } = useTranslation();
+
+  return (
+    <section 
+      className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-black"
+      style={{ background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)' }}
+      role="banner"
+      aria-label={t('home.bannerAria', 'Página principal')}
+    >
+      {/* Fondo animado de neón (fijo, sin movimiento) */}
+      <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
+        background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
+        filter: 'blur(80px) opacity(0.7)'
+      }} />
+      {/* Partículas y destellos */}
+      <NeonParticles />
+      {/* Avatar con halo neón azul (sin hover ni movimiento) */}
+      <motion.div
+        className="relative mb-8"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, type: 'spring' }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-48 h-48 rounded-full"
+            style={{
+              background: 'radial-gradient(circle, #00fff7 0%, #005bea 100%)',
+              filter: 'blur(8px) opacity(0.25)'
+            }}
+          />
+        </div>
+        <motion.div
+          className="w-44 h-44 rounded-full overflow-hidden border-4 border-[#00fff7] shadow-[0_0_12px_2px_#00fff7,0_0_24px_4px_#005bea] bg-black relative z-10 group"
+          whileHover={{ scale: 1.12 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        >
+          <img src="/assets/DREX.jpeg" alt={t('home.avatarAlt', 'Foto de perfil de Sylvain Drexler')} className="object-cover w-full h-full transition-transform duration-300" />
+        </motion.div>
+        <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-[#005bea] rounded-full flex items-center justify-center text-white shadow-[0_0_16px_4px_#005bea] border-2 border-[#00fff7]">
+          <span className="text-xl" role="img" aria-label={t('home.waveAria', 'Saludo con la mano')}>👋</span>
+        </div>
+      </motion.div>
+      {/* Título y descripción con efecto neón azul/cian */}
       <motion.div
         className="max-w-3xl mx-auto"
-        style={{ y: contentY, scale }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <motion.h1 
-          className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-300"
-          custom={0}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {t('home.greeting')} <span className="text-primary-600 dark:text-primary-400">Sylvain Drexler</span>
-        </motion.h1>
-        
-        <motion.p
-          custom={1}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-xl md:text-2xl mb-4 text-gray-700 dark:text-gray-200 font-medium"
-        >
+        <h1 className="text-5xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] drop-shadow-[0_0_16px_#00fff7] font-mono tracking-tight">
+          {t('home.greeting')} <span className="text-[#00fff7]">Sylvain Drexler</span>
+        </h1>
+        <p className="text-xl md:text-2xl mb-4 text-[#e0e0e0] font-mono drop-shadow-[0_0_8px_#00fff7]">
           {t('home.role')}
-        </motion.p>
-        
-        <motion.p
-          custom={2}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-lg text-gray-600 dark:text-gray-300 mb-8"
-        >
+        </p>
+        <p className="text-lg text-[#bdbdbd] mb-8 font-mono drop-shadow-[0_0_8px_#00fff7]">
           {t('home.description')}
-        </motion.p>
-
-        <ActionButtons />
-        <SocialLinks />
+        </p>
       </motion.div>
-
+      {/* Botones de acción estilo neón azul */}
       <motion.div
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2"
-        initial={{ y: 0 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.7 }}
-        style={{ opacity }}
-        role="presentation"
-        aria-hidden="true"
+        className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <motion.div
-          className="w-4 h-7 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center relative"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        <a
+          href="/assets/CV.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-8 py-3 rounded-lg font-semibold text-lg font-mono bg-black border-2 border-[#00fff7] text-[#00fff7] shadow-[0_0_16px_#00fff7] hover:bg-[#00fff7] hover:text-black hover:shadow-[0_0_32px_#00fff7] transition-all duration-300"
+          aria-label={t('home.downloadCVAria', 'Descargar CV')}
         >
-          <motion.div
-            className="w-0.5 h-2 bg-primary-500 rounded-full mt-1"
-            animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
+          {t('home.downloadCV')}
+        </a>
+        <a
+          href="/projects"
+          className="px-8 py-3 rounded-lg font-semibold text-lg font-mono bg-black border-2 border-[#005bea] text-[#005bea] shadow-[0_0_16px_#005bea] hover:bg-[#005bea] hover:text-black hover:shadow-[0_0_32px_#005bea] transition-all duration-300"
+          aria-label={t('home.viewProjectsAria', 'Ver proyectos')}
+        >
+          {t('home.viewProjects')}
+        </a>
+      </motion.div>
+      {/* Redes sociales con iconos neón azul */}
+      <motion.div
+        className="flex gap-6 justify-center items-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+      >
+        <a
+          href="https://github.com/tuusuario"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-3xl text-[#00fff7] hover:text-[#005bea] transition-colors duration-300 shadow-[0_0_16px_#00fff7] hover:shadow-[0_0_32px_#005bea] rounded-full p-2 border-2 border-[#00fff7] hover:border-[#005bea]"
+          aria-label={t('home.githubAria', 'GitHub')}
+        >
+          <FaGithub />
+        </a>
+        <a
+          href="https://linkedin.com/in/tuusuario"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-3xl text-[#005bea] hover:text-[#00fff7] transition-colors duration-300 shadow-[0_0_16px_#005bea] hover:shadow-[0_0_32px_#00fff7] rounded-full p-2 border-2 border-[#005bea] hover:border-[#00fff7]"
+          aria-label={t('home.linkedinAria', 'LinkedIn')}
+        >
+          <FaLinkedin />
+        </a>
       </motion.div>
     </section>
   );
 };
 
-export default Landing; 
+export default Landing;

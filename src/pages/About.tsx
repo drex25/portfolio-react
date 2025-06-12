@@ -5,59 +5,62 @@ import { useTranslation } from 'react-i18next';
 
 const experiences = [
   {
+    title: 'Desarrollador WordPress (ATM Misiones)',
+    company: 'Agencia Tributaria de Misiones',
+    period: '2024',
+    description: 'Desarrollé un plugin de calendario de vencimientos y un tema hijo personalizado para la Agencia Tributaria de Misiones, mejorando la experiencia de usuario y optimizando la gestión de contenidos institucionales.',
+    icon: FaCode
+  },
+  {
     title: 'Web Developer',
     company: 'TSGroup',
     period: 'abr. 2023 - actualidad',
-    description: 'Gestión y desarrollo de sitios web corporativos. Tecnologías: PHP, JavaScript, HTML, CSS, WordPress, React, Laravel. Trabajo híbrido en Posadas, Misiones, Argentina.',
+    description: 'Responsable de la gestión y desarrollo de sitios web corporativos utilizando tecnologías como PHP, JavaScript, HTML, CSS, WordPress, React y Laravel. Trabajo híbrido en Posadas, Misiones, Argentina.',
     icon: FaCode
   },
   {
     title: 'Web Designer',
     company: 'Wiltechnology',
     period: 'mar. 2020 - abr. 2023',
-    description: 'Creación y diseño de sitios web a medida para clientes. Desarrollo de soluciones personalizadas.',
-    icon: FaCode
-  },
-  {
-    title: 'Desarrollador WordPress (ATM Misiones)',
-    company: 'Agencia Tributaria de Misiones',
-    period: '2024',
-    description: 'Desarrollo de un plugin de calendario de vencimientos y un tema hijo de Divi para personalizar y optimizar la web institucional de la Agencia Tributaria de Misiones, mejorando la experiencia de usuario y la gestión de contenidos.',
+    description: 'Diseño y desarrollo de sitios web a medida, creando soluciones digitales personalizadas para clientes de diversos sectores.',
     icon: FaCode
   },
   {
     title: 'Desarrollador Freelance eCommerce & Dropshipping',
     company: 'Freelance',
     period: '2019 - actualidad',
-    description: 'Desarrollo de múltiples sitios eCommerce y tiendas de dropshipping para clientes, utilizando WordPress, WooCommerce y AliDropship. Implementación de soluciones personalizadas para que negocios puedan vender sus productos online de forma eficiente y profesional.',
+    description: 'Desarrollo de tiendas online y soluciones eCommerce personalizadas con WordPress, WooCommerce y AliDropship, ayudando a negocios a potenciar sus ventas digitales.',
     icon: FaCode
   }
 ];
 
 const education = [
   {
-    degree: 'Educación Secundaria (Completa)',
-    institution: 'Nouveau Collège Bird (HAITI)',
-    period: '2008 - 2015',
-    description: 'Desarrollador Web',
+    degree: 'Tecnicatura en Análisis de Sistemas Informáticos',
+    institution: 'Instituto Tecnologico nro.3',
+    period: 'mar. 2019 - dic. 2022',
+    description: 'Formación integral en análisis, diseño y desarrollo de sistemas informáticos, con enfoque en resolución de problemas y optimización de procesos.',
     icon: FaGraduationCap
   },
   {
     degree: 'Desarrollo Web Completo con HTML5, CSS3, JS, AJAX, PHP y MySQL',
-    institution: 'Coderhouse',
+    institution: 'Udemy',
     period: 'dic. 2021 - mar. 2022',
+    description: 'Curso intensivo orientado a la creación de aplicaciones web modernas y dinámicas, abarcando tecnologías de frontend y backend.',
     icon: FaGraduationCap
   },
   {
     degree: 'Desarrollo Web Completo',
-    institution: 'Udemy',
+    institution: 'Coderhouse',
     period: 'Finalizado',
+    description: 'Capacitación práctica en desarrollo web, abarcando desde los fundamentos hasta la implementación de proyectos reales.',
     icon: FaGraduationCap
   },
   {
-    degree: 'Tecnicatura, Análisis de sistemas informáticos/Analista',
-    institution: 'Instituto Tecnologico nro.3',
-    period: 'mar. 2019 - dic. 2022',
+    degree: 'Educación Secundaria (Completa)',
+    institution: 'Nouveau Collège Bird (HAITI)',
+    period: '2008 - 2015',
+    description: 'Fin de estudios secundarios.',
     icon: FaGraduationCap
   }
 ];
@@ -88,41 +91,86 @@ const techs = [
   { name: 'WordPress', color: 'bg-blue-800' }
 ];
 
+// Efecto de halo animado para la foto de perfil
+const AnimatedHalo: React.FC<{ isHovering: boolean }> = ({ isHovering }) => (
+  <motion.div
+    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+    initial={{ opacity: 0.25, scale: 1 }}
+    animate={{
+      opacity: isHovering ? 0.4 : 0.25,
+      scale: isHovering ? 1.08 : 1,
+      filter: isHovering ? 'blur(8px)' : 'blur(12px)'
+    }}
+    transition={{ duration: 0.5, type: 'spring' }}
+    style={{ zIndex: 1 }}
+  >
+    <div className="w-52 h-52 rounded-full" style={{
+      background: 'radial-gradient(circle, #00fff7 0%, #005bea 100%)',
+      filter: 'blur(8px) opacity(0.25)'
+    }} />
+  </motion.div>
+);
+
+// Microinteracciones en chips de tecnologías y soft skills
+const TechChip: React.FC<{ name: string; color: string }> = ({ name, color }) => (
+  <motion.span
+    whileHover={{ scale: 1.15, rotate: 6, boxShadow: '0 0 12px #a78bfa88' }}
+    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+    className={`px-3 py-1 rounded-full text-white font-semibold text-sm ${color} cursor-pointer shadow`}
+  >
+    {name}
+  </motion.span>
+);
+const SoftSkillChip: React.FC<{ icon: string; name: string }> = ({ icon, name }) => (
+  <motion.div
+    whileHover={{ scale: 1.12, backgroundColor: '#a78bfa22' }}
+    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+    className="flex items-center gap-2 px-2 py-1 rounded-lg bg-gray-800/60 text-gray-300 cursor-pointer shadow"
+  >
+    <span className="text-lg">{icon}</span>
+    <span>{name}</span>
+  </motion.div>
+);
+
 const About: React.FC = () => {
   const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-black" id="about">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-blue-900">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-        </div>
-      </div>
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+    <section className="min-h-screen relative overflow-hidden bg-black font-mono" id="about">
+      {/* Fondo animado de neón igual al landing/footer */}
+      <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
+        background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
+        filter: 'blur(80px) opacity(0.7)'
+      }} />
+      {/* Partículas y destellos igual al landing/footer */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {[...Array(18)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute w-2 h-2 rounded-full"
+            style={{
+              background: `radial-gradient(circle, #00fff7 0%, #005bea 100%)`,
+              boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
+              opacity: 0.7
+            }}
             animate={{
               x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
               y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-              opacity: [0, 1, 0],
+              opacity: [0.5, 1, 0.5],
             }}
             transition={{
               duration: Math.random() * 10 + 10,
               repeat: Infinity,
-              ease: "linear"
+              ease: 'linear',
+              delay: Math.random() * 2
             }}
           />
         ))}
       </div>
-
       <div className="max-w-7xl mx-auto px-4 py-20 relative">
         {/* Header */}
         <motion.div
@@ -131,12 +179,11 @@ const About: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mb-6">
+          <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] mb-6 drop-shadow-[0_0_24px_#00fff7]">
             {t('about.title', 'Sobre mí')}
           </h2>
-          <div className="w-48 h-1 bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400 mx-auto rounded-full" />
+          <div className="w-48 h-1 bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] mx-auto rounded-full animate-pulse" />
         </motion.div>
-
         {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left column - Profile and Skills */}
@@ -146,33 +193,39 @@ const About: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-8"
           >
-            {/* Profile Card */}
+            {/* Profile Card mejorada */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-[#00fff7]/30">
                 <div className="flex flex-col items-center">
-                  <motion.div
-                    className="w-48 h-48 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl mb-6"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  <div className="relative w-52 h-52 flex items-center justify-center mb-6"
+                    onMouseEnter={() => setIsHovering(true)}
+                    onMouseLeave={() => setIsHovering(false)}
                   >
-                    <img
-                      src="/assets/DREX.jpeg"
-                      alt="Foto de perfil de Sylvain Drexler"
-                      className="object-cover w-full h-full"
-                    />
-                  </motion.div>
-                  <h1 className="text-3xl font-bold text-white mb-2 text-center">Sylvain Drexler Wilvins</h1>
-                  <h2 className="text-xl font-semibold text-purple-400 mb-4 text-center">Web Developer & Analista de Sistemas</h2>
-                  <p className="text-gray-300 leading-relaxed text-center mb-6">
-                    ¡Hola! Soy un técnico en programación y analista de sistemas con más de 5 años de experiencia en el desarrollo web.
+                    <AnimatedHalo isHovering={isHovering} />
+                    <motion.div
+                      className="w-48 h-48 rounded-full overflow-hidden border-4 border-[#00fff7] shadow-[0_0_12px_2px_#00fff7,0_0_24px_4px_#005bea] bg-black relative z-10"
+                      animate={{ scale: isHovering ? 1.12 : 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <img
+                        src="/assets/DREX.jpeg"
+                        alt="Foto de perfil de Sylvain Drexler"
+                        className="object-cover w-full h-full transition-transform duration-300"
+                      />
+                    </motion.div>
+                  </div>
+                  <h1 className="text-3xl font-bold text-[#00fff7] mb-2 text-center drop-shadow-[0_0_8px_#00fff7]">Sylvain Drexler Wilvins</h1>
+                  <h2 className="text-xl font-semibold text-[#005bea] mb-4 text-center">Desarrollador Web & Analista en Sistemas</h2>
+                  <p className="text-[#bdbdbd] leading-relaxed text-center mb-6">
+                    ¡Hola! Soy un apasionado Desarrollador Web Senior y Analista en Sistemas con más de 5 años de experiencia creando soluciones digitales innovadoras para empresas y organizaciones. Me especializo en el desarrollo de aplicaciones web modernas, optimización de procesos y consultoría tecnológica, combinando creatividad, eficiencia y visión estratégica para impulsar el crecimiento digital.
                   </p>
                   <div className="flex gap-4">
                     <motion.a
                       href="https://github.com/tuusuario"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-2xl text-gray-400 hover:text-purple-400 transition-colors"
+                      className="text-2xl text-[#00fff7] hover:text-[#005bea] transition-colors shadow-[0_0_8px_#00fff7] rounded-full p-2 border-2 border-[#00fff7] hover:border-[#005bea]"
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -182,7 +235,7 @@ const About: React.FC = () => {
                       href="https://linkedin.com/in/tuusuario"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-2xl text-gray-400 hover:text-purple-400 transition-colors"
+                      className="text-2xl text-[#005bea] hover:text-[#00fff7] transition-colors shadow-[0_0_8px_#005bea] rounded-full p-2 border-2 border-[#005bea] hover:border-[#00fff7]"
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -192,52 +245,46 @@ const About: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Skills Grid */}
+            {/* Skills Grid mejorada */}
             <div className="grid grid-cols-2 gap-4 min-h-[220px]">
               {/* Languages */}
               <div className="relative group h-full">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
-                <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-6 h-full">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <FaLanguage className="text-purple-400" /> Idiomas
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+                <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-6 h-full shadow-xl border border-[#00fff7]/30">
+                  <h3 className="text-xl font-bold text-[#00fff7] mb-4 flex items-center gap-3">
+                    <FaLanguage className="text-[#005bea]" /> Idiomas
                   </h3>
                   <div className="space-y-2">
                     {languages.map(lang => (
                       <div key={lang.name} className="flex justify-between items-center">
-                        <span className="text-gray-300">{lang.name}</span>
-                        <span className="text-purple-400 text-sm">{lang.level}</span>
+                        <span className="text-[#bdbdbd]">{lang.name}</span>
+                        <span className="text-[#00fff7] text-sm">{lang.level}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
-
-              {/* Soft Skills */}
+              {/* Soft Skills mejoradas */}
               <div className="relative group h-full">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
-                <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-6 h-full">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <FaLightbulb className="text-purple-400" /> Soft Skills
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+                <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-6 h-full shadow-xl border border-[#00fff7]/30">
+                  <h3 className="text-xl font-bold text-[#00fff7] mb-4 flex items-center gap-3">
+                    <FaLightbulb className="text-[#005bea]" /> Soft Skills
                   </h3>
                   <div className="space-y-2">
                     {softSkills.map(skill => (
-                      <div key={skill.name} className="flex items-center gap-2">
-                        <span className="text-lg">{skill.icon}</span>
-                        <span className="text-gray-300">{skill.name}</span>
-                      </div>
+                      <SoftSkillChip key={skill.name} icon={skill.icon} name={skill.name} />
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Education Timeline - moved here */}
+            {/* Education Timeline - glassmorphism */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
-                <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-                  <FaGraduationCap className="text-purple-400" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-[#00fff7]/30">
+                <h3 className="text-3xl font-bold text-[#00fff7] mb-8 flex items-center gap-3">
+                  <FaGraduationCap className="text-[#005bea]" />
                   Educación
                 </h3>
                 <div className="space-y-6">
@@ -247,18 +294,18 @@ const About: React.FC = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="relative pl-8 border-l-2 border-purple-500/30"
+                      className="relative pl-8 border-l-2 border-[#00fff7]/30"
                     >
-                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#00fff7] animate-pulse" />
                       <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
+                        whileHover={{ scale: 1.02, boxShadow: '0 0 12px #00fff788' }}
+                        className="bg-black/80 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 shadow border border-[#00fff7]/10"
                       >
-                        <h4 className="text-xl font-bold text-white mb-2">{edu.degree}</h4>
-                        <p className="text-purple-400 font-medium text-lg">{edu.institution}</p>
-                        <p className="text-gray-400 text-sm">{edu.period}</p>
+                        <h4 className="text-xl font-bold text-[#00fff7] mb-2">{edu.degree}</h4>
+                        <p className="text-[#005bea] font-medium text-lg">{edu.institution}</p>
+                        <p className="text-[#bdbdbd] text-sm">{edu.period}</p>
                         {edu.description && (
-                          <p className="text-gray-300 mt-2">{edu.description}</p>
+                          <p className="text-[#bdbdbd] mt-2">{edu.description}</p>
                         )}
                       </motion.div>
                     </motion.div>
@@ -267,7 +314,6 @@ const About: React.FC = () => {
               </div>
             </div>
           </motion.div>
-
           {/* Right column - Experience only */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -275,12 +321,12 @@ const About: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="space-y-8 h-full flex flex-col"
           >
-            {/* Experience Timeline */}
+            {/* Experience Timeline glassmorphism */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8">
-                <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-                  <FaBriefcase className="text-purple-400" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-[#00fff7]/30">
+                <h3 className="text-3xl font-bold text-[#00fff7] mb-8 flex items-center gap-3">
+                  <FaBriefcase className="text-[#005bea]" />
                   Experiencia
                 </h3>
                 <div className="space-y-6">
@@ -290,36 +336,33 @@ const About: React.FC = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="relative pl-8 border-l-2 border-purple-500/30"
+                      className="relative pl-8 border-l-2 border-[#00fff7]/30"
                     >
-                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-purple-500 animate-pulse" />
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#00fff7] animate-pulse" />
                       <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300"
+                        whileHover={{ scale: 1.02, boxShadow: '0 0 12px #00fff788' }}
+                        className="bg-black/80 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 shadow border border-[#00fff7]/10"
                       >
-                        <h4 className="text-xl font-bold text-white mb-2">{exp.title}</h4>
-                        <p className="text-purple-400 font-medium text-lg">{exp.company}</p>
-                        <p className="text-gray-400 text-sm mb-3">{exp.period}</p>
-                        <p className="text-gray-300">{exp.description}</p>
+                        <h4 className="text-xl font-bold text-[#00fff7] mb-2">{exp.title}</h4>
+                        <p className="text-[#005bea] font-medium text-lg">{exp.company}</p>
+                        <p className="text-[#bdbdbd] text-sm mb-3">{exp.period}</p>
+                        <p className="text-[#bdbdbd]">{exp.description}</p>
                       </motion.div>
                     </motion.div>
                   ))}
                 </div>
               </div>
             </div>
-
-            {/* Technologies Box */}
+            {/* Technologies Box mejorada */}
             <div className="relative group flex-1">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
-              <div className="relative bg-black/80 backdrop-blur-sm rounded-2xl p-8 h-full flex flex-col items-center justify-center">
-                <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-                  <FaCode className="text-purple-400" /> Tecnologías
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 h-full" />
+              <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl p-8 h-full flex flex-col items-center justify-center shadow-2xl border border-[#00fff7]/30">
+                <h3 className="text-2xl font-bold text-[#00fff7] mb-4 flex items-center gap-3">
+                  <FaCode className="text-[#005bea]" /> Tecnologías
                 </h3>
                 <div className="flex flex-wrap gap-3 justify-center">
                   {techs.map(tech => (
-                    <span key={tech.name} className={`px-3 py-1 rounded-full text-white font-semibold text-sm ${tech.color}`}>
-                      {tech.name}
-                    </span>
+                    <TechChip key={tech.name} name={tech.name} color={tech.color} />
                   ))}
                 </div>
               </div>
@@ -331,4 +374,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About; 
+export default About;
