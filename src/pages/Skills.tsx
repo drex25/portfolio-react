@@ -19,7 +19,8 @@ import {
   SiMongodb,
   SiPostgresql,
   SiAmazon,
-  SiFigma
+  SiFigma,
+  SiWordpress
 } from 'react-icons/si';
 import { VscCode } from 'react-icons/vsc';
 
@@ -55,6 +56,7 @@ const Skills: React.FC = () => {
     { name: 'AWS', icon: <SiAmazon className="w-8 h-8 text-orange-400" />, category: 'tools' },
     { name: 'VS Code', icon: <VscCode className="w-8 h-8 text-blue-500" />, category: 'tools' },
     { name: 'Figma', icon: <SiFigma className="w-8 h-8 text-purple-400" />, category: 'tools' },
+    { name: 'WordPress', icon: <SiWordpress className="w-8 h-8 text-blue-800" />, category: 'tools' },
   ];
 
   const categories = [

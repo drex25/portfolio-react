@@ -236,6 +236,27 @@ const textVariants = {
   })
 };
 
+const ParticleBackground: React.FC = () => (
+  <div className="absolute inset-0 pointer-events-none z-0">
+    {[...Array(20)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute w-1 h-1 bg-white rounded-full"
+        animate={{
+          x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
+          y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: Math.random() * 10 + 10,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+    ))}
+  </div>
+);
+
 const Landing: React.FC = () => {
   const { t } = useTranslation();
   const { scrollY } = useScroll();
@@ -275,11 +296,11 @@ const Landing: React.FC = () => {
 
   return (
     <section 
-      className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+      className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-gradient-to-br from-purple-900 via-black to-blue-900"
       role="banner"
       aria-label="Página principal"
     >
-      <BackgroundElements backgroundY={backgroundY} />
+      <ParticleBackground />
       <TechStackIcons />
       
       <ProfileSection

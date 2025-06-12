@@ -159,11 +159,14 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
             <div className="relative">
               <motion.button
                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center justify-center px-3 py-2 rounded-lg bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-primary-500 bg-gray-900 text-white font-semibold shadow-lg hover:bg-primary-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                whileHover={{ scale: 1.07 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <span className="text-2xl">{currentLanguage.flag}</span>
+                <span className="uppercase tracking-wide text-white text-base font-bold drop-shadow-sm">
+                  {currentLanguage.code}
+                </span>
               </motion.button>
 
               <AnimatePresence>
@@ -173,24 +176,24 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-800 shadow-xl overflow-hidden"
+                    className="absolute right-0 mt-2 w-48 rounded-xl bg-gray-900 border border-primary-500 shadow-2xl overflow-hidden z-50"
                   >
                     {languages.map((lang) => (
                       <motion.button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-700 transition-colors duration-200 ${
-                          i18n.language === lang.code ? 'bg-primary-900/20' : ''
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-200 text-white font-semibold text-base hover:bg-primary-500/20 focus:bg-primary-500/30 ${
+                          i18n.language === lang.code ? 'bg-primary-900/30' : ''
                         }`}
                         whileHover={{ x: 5 }}
                         whileTap={{ scale: 0.98 }}
                       >
                         <span className="text-2xl">{lang.flag}</span>
-                        <span className="text-gray-200">{lang.name}</span>
+                        <span className="uppercase tracking-wide">{lang.code}</span>
                         {i18n.language === lang.code && (
                           <motion.div
                             layoutId="activeLanguage"
-                            className="w-1 h-6 bg-primary-500 rounded-full"
+                            className="w-1 h-6 bg-primary-500 rounded-full ml-auto"
                           />
                         )}
                       </motion.button>
