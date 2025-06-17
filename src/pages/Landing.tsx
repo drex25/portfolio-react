@@ -46,14 +46,14 @@ const Landing: React.FC = () => {
   return (
     <section 
       className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-black"
-      style={{ background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #070616 0%, #13122a 50%, #10101c 100%)' }}
       role="banner"
       aria-label={t('home.bannerAria', 'Página principal')}
     >
       {/* Fondo animado de neón (fijo, sin movimiento) */}
       <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
         background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
-        filter: 'blur(80px) opacity(0.7)'
+        filter: 'blur(100px) opacity(0.45)'
       }} />
       {/* Partículas y destellos */}
       <NeonParticles />
@@ -108,7 +108,7 @@ const Landing: React.FC = () => {
         transition={{ duration: 0.8, delay: 0.4 }}
       >
         <a
-          href="/assets/CV.pdf"
+          href="/about-pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="px-8 py-3 rounded-lg font-semibold text-lg font-mono bg-black border-2 border-[#00fff7] text-[#00fff7] shadow-[0_0_16px_#00fff7] hover:bg-[#00fff7] hover:text-black hover:shadow-[0_0_32px_#00fff7] transition-all duration-300"

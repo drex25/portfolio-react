@@ -228,30 +228,52 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-gray-900 shadow-lg"
+            className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center md:hidden"
           >
-            <div className="p-4 space-y-2">
+            <button
+              className="absolute top-6 right-6 text-3xl text-primary-400 p-2 rounded-full bg-gray-800/80 hover:bg-gray-700 transition"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Cerrar menú"
+            >
+              <FaTimes />
+            </button>
+            <nav className="flex flex-col gap-8 text-2xl font-bold">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`relative group px-4 py-2 rounded-lg ${
+                  className={`relative px-6 py-2 rounded-lg transition-all duration-200 ${
                     location.pathname === link.path
-                      ? 'bg-primary-900/20 text-primary-400'
-                      : 'text-gray-300 hover:bg-gray-800'
+                      ? 'bg-primary-900/30 text-primary-400 shadow-lg'
+                      : 'text-gray-200 hover:text-primary-400 hover:bg-gray-800/60'
                   }`}
                 >
                   {t(link.label)}
-                  <motion.span
-                    className="absolute left-0 top-0 h-full w-1 bg-primary-500 rounded-r-lg"
-                    initial={false}
-                    animate={{
-                      scaleY: location.pathname === link.path ? 1 : 0
-                    }}
-                    transition={{ duration: 0.2 }}
-                  />
+                  {location.pathname === link.path && (
+                    <motion.div
+                      layoutId="activeLinkMobile"
+                      className="absolute left-0 right-0 -bottom-1 h-1 bg-primary-400 rounded"
+                    />
+                  )}
                 </Link>
+              ))}
+            </nav>
+            {/* Idioma en menú móvil */}
+            <div className="mt-12 flex gap-4">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-primary-500 bg-gray-900 text-white font-semibold shadow-lg hover:bg-primary-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                    i18n.language === lang.code ? 'bg-primary-900/30' : ''
+                  }`}
+                >
+                  <span className="text-2xl">{lang.flag}</span>
+                  <span className="uppercase tracking-wide text-white text-base font-bold drop-shadow-sm">
+                    {lang.code}
+                  </span>
+                </button>
               ))}
             </div>
           </motion.div>
@@ -261,4 +283,4 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
