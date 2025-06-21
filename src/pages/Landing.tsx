@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaArrowDown, FaCode, FaRocket } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Componente de partículas flotantes más sofisticado
@@ -111,7 +111,7 @@ const Landing: React.FC = () => {
         className="relative z-10 text-center px-4 max-w-6xl mx-auto"
         style={{ y, opacity, scale }}
       >
-        {/* Avatar con efectos mejorados */}
+        {/* Avatar con efectos mejorados - SIN ICONO */}
         <motion.div
           className="relative mb-12 mx-auto w-fit"
           initial={{ scale: 0, rotate: -180 }}
@@ -137,7 +137,7 @@ const Landing: React.FC = () => {
             />
           </div>
           
-          {/* Avatar principal */}
+          {/* Avatar principal - SIN INDICADOR DE ESTADO */}
           <motion.div
             className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl"
             whileHover={{ scale: 1.05 }}
@@ -149,16 +149,6 @@ const Landing: React.FC = () => {
               alt="Sylvain Drexler" 
               className="w-full h-full object-cover relative z-10"
             />
-          </motion.div>
-
-          {/* Indicador de estado */}
-          <motion.div
-            className="absolute -bottom-2 -right-2 w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.5, type: "spring" }}
-          >
-            <span className="text-2xl">🚀</span>
           </motion.div>
         </motion.div>
 
@@ -267,7 +257,7 @@ const Landing: React.FC = () => {
 
         {/* Redes sociales con efectos mejorados */}
         <motion.div
-          className="flex gap-6 justify-center items-center mb-12"
+          className="flex gap-6 justify-center items-center"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.6 }}
@@ -291,24 +281,6 @@ const Landing: React.FC = () => {
               <social.icon />
             </motion.a>
           ))}
-        </motion.div>
-
-        {/* Indicador de scroll */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.6 }}
-        >
-          <motion.div
-            className="flex flex-col items-center text-gray-400 cursor-pointer"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-          >
-            <span className="text-sm mb-2 font-medium">{t('home.scrollToExplore', 'Scroll para explorar')}</span>
-            <FaArrowDown className="text-xl" />
-          </motion.div>
         </motion.div>
       </motion.div>
 
