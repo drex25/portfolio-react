@@ -8,10 +8,16 @@ export default {
   },
   home: {
     greeting: 'Hi, I am',
-    role: 'Full Stack Developer',
-    description: 'I create modern and professional web applications with the latest technologies.',
+    role: 'Full Stack',
+    description: 'I transform ideas into exceptional digital experiences. Specialized in modern web development, process optimization and technology consulting with over 5 years of experience.',
     downloadCV: 'Download CV',
-    viewProjects: 'View Projects'
+    viewProjects: 'View Projects',
+    scrollToExplore: 'Scroll to explore',
+    stats: {
+      experience: 'Years of Experience',
+      projects: 'Completed Projects',
+      satisfaction: 'Client Satisfaction'
+    }
   },
   about: {
     title: 'About Me',
@@ -58,6 +64,8 @@ export default {
     rights: 'All rights reserved',
     madeWith: 'Made with',
     by: 'by',
-    brandDescription: 'Transforming ideas into exceptional digital experiences.'
+    brandDescription: 'Transforming ideas into exceptional digital experiences.',
+    quickLinks: 'Quick Links',
+    contact: 'Contact'
   }
-}; 
+};

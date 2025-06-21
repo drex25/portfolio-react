@@ -3,15 +3,21 @@ export default {
     home: 'Inicio',
     about: 'Sobre mí',
     projects: 'Proyectos',
-    skills: 'Skills',
+    skills: 'Habilidades',
     contact: 'Contacto'
   },
   home: {
     greeting: 'Hola, soy',
-    role: 'Desarrollador Full Stack',
-    description: 'Creo aplicaciones web modernas y profesionales con las últimas tecnologías.',
+    role: 'Full Stack',
+    description: 'Transformo ideas en experiencias digitales excepcionales. Especializado en desarrollo web moderno, optimización de procesos y consultoría tecnológica con más de 5 años de experiencia.',
     downloadCV: 'Descargar CV',
-    viewProjects: 'Ver Proyectos'
+    viewProjects: 'Ver Proyectos',
+    scrollToExplore: 'Scroll para explorar',
+    stats: {
+      experience: 'Años de Experiencia',
+      projects: 'Proyectos Completados',
+      satisfaction: 'Satisfacción Cliente'
+    }
   },
   about: {
     title: 'Sobre Mí',
@@ -60,6 +66,6 @@ export default {
     by: 'por',
     brandDescription: 'Transformando ideas en experiencias digitales excepcionales.',
     quickLinks: 'Enlaces rápidos',
-    connect: 'Conecta conmigo'
+    contact: 'Contacto'
   }
-}; 
+};

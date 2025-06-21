@@ -8,10 +8,16 @@ export default {
   },
   home: {
     greeting: 'Bonjour, je suis',
-    role: 'Développeur Full Stack',
-    description: 'Je crée des applications web modernes et professionnelles avec les dernières technologies.',
+    role: 'Full Stack',
+    description: 'Je transforme les idées en expériences numériques exceptionnelles. Spécialisé dans le développement web moderne, l\'optimisation des processus et le conseil technologique avec plus de 5 ans d\'expérience.',
     downloadCV: 'Télécharger CV',
-    viewProjects: 'Voir Projets'
+    viewProjects: 'Voir Projets',
+    scrollToExplore: 'Faites défiler pour explorer',
+    stats: {
+      experience: 'Années d\'Expérience',
+      projects: 'Projets Terminés',
+      satisfaction: 'Satisfaction Client'
+    }
   },
   about: {
     title: 'À Propos',
@@ -57,6 +63,9 @@ export default {
   footer: {
     rights: 'Tous droits réservés',
     madeWith: 'Fait avec',
-    by: 'par'
+    by: 'par',
+    brandDescription: 'Transformer les idées en expériences numériques exceptionnelles.',
+    quickLinks: 'Liens Rapides',
+    contact: 'Contact'
   }
-}; 
+};

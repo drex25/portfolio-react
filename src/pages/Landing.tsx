@@ -90,7 +90,7 @@ const Landing: React.FC = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24"
       role="banner"
     >
       {/* Fondo con gradiente animado */}
@@ -113,7 +113,7 @@ const Landing: React.FC = () => {
       >
         {/* Avatar con efectos mejorados */}
         <motion.div
-          className="relative mb-8 mx-auto w-fit"
+          className="relative mb-12 mx-auto w-fit"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ 
@@ -189,7 +189,7 @@ const Landing: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
           >
-            <span className="text-cyan-400">Full Stack</span> Developer & 
+            <span className="text-cyan-400">{t('home.role', 'Full Stack')}</span> Developer & 
             <span className="text-blue-400"> Systems Analyst</span>
           </motion.h2>
           
@@ -199,9 +199,7 @@ const Landing: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            Transformo ideas en experiencias digitales excepcionales. 
-            Especializado en desarrollo web moderno, optimización de procesos 
-            y consultoría tecnológica con más de 5 años de experiencia.
+            {t('home.description', 'Transformo ideas en experiencias digitales excepcionales. Especializado en desarrollo web moderno, optimización de procesos y consultoría tecnológica con más de 5 años de experiencia.')}
           </motion.p>
         </motion.div>
 
@@ -213,9 +211,9 @@ const Landing: React.FC = () => {
           transition={{ delay: 1.4, duration: 0.6 }}
         >
           {[
-            { number: "5+", label: "Años de Experiencia" },
-            { number: "50+", label: "Proyectos Completados" },
-            { number: "100%", label: "Satisfacción Cliente" }
+            { number: "5+", label: t('home.stats.experience', 'Años de Experiencia') },
+            { number: "50+", label: t('home.stats.projects', 'Proyectos Completados') },
+            { number: "100%", label: t('home.stats.satisfaction', 'Satisfacción Cliente') }
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -249,7 +247,7 @@ const Landing: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <FaCode className="text-lg" />
-            <span>Descargar CV</span>
+            <span>{t('home.downloadCV', 'Descargar CV')}</span>
             <motion.div
               className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"
               layoutId="button-bg"
@@ -263,7 +261,7 @@ const Landing: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <FaRocket className="text-lg" />
-            <span>Ver Proyectos</span>
+            <span>{t('home.viewProjects', 'Ver Proyectos')}</span>
           </motion.a>
         </motion.div>
 
@@ -308,7 +306,7 @@ const Landing: React.FC = () => {
             transition={{ duration: 2, repeat: Infinity }}
             onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
           >
-            <span className="text-sm mb-2 font-medium">Scroll para explorar</span>
+            <span className="text-sm mb-2 font-medium">{t('home.scrollToExplore', 'Scroll para explorar')}</span>
             <FaArrowDown className="text-xl" />
           </motion.div>
         </motion.div>
