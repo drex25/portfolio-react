@@ -220,9 +220,9 @@ const About: React.FC = () => {
                   ))}
                 </div>
 
-                {/* Botón CV */}
+                {/* Botón CV con el mismo estilo */}
                 <motion.a
-                  href="/about-pdf"
+                  href="/cv"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
