@@ -6,9 +6,12 @@ import {
   FaTools, 
   FaDatabase,
   FaCloud,
-  FaMobile,
   FaPalette,
-  FaRocket
+  FaRocket,
+  FaStar,
+  FaFire,
+  FaHeart,
+  FaLightbulb
 } from 'react-icons/fa';
 import { 
   SiTypescript, 
@@ -23,7 +26,6 @@ import {
   SiHtml5,
   SiCss3,
   SiNextdotjs,
-  SiRedux,
   SiNodedotjs,
   SiMongodb,
   SiPostgresql,
@@ -31,7 +33,6 @@ import {
   SiFigma,
   SiWordpress,
   SiVuedotjs,
-  SiAngular,
   SiPython,
   SiLinux
 } from 'react-icons/si';
@@ -40,10 +41,11 @@ import { VscCode } from 'react-icons/vsc';
 interface Skill {
   name: string;
   icon: React.ReactNode;
-  level: number;
   category: string;
   color: string;
   description: string;
+  level: 'Principiante' | 'Intermedio' | 'Avanzado' | 'Experto';
+  experience: string;
 }
 
 interface SkillCategory {
@@ -68,186 +70,208 @@ const Skills: React.FC = () => {
     { 
       name: 'React', 
       icon: <SiReact />, 
-      level: 90, 
       category: 'frontend', 
       color: 'text-cyan-400',
-      description: 'Desarrollo de SPAs modernas y componentes reutilizables'
+      description: 'Desarrollo de SPAs modernas y componentes reutilizables',
+      level: 'Avanzado',
+      experience: '3+ años'
     },
     { 
       name: 'TypeScript', 
       icon: <SiTypescript />, 
-      level: 85, 
       category: 'frontend', 
       color: 'text-blue-500',
-      description: 'Tipado estático para JavaScript más robusto'
+      description: 'Tipado estático para JavaScript más robusto',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
     { 
       name: 'Next.js', 
       icon: <SiNextdotjs />, 
-      level: 82, 
       category: 'frontend', 
       color: 'text-white',
-      description: 'Framework React para aplicaciones full-stack'
+      description: 'Framework React para aplicaciones full-stack',
+      level: 'Intermedio',
+      experience: '1+ año'
     },
     { 
       name: 'Tailwind CSS', 
       icon: <SiTailwindcss />, 
-      level: 88, 
       category: 'frontend', 
       color: 'text-teal-400',
-      description: 'Framework CSS utility-first para diseños rápidos'
+      description: 'Framework CSS utility-first para diseños rápidos',
+      level: 'Avanzado',
+      experience: '2+ años'
     },
     { 
       name: 'Vue.js', 
       icon: <SiVuedotjs />, 
-      level: 75, 
       category: 'frontend', 
       color: 'text-green-500',
-      description: 'Framework progresivo para interfaces de usuario'
+      description: 'Framework progresivo para interfaces de usuario',
+      level: 'Intermedio',
+      experience: '1+ año'
     },
     { 
       name: 'HTML5', 
       icon: <SiHtml5 />, 
-      level: 95, 
       category: 'frontend', 
       color: 'text-orange-500',
-      description: 'Marcado semántico y accesible'
+      description: 'Marcado semántico y accesible',
+      level: 'Experto',
+      experience: '5+ años'
     },
     { 
       name: 'CSS3', 
       icon: <SiCss3 />, 
-      level: 90, 
       category: 'frontend', 
       color: 'text-blue-500',
-      description: 'Estilos modernos con animaciones y responsive design'
+      description: 'Estilos modernos con animaciones y responsive design',
+      level: 'Avanzado',
+      experience: '5+ años'
     },
     { 
       name: 'JavaScript', 
       icon: <SiJavascript />, 
-      level: 88, 
       category: 'frontend', 
       color: 'text-yellow-500',
-      description: 'ES6+ y programación funcional'
+      description: 'ES6+ y programación funcional',
+      level: 'Avanzado',
+      experience: '4+ años'
     },
 
     // Backend
     { 
       name: 'Laravel', 
       icon: <SiLaravel />, 
-      level: 85, 
       category: 'backend', 
       color: 'text-red-500',
-      description: 'Framework PHP elegante para desarrollo web'
+      description: 'Framework PHP elegante para desarrollo web',
+      level: 'Avanzado',
+      experience: '3+ años'
     },
     { 
       name: 'PHP', 
       icon: <SiPhp />, 
-      level: 82, 
       category: 'backend', 
       color: 'text-indigo-400',
-      description: 'Desarrollo backend robusto y escalable'
+      description: 'Desarrollo backend robusto y escalable',
+      level: 'Avanzado',
+      experience: '4+ años'
     },
     { 
       name: 'Node.js', 
       icon: <SiNodedotjs />, 
-      level: 80, 
       category: 'backend', 
       color: 'text-green-500',
-      description: 'JavaScript del lado del servidor'
+      description: 'JavaScript del lado del servidor',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
     { 
       name: 'Python', 
       icon: <SiPython />, 
-      level: 70, 
       category: 'backend', 
       color: 'text-yellow-400',
-      description: 'Scripting y desarrollo de APIs'
+      description: 'Scripting y desarrollo de APIs',
+      level: 'Intermedio',
+      experience: '1+ año'
     },
 
     // Database
     { 
       name: 'MySQL', 
       icon: <SiMysql />, 
-      level: 85, 
       category: 'database', 
       color: 'text-blue-600',
-      description: 'Base de datos relacional robusta'
+      description: 'Base de datos relacional robusta',
+      level: 'Avanzado',
+      experience: '4+ años'
     },
     { 
       name: 'MongoDB', 
       icon: <SiMongodb />, 
-      level: 75, 
       category: 'database', 
       color: 'text-green-600',
-      description: 'Base de datos NoSQL flexible'
+      description: 'Base de datos NoSQL flexible',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
     { 
       name: 'PostgreSQL', 
       icon: <SiPostgresql />, 
-      level: 78, 
       category: 'database', 
       color: 'text-blue-400',
-      description: 'Base de datos avanzada con características enterprise'
+      description: 'Base de datos avanzada con características enterprise',
+      level: 'Intermedio',
+      experience: '1+ año'
     },
 
     // DevOps & Tools
     { 
       name: 'Docker', 
       icon: <SiDocker />, 
-      level: 80, 
       category: 'devops', 
       color: 'text-blue-400',
-      description: 'Containerización y despliegue de aplicaciones'
+      description: 'Containerización y despliegue de aplicaciones',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
     { 
       name: 'Git', 
       icon: <SiGit />, 
-      level: 85, 
       category: 'devops', 
       color: 'text-orange-500',
-      description: 'Control de versiones y colaboración'
+      description: 'Control de versiones y colaboración',
+      level: 'Avanzado',
+      experience: '4+ años'
     },
     { 
       name: 'AWS', 
       icon: <SiAmazon />, 
-      level: 70, 
       category: 'devops', 
       color: 'text-orange-400',
-      description: 'Servicios en la nube y infraestructura'
+      description: 'Servicios en la nube y infraestructura',
+      level: 'Intermedio',
+      experience: '1+ año'
     },
     { 
       name: 'Linux', 
       icon: <SiLinux />, 
-      level: 75, 
       category: 'devops', 
       color: 'text-yellow-300',
-      description: 'Administración de servidores y sistemas'
+      description: 'Administración de servidores y sistemas',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
 
     // Design & CMS
     { 
       name: 'Figma', 
       icon: <SiFigma />, 
-      level: 75, 
       category: 'design', 
       color: 'text-purple-400',
-      description: 'Diseño de interfaces y prototipado'
+      description: 'Diseño de interfaces y prototipado',
+      level: 'Intermedio',
+      experience: '2+ años'
     },
     { 
       name: 'WordPress', 
       icon: <SiWordpress />, 
-      level: 90, 
       category: 'cms', 
       color: 'text-blue-800',
-      description: 'CMS y desarrollo de temas personalizados'
+      description: 'CMS y desarrollo de temas personalizados',
+      level: 'Experto',
+      experience: '5+ años'
     },
     { 
       name: 'VS Code', 
       icon: <VscCode />, 
-      level: 95, 
       category: 'tools', 
       color: 'text-blue-500',
-      description: 'Editor de código principal'
+      description: 'Editor de código principal',
+      level: 'Experto',
+      experience: '5+ años'
     }
   ];
 
@@ -303,6 +327,28 @@ const Skills: React.FC = () => {
     }
   ];
 
+  // Función para obtener el color del nivel
+  const getLevelColor = (level: string) => {
+    switch (level) {
+      case 'Experto': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'Avanzado': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'Intermedio': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+      case 'Principiante': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+    }
+  };
+
+  // Función para obtener el icono del nivel
+  const getLevelIcon = (level: string) => {
+    switch (level) {
+      case 'Experto': return <FaStar className="text-yellow-400" />;
+      case 'Avanzado': return <FaFire className="text-orange-400" />;
+      case 'Intermedio': return <FaLightbulb className="text-blue-400" />;
+      case 'Principiante': return <FaHeart className="text-pink-400" />;
+      default: return <FaStar className="text-gray-400" />;
+    }
+  };
+
   // Componente de skill individual
   const SkillItem: React.FC<{ skill: Skill; index: number }> = ({ skill, index }) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -316,31 +362,34 @@ const Skills: React.FC = () => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, delay: index * 0.05 }}
       >
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group-hover:bg-white/10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className={`text-2xl ${skill.color}`}>
+        {/* Glow effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+        
+        <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group-hover:bg-white/10 h-full">
+          <div className="flex items-start gap-4 mb-4">
+            <div className={`text-3xl ${skill.color} p-3 rounded-xl bg-white/5`}>
               {skill.icon}
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                {skill.name}
-              </h4>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-gray-700 rounded-full h-2">
-                  <motion.div
-                    className="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: `${skill.level}%` } : {}}
-                    transition={{ duration: 1, delay: index * 0.05 + 0.3 }}
-                  />
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors text-lg">
+                  {skill.name}
+                </h4>
+                <div className="flex items-center gap-1">
+                  {getLevelIcon(skill.level)}
                 </div>
-                <span className="text-sm font-bold text-cyan-400 min-w-[3rem]">
-                  {skill.level}%
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getLevelColor(skill.level)}`}>
+                  {skill.level}
+                </span>
+                <span className="text-xs text-gray-400 font-medium">
+                  {skill.experience}
                 </span>
               </div>
             </div>
           </div>
-          <p className="text-xs text-gray-400 leading-relaxed">
+          <p className="text-sm text-gray-400 leading-relaxed">
             {skill.description}
           </p>
         </div>
@@ -380,7 +429,7 @@ const Skills: React.FC = () => {
         </motion.div>
 
         {/* Skills por categorías */}
-        <div className="space-y-16">
+        <div className="space-y-20">
           {categories.map((category, categoryIndex) => {
             const categorySkills = skills.filter(skill => skill.category === category.id);
             
@@ -397,23 +446,26 @@ const Skills: React.FC = () => {
               >
                 {/* Header de categoría */}
                 <div className="text-center mb-12">
-                  <div className="flex items-center justify-center gap-4 mb-4">
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${category.color} flex items-center justify-center text-white text-2xl shadow-lg`}>
+                  <div className="flex items-center justify-center gap-6 mb-6">
+                    <div className={`w-20 h-20 rounded-3xl bg-gradient-to-r ${category.color} flex items-center justify-center text-white text-3xl shadow-2xl`}>
                       {category.icon}
                     </div>
                     <div className="text-left">
-                      <h3 className="text-3xl font-bold text-white mb-2">
+                      <h3 className="text-4xl font-bold text-white mb-2">
                         {category.title}
                       </h3>
-                      <p className="text-gray-400">
+                      <p className="text-gray-400 text-lg">
                         {category.description}
                       </p>
+                      <div className="text-sm text-cyan-400 font-medium mt-1">
+                        {categorySkills.length} tecnología{categorySkills.length !== 1 ? 's' : ''}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Grid de skills */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {categorySkills.map((skill, index) => (
                     <SkillItem key={skill.name} skill={skill} index={index} />
                   ))}
@@ -425,27 +477,39 @@ const Skills: React.FC = () => {
 
         {/* Resumen de experiencia */}
         <motion.div
-          className="mt-20 text-center"
+          className="mt-24 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-6">Experiencia Técnica</h3>
-            <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/10 max-w-5xl mx-auto">
+            <h3 className="text-3xl font-bold text-white mb-8">Mi Experiencia Técnica</h3>
+            <div className="grid md:grid-cols-4 gap-8">
               <div className="text-center">
-                <div className="text-4xl font-bold text-cyan-400 mb-2">5+</div>
-                <div className="text-gray-400">Años de Experiencia</div>
+                <div className="text-5xl font-bold text-cyan-400 mb-3">5+</div>
+                <div className="text-gray-400 font-medium">Años de Experiencia</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-blue-400 mb-2">{skills.length}+</div>
-                <div className="text-gray-400">Tecnologías Dominadas</div>
+                <div className="text-5xl font-bold text-blue-400 mb-3">{skills.length}+</div>
+                <div className="text-gray-400 font-medium">Tecnologías Dominadas</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-purple-400 mb-2">50+</div>
-                <div className="text-gray-400">Proyectos Completados</div>
+                <div className="text-5xl font-bold text-purple-400 mb-3">50+</div>
+                <div className="text-gray-400 font-medium">Proyectos Completados</div>
               </div>
+              <div className="text-center">
+                <div className="text-5xl font-bold text-green-400 mb-3">100%</div>
+                <div className="text-gray-400 font-medium">Dedicación</div>
+              </div>
+            </div>
+            
+            {/* Filosofía */}
+            <div className="mt-8 p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
+              <p className="text-gray-300 text-lg leading-relaxed italic">
+                "La tecnología es solo una herramienta. Lo importante es cómo la usamos para resolver problemas reales y crear experiencias que impacten positivamente en las personas."
+              </p>
+              <div className="text-cyan-400 font-semibold mt-3">- Sylvain Drexler</div>
             </div>
           </div>
         </motion.div>

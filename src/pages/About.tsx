@@ -10,7 +10,14 @@ import {
   FaLanguage,
   FaAward,
   FaMapMarkerAlt,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaRocket,
+  FaUsers,
+  FaLaptopCode,
+  FaBrain,
+  FaHeart,
+  FaEye,
+  FaComments
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -93,30 +100,30 @@ const education = [
 ];
 
 const languages = [
-  { name: 'Creole', level: 'Nativo', percentage: 100, flag: '🇭🇹' },
-  { name: 'Francés', level: 'Segundo idioma', percentage: 95, flag: '🇫🇷' },
-  { name: 'Español', level: 'Avanzado', percentage: 90, flag: '🇪🇸' },
-  { name: 'Inglés', level: 'Avanzado', percentage: 85, flag: '🇺🇸' }
+  { name: 'Creole', level: 'Nativo', flag: '🇭🇹', proficiency: 'native' },
+  { name: 'Francés', level: 'Segundo idioma', flag: '🇫🇷', proficiency: 'fluent' },
+  { name: 'Español', level: 'Avanzado', flag: '🇪🇸', proficiency: 'advanced' },
+  { name: 'Inglés', level: 'Avanzado', flag: '🇺🇸', proficiency: 'advanced' }
 ];
 
 const skills = [
-  { name: 'Trabajo en equipo', icon: '👥', description: 'Colaboración efectiva' },
-  { name: 'Comunicación', icon: '💬', description: 'Comunicación clara y asertiva' },
-  { name: 'Resolución de problemas', icon: '🔧', description: 'Análisis y solución creativa' },
-  { name: 'Aprendizaje continuo', icon: '📚', description: 'Adaptación a nuevas tecnologías' },
-  { name: 'Liderazgo', icon: '🚀', description: 'Guía y motivación de equipos' },
-  { name: 'Creatividad', icon: '🎨', description: 'Soluciones innovadoras' }
+  { name: 'Trabajo en equipo', icon: FaUsers, description: 'Colaboración efectiva y liderazgo', color: 'text-blue-400' },
+  { name: 'Comunicación', icon: FaComments, description: 'Comunicación clara y asertiva', color: 'text-green-400' },
+  { name: 'Resolución de problemas', icon: FaBrain, description: 'Análisis y solución creativa', color: 'text-purple-400' },
+  { name: 'Aprendizaje continuo', icon: FaLaptopCode, description: 'Adaptación a nuevas tecnologías', color: 'text-cyan-400' },
+  { name: 'Liderazgo', icon: FaRocket, description: 'Guía y motivación de equipos', color: 'text-orange-400' },
+  { name: 'Creatividad', icon: FaHeart, description: 'Soluciones innovadoras', color: 'text-pink-400' }
 ];
 
 const technologies = [
-  { name: 'Laravel', color: 'bg-red-500', level: 90 },
-  { name: 'PHP', color: 'bg-indigo-500', level: 85 },
-  { name: 'React', color: 'bg-cyan-500', level: 88 },
-  { name: 'TypeScript', color: 'bg-blue-500', level: 82 },
-  { name: 'WordPress', color: 'bg-blue-800', level: 95 },
-  { name: 'Docker', color: 'bg-blue-600', level: 75 },
-  { name: 'Git', color: 'bg-orange-500', level: 80 },
-  { name: 'Tailwind', color: 'bg-teal-500', level: 90 }
+  { name: 'Laravel', color: 'bg-red-500', level: 'Experto' },
+  { name: 'PHP', color: 'bg-indigo-500', level: 'Avanzado' },
+  { name: 'React', color: 'bg-cyan-500', level: 'Avanzado' },
+  { name: 'TypeScript', color: 'bg-blue-500', level: 'Intermedio' },
+  { name: 'WordPress', color: 'bg-blue-800', level: 'Experto' },
+  { name: 'Docker', color: 'bg-blue-600', level: 'Intermedio' },
+  { name: 'Git', color: 'bg-orange-500', level: 'Avanzado' },
+  { name: 'Tailwind', color: 'bg-teal-500', level: 'Avanzado' }
 ];
 
 // Componente de Timeline mejorado
@@ -132,7 +139,7 @@ const TimelineItem: React.FC<{
   return (
     <motion.div
       ref={ref}
-      className={`flex items-center mb-12 ${isLeft ? 'flex-row-reverse' : ''}`}
+      className={`flex items-center mb-16 ${isLeft ? 'flex-row-reverse' : ''}`}
       initial={{ opacity: 0, x: isLeft ? 50 : -50 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -140,24 +147,29 @@ const TimelineItem: React.FC<{
       {/* Contenido */}
       <div className={`w-5/12 ${isLeft ? 'text-right pr-8' : 'text-left pl-8'}`}>
         <motion.div
-          className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group"
+          className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:border-cyan-400/50 transition-all duration-500 group relative overflow-hidden"
           whileHover={{ scale: 1.02, y: -5 }}
         >
+          {/* Glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
           {/* Header */}
-          <div className={`flex items-start gap-4 mb-4 ${isLeft ? 'flex-row-reverse text-right' : ''}`}>
-            <div className={`p-3 rounded-xl bg-gradient-to-r ${item.color} shadow-lg`}>
-              <item.icon className="text-white text-xl" />
+          <div className={`flex items-start gap-4 mb-6 relative z-10 ${isLeft ? 'flex-row-reverse text-right' : ''}`}>
+            <div className={`p-4 rounded-2xl bg-gradient-to-r ${item.color} shadow-xl`}>
+              <item.icon className="text-white text-2xl" />
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-white mb-1">{item.title || item.degree}</h3>
-              <p className="text-cyan-400 font-semibold">{item.company || item.institution}</p>
-              <div className="flex items-center gap-4 text-sm text-gray-400 mt-2">
-                <span className="flex items-center gap-1">
+              <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                {item.title || item.degree}
+              </h3>
+              <p className="text-cyan-400 font-semibold text-lg">{item.company || item.institution}</p>
+              <div className="flex items-center gap-6 text-sm text-gray-400 mt-3">
+                <span className="flex items-center gap-2">
                   <FaCalendarAlt className="text-xs" />
                   {item.period}
                 </span>
                 {item.location && (
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-2">
                     <FaMapMarkerAlt className="text-xs" />
                     {item.location}
                   </span>
@@ -167,17 +179,20 @@ const TimelineItem: React.FC<{
           </div>
 
           {/* Descripción */}
-          <p className="text-gray-300 mb-4 leading-relaxed">{item.description}</p>
+          <p className="text-gray-300 mb-6 leading-relaxed text-lg relative z-10">{item.description}</p>
 
           {/* Tecnologías */}
           {item.technologies && (
-            <div className="mb-4">
-              <h4 className="text-sm font-semibold text-cyan-400 mb-2">Tecnologías:</h4>
+            <div className="mb-6 relative z-10">
+              <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
+                <FaCode className="text-xs" />
+                Tecnologías:
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {item.technologies.map((tech: string) => (
                   <span
                     key={tech}
-                    className="px-2 py-1 bg-cyan-400/20 text-cyan-300 rounded-full text-xs font-medium"
+                    className="px-3 py-1 bg-cyan-400/20 text-cyan-300 rounded-full text-sm font-medium border border-cyan-400/30"
                   >
                     {tech}
                   </span>
@@ -188,15 +203,15 @@ const TimelineItem: React.FC<{
 
           {/* Logros */}
           {item.achievements && (
-            <div>
-              <h4 className="text-sm font-semibold text-green-400 mb-2 flex items-center gap-2">
+            <div className="relative z-10">
+              <h4 className="text-sm font-semibold text-green-400 mb-3 flex items-center gap-2">
                 <FaAward className="text-xs" />
-                Logros:
+                Logros destacados:
               </h4>
-              <ul className="space-y-1">
+              <ul className="space-y-2">
                 {item.achievements.map((achievement: string, i: number) => (
-                  <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+                  <li key={i} className="text-sm text-gray-300 flex items-center gap-3">
+                    <span className="w-2 h-2 bg-green-400 rounded-full" />
                     {achievement}
                   </li>
                 ))}
@@ -210,13 +225,13 @@ const TimelineItem: React.FC<{
       <div className="w-2/12 flex justify-center">
         <div className="relative">
           <motion.div
-            className={`w-4 h-4 rounded-full bg-gradient-to-r ${item.color} shadow-lg border-4 border-slate-900 z-10 relative`}
+            className={`w-6 h-6 rounded-full bg-gradient-to-r ${item.color} shadow-xl border-4 border-slate-900 z-10 relative`}
             initial={{ scale: 0 }}
             animate={isInView ? { scale: 1 } : {}}
             transition={{ duration: 0.3, delay: index * 0.1 + 0.3 }}
           />
           <motion.div
-            className={`absolute inset-0 w-4 h-4 rounded-full bg-gradient-to-r ${item.color} animate-ping opacity-75`}
+            className={`absolute inset-0 w-6 h-6 rounded-full bg-gradient-to-r ${item.color} animate-ping opacity-75`}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 0.75 } : {}}
             transition={{ delay: index * 0.1 + 0.5 }}
@@ -282,10 +297,10 @@ const About: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             {/* Tarjeta de perfil */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 sticky top-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 sticky top-8">
               <div className="text-center mb-8">
                 <motion.div
-                  className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-2xl"
+                  className="w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-2xl"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -328,24 +343,23 @@ const About: React.FC = () => {
                   <FaLanguage className="text-cyan-400" />
                   Idiomas
                 </h4>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {languages.map((lang) => (
-                    <div key={lang.name} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300 flex items-center gap-2">
-                          <span className="text-lg">{lang.flag}</span>
-                          {lang.name}
-                        </span>
-                        <span className="text-cyan-400 text-sm">{lang.level}</span>
+                    <div key={lang.name} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{lang.flag}</span>
+                        <div>
+                          <div className="text-white font-medium">{lang.name}</div>
+                          <div className="text-cyan-400 text-sm">{lang.level}</div>
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <motion.div
-                          className="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${lang.percentage}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, delay: 0.2 }}
-                        />
+                      <div className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        lang.proficiency === 'native' ? 'bg-green-500/20 text-green-400' :
+                        lang.proficiency === 'fluent' ? 'bg-blue-500/20 text-blue-400' :
+                        'bg-purple-500/20 text-purple-400'
+                      }`}>
+                        {lang.proficiency === 'native' ? 'Nativo' :
+                         lang.proficiency === 'fluent' ? 'Fluido' : 'Avanzado'}
                       </div>
                     </div>
                   ))}
@@ -362,10 +376,10 @@ const About: React.FC = () => {
                   {skills.map((skill) => (
                     <motion.div
                       key={skill.name}
-                      className="bg-white/5 rounded-lg p-3 text-center border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                      className="bg-white/5 rounded-xl p-4 text-center border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
                       whileHover={{ scale: 1.05, y: -2 }}
                     >
-                      <div className="text-2xl mb-2">{skill.icon}</div>
+                      <skill.icon className={`text-2xl mb-2 mx-auto ${skill.color}`} />
                       <div className="text-xs text-gray-300 font-medium">{skill.name}</div>
                     </motion.div>
                   ))}
@@ -386,7 +400,7 @@ const About: React.FC = () => {
                   <motion.button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key as 'experience' | 'education')}
-                    className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${
+                    className={`px-8 py-4 rounded-full font-semibold transition-all duration-300 flex items-center gap-3 ${
                       activeTab === tab.key
                         ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
                         : 'text-gray-400 hover:text-white'
@@ -442,7 +456,7 @@ const About: React.FC = () => {
             {technologies.map((tech, index) => (
               <motion.div
                 key={tech.name}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -451,17 +465,15 @@ const About: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-semibold text-white">{tech.name}</span>
-                  <span className="text-cyan-400 text-sm font-bold">{tech.level}%</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    tech.level === 'Experto' ? 'bg-green-500/20 text-green-400' :
+                    tech.level === 'Avanzado' ? 'bg-blue-500/20 text-blue-400' :
+                    'bg-purple-500/20 text-purple-400'
+                  }`}>
+                    {tech.level}
+                  </span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <motion.div
-                    className={`${tech.color} h-2 rounded-full`}
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${tech.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: index * 0.1 + 0.3 }}
-                  />
-                </div>
+                <div className={`w-full h-2 rounded-full ${tech.color} opacity-80`} />
               </motion.div>
             ))}
           </div>
