@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface Language {
@@ -24,11 +24,11 @@ const navLinks = [
   { path: '/contact', label: 'nav.contact' }
 ];
 
-// Títulos de las páginas
 const pageTitles: Record<string, string> = {
   '/': 'Sylvain Drexler - Portfolio',
   '/about': 'Sobre Mí - Sylvain Drexler',
   '/projects': 'Proyectos - Sylvain Drexler',
+  '/skills': 'Habilidades - Sylvain Drexler',
   '/contact': 'Contacto - Sylvain Drexler',
 };
 
@@ -46,7 +46,6 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   );
   const location = useLocation();
 
-  // Actualizar el título de la página
   useEffect(() => {
     const title = pageTitles[location.pathname] || 'Sylvain Drexler - Portfolio';
     document.title = title;
@@ -68,32 +67,13 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
     setIsLanguageMenuOpen(false);
   };
 
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      x: "100%",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    },
-    open: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
-  };
-
   const navVariants = {
     hidden: { y: -100, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.6,
         ease: "easeOut"
       }
     }
@@ -104,68 +84,77 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-gray-900/80 backdrop-blur-lg shadow-lg'
+          ? 'bg-slate-900/80 backdrop-blur-xl shadow-2xl border-b border-white/10'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo mejorado */}
+          <Link to="/" className="flex items-center gap-3 group">
             <motion.div 
-              className="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold text-xl"
-              whileHover={{ scale: 1.1, rotate: 5 }}
+              className="relative"
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              D
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:shadow-cyan-500/25 transition-all duration-300">
+                <FaCode />
+              </div>
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 blur transition-opacity duration-300" />
             </motion.div>
-            <motion.span 
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-300"
-              whileHover={{ scale: 1.05 }}
+            <motion.div
+              className="hidden sm:block"
+              whileHover={{ scale: 1.02 }}
             >
-              Drex
-            </motion.span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Drex
+              </span>
+              <div className="text-xs text-gray-400 font-medium tracking-wider">
+                DEVELOPER
+              </div>
+            </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative text-gray-200 hover:text-primary-400 transition-colors duration-300 ${
-                  location.pathname === link.path ? 'text-primary-400' : ''
-                }`}
+                className="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-all duration-300 group"
               >
-                {t(link.label)}
+                <span className="relative z-10 font-medium">
+                  {t(link.label)}
+                </span>
                 {location.pathname === link.path && (
                   <motion.div
                     layoutId="activeLink"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-400"
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-400/30"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   />
                 )}
+                <div className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             ))}
           </div>
 
-          {/* Right side buttons */}
-          <div className="flex items-center space-x-4">
+          {/* Right side controls */}
+          <div className="flex items-center gap-4">
             {/* Language Selector */}
             <div className="relative">
               <motion.button
                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-primary-500 bg-gray-900 text-white font-semibold shadow-lg hover:bg-primary-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                whileHover={{ scale: 1.07 }}
-                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-white font-medium hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <span className="text-2xl">{currentLanguage.flag}</span>
-                <span className="uppercase tracking-wide text-white text-base font-bold drop-shadow-sm">
-                  {currentLanguage.code}
+                <span className="text-lg">{currentLanguage.flag}</span>
+                <span className="hidden sm:block text-sm font-bold tracking-wide">
+                  {currentLanguage.code.toUpperCase()}
                 </span>
               </motion.button>
 
@@ -176,26 +165,25 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-48 rounded-xl bg-gray-900 border border-primary-500 shadow-2xl overflow-hidden z-50"
+                    className="absolute right-0 mt-2 w-48 rounded-xl bg-slate-900/90 backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
                   >
                     {languages.map((lang) => (
                       <motion.button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-200 text-white font-semibold text-base hover:bg-primary-500/20 focus:bg-primary-500/30 ${
-                          i18n.language === lang.code ? 'bg-primary-900/30' : ''
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 ${
+                          i18n.language === lang.code 
+                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border-l-2 border-cyan-400' 
+                            : 'text-gray-300 hover:bg-white/5 hover:text-white'
                         }`}
-                        whileHover={{ x: 5 }}
+                        whileHover={{ x: 4 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <span className="text-2xl">{lang.flag}</span>
-                        <span className="uppercase tracking-wide">{lang.code}</span>
-                        {i18n.language === lang.code && (
-                          <motion.div
-                            layoutId="activeLanguage"
-                            className="w-1 h-6 bg-primary-500 rounded-full ml-auto"
-                          />
-                        )}
+                        <span className="text-lg">{lang.flag}</span>
+                        <div>
+                          <div className="font-medium">{lang.name}</div>
+                          <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
+                        </div>
                       </motion.button>
                     ))}
                   </motion.div>
@@ -205,15 +193,15 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
 
             {/* Mobile Menu Button */}
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300"
+              className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
             >
               {isMobileMenuOpen ? (
-                <FaTimes className="text-primary-500 text-xl" />
+                <FaTimes className="text-xl" />
               ) : (
-                <FaBars className="text-primary-500 text-xl" />
+                <FaBars className="text-xl" />
               )}
             </motion.button>
           </div>
@@ -224,57 +212,51 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={menuVariants}
-            className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10"
           >
-            <button
-              className="absolute top-6 right-6 text-3xl text-primary-400 p-2 rounded-full bg-gray-800/80 hover:bg-gray-700 transition"
-              onClick={() => setIsMobileMenuOpen(false)}
-              aria-label="Cerrar menú"
-            >
-              <FaTimes />
-            </button>
-            <nav className="flex flex-col gap-8 text-2xl font-bold">
+            <div className="px-4 py-6 space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`relative px-6 py-2 rounded-lg transition-all duration-200 ${
+                  className={`block px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                     location.pathname === link.path
-                      ? 'bg-primary-900/30 text-primary-400 shadow-lg'
-                      : 'text-gray-200 hover:text-primary-400 hover:bg-gray-800/60'
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30'
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {t(link.label)}
-                  {location.pathname === link.path && (
-                    <motion.div
-                      layoutId="activeLinkMobile"
-                      className="absolute left-0 right-0 -bottom-1 h-1 bg-primary-400 rounded"
-                    />
-                  )}
                 </Link>
               ))}
-            </nav>
-            {/* Idioma en menú móvil */}
-            <div className="mt-12 flex gap-4">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-primary-500 bg-gray-900 text-white font-semibold shadow-lg hover:bg-primary-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                    i18n.language === lang.code ? 'bg-primary-900/30' : ''
-                  }`}
-                >
-                  <span className="text-2xl">{lang.flag}</span>
-                  <span className="uppercase tracking-wide text-white text-base font-bold drop-shadow-sm">
-                    {lang.code}
-                  </span>
-                </button>
-              ))}
+              
+              {/* Language options in mobile */}
+              <div className="pt-4 border-t border-white/10">
+                <div className="text-sm font-medium text-gray-400 mb-3 px-4">Idioma</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => { 
+                        changeLanguage(lang.code); 
+                        setIsMobileMenuOpen(false); 
+                      }}
+                      className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 ${
+                        i18n.language === lang.code 
+                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30' 
+                          : 'text-gray-400 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <span className="text-xl">{lang.flag}</span>
+                      <span className="text-xs font-bold">{lang.code.toUpperCase()}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}

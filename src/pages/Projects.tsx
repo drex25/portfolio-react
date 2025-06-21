@@ -1,7 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaStar } from 'react-icons/fa';
-import { SiReact, SiTypescript, SiTailwindcss, SiLaravel, SiPhp, SiDocker, SiGit } from 'react-icons/si';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { 
+  FaGithub, 
+  FaExternalLinkAlt, 
+  FaStar, 
+  FaFilter,
+  FaSearch,
+  FaEye,
+  FaCode,
+  FaRocket
+} from 'react-icons/fa';
+import { 
+  SiReact, 
+  SiTypescript, 
+  SiTailwindcss, 
+  SiLaravel, 
+  SiPhp, 
+  SiDocker, 
+  SiGit 
+} from 'react-icons/si';
 
 interface Project {
   name: string;
@@ -13,32 +30,153 @@ interface Project {
   features: string[];
 }
 
-const techIcons: Record<string, React.ReactNode> = {
-  React: <SiReact className="text-sky-500" />,
-  TypeScript: <SiTypescript className="text-blue-600" />,
-  Tailwind: <SiTailwindcss className="text-cyan-400" />,
-  Laravel: <SiLaravel className="text-red-500" />,
-  PHP: <SiPhp className="text-indigo-500" />,
-  Docker: <SiDocker className="text-blue-500" />,
-  Git: <SiGit className="text-orange-500" />,
+const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
+  React: { icon: <SiReact />, color: 'text-cyan-400' },
+  TypeScript: { icon: <SiTypescript />, color: 'text-blue-500' },
+  Tailwind: { icon: <SiTailwindcss />, color: 'text-teal-400' },
+  Laravel: { icon: <SiLaravel />, color: 'text-red-500' },
+  PHP: { icon: <SiPhp />, color: 'text-indigo-400' },
+  Docker: { icon: <SiDocker />, color: 'text-blue-400' },
+  Git: { icon: <SiGit />, color: 'text-orange-500' },
 };
 
-// Microinteracciones en los íconos de tecnologías
-const TechIcon: React.FC<{ tech: string }> = ({ tech }) => (
-  <motion.span
-    whileHover={{ scale: 1.3, rotate: 15, color: '#a78bfa', filter: 'drop-shadow(0 0 8px #a78bfa88)' }}
-    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-    className="inline-flex items-center"
-    style={{ cursor: 'pointer' }}
-  >
-    {techIcons[tech]}
-  </motion.span>
-);
+// Componente de tarjeta de proyecto mejorado
+const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="group relative"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+    >
+      {/* Glow effect */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-1000" />
+      
+      <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300">
+        {/* Imagen del proyecto */}
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          
+          {/* Overlay con botones */}
+          <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <motion.a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FaGithub className="text-xl" />
+            </motion.a>
+            <motion.a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-cyan-500/80 backdrop-blur-sm rounded-full text-white hover:bg-cyan-500 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FaEye className="text-xl" />
+            </motion.a>
+          </div>
+        </div>
+
+        {/* Contenido */}
+        <div className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+              {project.name}
+            </h3>
+            <div className="flex gap-2">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <FaGithub className="text-lg" />
+              </a>
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-cyan-400 transition-colors"
+              >
+                <FaExternalLinkAlt className="text-lg" />
+              </a>
+            </div>
+          </div>
+
+          <p className="text-gray-300 mb-4 line-clamp-3 leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Features */}
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
+              <FaStar className="text-yellow-400" />
+              Características
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.features.map((feature) => (
+                <span
+                  key={feature}
+                  className="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs font-medium border border-cyan-500/30"
+                >
+                  {feature}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Tecnologías */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-400 mb-3">Stack Tecnológico</h4>
+            <div className="flex flex-wrap gap-3">
+              {project.technologies.map((tech) => {
+                const techInfo = techIcons[tech];
+                return (
+                  <motion.div
+                    key={tech}
+                    className={`flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 ${techInfo?.color || 'text-gray-400'}`}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {techInfo?.icon}
+                    <span className="text-xs font-medium text-gray-300">{tech}</span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -58,9 +196,12 @@ const Projects: React.FC = () => {
     fetchProjects();
   }, []);
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.technologies.includes(filter));
+  const filteredProjects = projects.filter(project => {
+    const matchesFilter = filter === 'all' || project.technologies.includes(filter);
+    const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
 
   const allTechnologies = Array.from(
     new Set(projects.flatMap(project => project.technologies))
@@ -68,202 +209,152 @@ const Projects: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="min-h-screen relative overflow-hidden bg-black flex items-center justify-center font-mono" id="projects">
-        {/* Fondo animado de neón igual al landing/footer/about */}
-        <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
-          background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
-          filter: 'blur(80px) opacity(0.7)'
-        }} />
-        {/* Partículas y destellos */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          {[...Array(18)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 rounded-full"
-              style={{
-                background: `radial-gradient(circle, #00fff7 0%, #005bea 100%)`,
-                boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
-                opacity: 0.7
-              }}
-              animate={{
-                x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-                y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-                opacity: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <motion.div
+            className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          />
+          <p className="text-cyan-400 text-xl">Cargando proyectos...</p>
         </div>
-        <div className="text-[#00fff7] text-xl animate-pulse z-10">Cargando proyectos...</div>
       </section>
     );
   }
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-black font-mono" id="projects">
-      {/* Fondo animado de neón igual al landing/footer/about */}
-      <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
-        background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
-        filter: 'blur(80px) opacity(0.7)'
-      }} />
-      {/* Partículas y destellos */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        {[...Array(18)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full"
-            style={{
-              background: `radial-gradient(circle, #00fff7 0%, #005bea 100%)`,
-              boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
-              opacity: 0.7
-            }}
-            animate={{
-              x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-              y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: 'linear',
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
-      </div>
-      <div className="max-w-6xl mx-auto px-4 py-20">
+    <section 
+      ref={containerRef}
+      className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-20"
+      id="projects"
+    >
+      {/* Fondo con patrón */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
           className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-5xl md:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] drop-shadow-[0_0_24px_#00fff7]">
+          <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
             Mis Proyectos
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] mx-auto rounded-full mb-8 animate-pulse" />
-          {/* Technology filters mejorados */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Una selección de proyectos que demuestran mi experiencia en desarrollo web moderno y soluciones innovadoras.
+          </p>
+        </motion.div>
+
+        {/* Controles de filtrado */}
+        <motion.div
+          className="mb-12 space-y-6"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {/* Barra de búsqueda */}
+          <div className="max-w-md mx-auto relative">
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Buscar proyectos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-full text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
+            />
+          </div>
+
+          {/* Filtros de tecnología */}
+          <div className="flex flex-wrap justify-center gap-3">
             <motion.button
-              whileHover={{ scale: 1.08, backgroundColor: '#00fff722' }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all shadow-md border border-[#00fff7]/30 backdrop-blur-md font-mono ${
+              className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
                 filter === 'all'
-                  ? 'bg-[#00fff7] text-black shadow-lg'
-                  : 'bg-gray-100/30 dark:bg-gray-800/30 text-[#bdbdbd] hover:bg-[#00fff7]/10 dark:hover:bg-[#005bea]/10'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
+                  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/20'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Todos
+              <FaFilter className="text-sm" />
+              Todos ({projects.length})
             </motion.button>
-            {allTechnologies.map(tech => (
-              <motion.button
-                key={tech}
-                whileHover={{ scale: 1.08, backgroundColor: '#00fff722' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setFilter(tech)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 shadow-md border border-[#00fff7]/30 backdrop-blur-md font-mono ${
-                  filter === tech
-                    ? 'bg-[#00fff7] text-black shadow-lg'
-                    : 'bg-gray-100/30 dark:bg-gray-800/30 text-[#bdbdbd] hover:bg-[#00fff7]/10 dark:hover:bg-[#005bea]/10'
-                }`}
-              >
-                <TechIcon tech={tech} />
-                {tech}
-              </motion.button>
-            ))}
+            
+            {allTechnologies.map((tech) => {
+              const techInfo = techIcons[tech];
+              const count = projects.filter(p => p.technologies.includes(tech)).length;
+              
+              return (
+                <motion.button
+                  key={tech}
+                  onClick={() => setFilter(tech)}
+                  className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
+                    filter === tech
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
+                      : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/20'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className={techInfo?.color || 'text-gray-400'}>
+                    {techInfo?.icon}
+                  </span>
+                  {tech} ({count})
+                </motion.button>
+              );
+            })}
           </div>
         </motion.div>
-        {/* Projects grid mejorado */}
+
+        {/* Grid de proyectos */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, i) => (
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((project, index) => (
+              <ProjectCard key={project.name} project={project} index={index} />
+            ))
+          ) : (
             <motion.div
-              key={project.name}
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.08, duration: 0.5, type: 'spring', stiffness: 80 }}
-              className="group relative"
+              className="col-span-full text-center py-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
             >
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#00fff7] to-[#005bea] rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-black/70 backdrop-blur-xl rounded-2xl overflow-hidden border border-[#00fff7]/30 shadow-2xl group-hover:shadow-[#00fff7]/30 transition-all duration-300">
-                {/* Project image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                {/* Project content */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-[#00fff7] drop-shadow-md">{project.name}</h3>
-                    <div className="flex gap-2">
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#bdbdbd] hover:text-[#00fff7] transition-colors"
-                        title="Ver en GitHub"
-                      >
-                        <FaGithub className="w-5 h-5" />
-                      </a>
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#bdbdbd] hover:text-[#00fff7] transition-colors"
-                        title="Ver demo"
-                      >
-                        <FaExternalLinkAlt className="w-5 h-5" />
-                      </a>
-                    </div>
-                  </div>
-                  <p className="text-[#bdbdbd] mb-4 line-clamp-2 font-medium">
-                    {project.description}
-                  </p>
-                  {/* Features */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-[#005bea] mb-2 flex items-center gap-2">
-                      <FaStar className="text-[#00fff7]" />
-                      Características
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.features.map(feature => (
-                        <span
-                          key={feature}
-                          className="px-2 py-1 bg-[#005bea]/20 text-[#00fff7] rounded-full text-xs font-medium"
-                        >
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Technologies mejoradas */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map(tech => (
-                      <span
-                        key={tech}
-                        className="flex items-center gap-1 bg-[#005bea]/40 text-[#bdbdbd] px-2 py-1 rounded-full text-xs font-medium shadow hover:bg-[#00fff7]/20 transition-colors duration-200 font-mono"
-                      >
-                        <TechIcon tech={tech} />
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <FaSearch className="text-6xl text-gray-600 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-400 mb-2">No se encontraron proyectos</h3>
+              <p className="text-gray-500">
+                Intenta con otros términos de búsqueda o filtros diferentes.
+              </p>
             </motion.div>
-          ))}
+          )}
         </div>
+
+        {/* Call to action */}
+        <motion.div
+          className="text-center mt-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h3 className="text-2xl font-bold text-white mb-4">¿Tienes un proyecto en mente?</h3>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            Me encantaría ayudarte a convertir tus ideas en realidad. 
+            Trabajemos juntos para crear algo increíble.
+          </p>
+          <motion.a
+            href="/contact"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaRocket className="text-lg" />
+            Iniciar Proyecto
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );
