@@ -232,12 +232,14 @@ const Landing: React.FC = () => {
             href="/cv"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={t('home.downloadCV', 'Descargar CV')}
             className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 flex items-center gap-3 hover:from-cyan-400 hover:to-blue-500"
+            style={{ color: '#0f172a', fontWeight: 700, zIndex: 1 }} // text-slate-900 + font-bold + z-10
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaDownload className="text-lg text-white" />
-            <span className="text-white font-bold">{t('home.downloadCV', 'Descargar CV')}</span>
+            <FaDownload className="text-lg mr-2" style={{ color: '#0f172a' }} />
+            <span style={{ color: '#0f172a', fontWeight: 700, zIndex: 1 }}>{t('home.downloadCV', 'Descargar CV')}</span>
             <motion.div
               className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"
               layoutId="button-bg"
