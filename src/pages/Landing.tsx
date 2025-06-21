@@ -1,38 +1,45 @@
-import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import React, { useMemo, useRef } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaArrowDown, FaCode, FaRocket } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
-// Componente extraído para partículas de neón
-const NeonParticles: React.FC = () => {
-  // Genera posiciones y transiciones solo una vez
+// Componente de partículas flotantes más sofisticado
+const FloatingParticles: React.FC = () => {
   const particles = useMemo(() => {
-    return Array.from({ length: 18 }).map(() => ({
-      x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-      y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-      opacity: [0.5, 1, 0.5],
-      duration: Math.random() * 10 + 10,
-      delay: Math.random() * 2
+    return Array.from({ length: 50 }).map((_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 1,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      duration: Math.random() * 20 + 10,
+      delay: Math.random() * 5,
+      opacity: Math.random() * 0.5 + 0.2,
     }));
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0">
-      {particles.map((p, i) => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((particle) => (
         <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full"
+          key={particle.id}
+          className="absolute rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
           style={{
-            background: 'radial-gradient(circle, #00fff7 0%, #005bea 100%)',
-            boxShadow: '0 0 16px 4px #00fff7, 0 0 32px 8px #005bea',
-            opacity: 0.7
+            width: particle.size,
+            height: particle.size,
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            opacity: particle.opacity,
           }}
-          animate={{ x: p.x, y: p.y, opacity: p.opacity }}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            scale: [1, 1.2, 1],
+          }}
           transition={{
-            duration: p.duration,
+            duration: particle.duration,
             repeat: Infinity,
-            ease: 'linear',
-            delay: p.delay
+            delay: particle.delay,
+            ease: "easeInOut",
           }}
         />
       ))}
@@ -40,116 +47,270 @@ const NeonParticles: React.FC = () => {
   );
 };
 
+// Componente de texto con efecto de escritura
+const TypewriterText: React.FC<{ text: string; className?: string }> = ({ text, className = "" }) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {text.split('').map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.05,
+            delay: index * 0.05,
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+};
+
 const Landing: React.FC = () => {
   const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+
+  const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
   return (
     <section 
-      className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-black"
-      style={{ background: 'linear-gradient(135deg, #070616 0%, #13122a 50%, #10101c 100%)' }}
+      ref={containerRef}
+      className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
       role="banner"
-      aria-label={t('home.bannerAria', 'Página principal')}
     >
-      {/* Fondo animado de neón (fijo, sin movimiento) */}
-      <div className="absolute inset-0 -z-10 animate-gradient-xy" style={{
-        background: 'linear-gradient(120deg, #00fff7 0%, #005bea 100%)',
-        filter: 'blur(100px) opacity(0.45)'
-      }} />
-      {/* Partículas y destellos */}
-      <NeonParticles />
-      {/* Avatar con halo neón azul (sin hover ni movimiento) */}
-      <motion.div
-        className="relative mb-8"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, type: 'spring' }}
+      {/* Fondo con gradiente animado */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
+      </div>
+
+      {/* Partículas flotantes */}
+      <FloatingParticles />
+
+      {/* Contenido principal */}
+      <motion.div 
+        className="relative z-10 text-center px-4 max-w-6xl mx-auto"
+        style={{ y, opacity, scale }}
       >
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-48 h-48 rounded-full"
-            style={{
-              background: 'radial-gradient(circle, #00fff7 0%, #005bea 100%)',
-              filter: 'blur(8px) opacity(0.25)'
-            }}
-          />
-        </div>
+        {/* Avatar con efectos mejorados */}
         <motion.div
-          className="w-44 h-44 rounded-full overflow-hidden border-4 border-[#00fff7] shadow-[0_0_12px_2px_#00fff7,0_0_24px_4px_#005bea] bg-black relative z-10 group"
-          whileHover={{ scale: 1.12 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          className="relative mb-8 mx-auto w-fit"
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 20,
+            duration: 1 
+          }}
         >
-          <img src="/assets/DREX.jpeg" alt={t('home.avatarAlt', 'Foto de perfil de Sylvain Drexler')} className="object-cover w-full h-full transition-transform duration-300" />
+          {/* Anillos orbitales */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              className="w-64 h-64 rounded-full border border-cyan-400/30"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute w-80 h-80 rounded-full border border-blue-400/20"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
+          
+          {/* Avatar principal */}
+          <motion.div
+            className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full animate-pulse" />
+            <img 
+              src="/assets/DREX.jpeg" 
+              alt="Sylvain Drexler" 
+              className="w-full h-full object-cover relative z-10"
+            />
+          </motion.div>
+
+          {/* Indicador de estado */}
+          <motion.div
+            className="absolute -bottom-2 -right-2 w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.5, type: "spring" }}
+          >
+            <span className="text-2xl">🚀</span>
+          </motion.div>
         </motion.div>
-        <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-[#005bea] rounded-full flex items-center justify-center text-white shadow-[0_0_16px_4px_#005bea] border-2 border-[#00fff7]">
-          <span className="text-xl" role="img" aria-label={t('home.waveAria', 'Saludo con la mano')}>👋</span>
-        </div>
-      </motion.div>
-      {/* Título y descripción con efecto neón azul/cian */}
-      <motion.div
-        className="max-w-3xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#00fff7] via-[#005bea] to-[#00fff7] drop-shadow-[0_0_16px_#00fff7] font-mono tracking-tight">
-          {t('home.greeting')} <span className="text-[#00fff7]">Sylvain Drexler</span>
-        </h1>
-        <p className="text-xl md:text-2xl mb-4 text-[#e0e0e0] font-mono drop-shadow-[0_0_8px_#00fff7]">
-          {t('home.role')}
-        </p>
-        <p className="text-lg text-[#bdbdbd] mb-8 font-mono drop-shadow-[0_0_8px_#00fff7]">
-          {t('home.description')}
-        </p>
-      </motion.div>
-      {/* Botones de acción estilo neón azul */}
-      <motion.div
-        className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
-        <a
-          href="/about-pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-8 py-3 rounded-lg font-semibold text-lg font-mono bg-black border-2 border-[#00fff7] text-[#00fff7] shadow-[0_0_16px_#00fff7] hover:bg-[#00fff7] hover:text-black hover:shadow-[0_0_32px_#00fff7] transition-all duration-300"
-          aria-label={t('home.downloadCVAria', 'Descargar CV')}
+
+        {/* Texto principal con animaciones */}
+        <motion.div
+          className="space-y-6 mb-12"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
-          {t('home.downloadCV')}
-        </a>
-        <a
-          href="/projects"
-          className="px-8 py-3 rounded-lg font-semibold text-lg font-mono bg-black border-2 border-[#005bea] text-[#005bea] shadow-[0_0_16px_#005bea] hover:bg-[#005bea] hover:text-black hover:shadow-[0_0_32px_#005bea] transition-all duration-300"
-          aria-label={t('home.viewProjectsAria', 'Ver proyectos')}
+          <motion.p 
+            className="text-cyan-400 text-xl font-medium tracking-wide"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            {t('home.greeting', 'Hola, soy')}
+          </motion.p>
+          
+          <TypewriterText
+            text="Sylvain Drexler"
+            className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent leading-tight"
+          />
+          
+          <motion.h2
+            className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+          >
+            <span className="text-cyan-400">Full Stack</span> Developer & 
+            <span className="text-blue-400"> Systems Analyst</span>
+          </motion.h2>
+          
+          <motion.p
+            className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+          >
+            Transformo ideas en experiencias digitales excepcionales. 
+            Especializado en desarrollo web moderno, optimización de procesos 
+            y consultoría tecnológica con más de 5 años de experiencia.
+          </motion.p>
+        </motion.div>
+
+        {/* Estadísticas rápidas */}
+        <motion.div
+          className="grid grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.4, duration: 0.6 }}
         >
-          {t('home.viewProjects')}
-        </a>
+          {[
+            { number: "5+", label: "Años de Experiencia" },
+            { number: "50+", label: "Proyectos Completados" },
+            { number: "100%", label: "Satisfacción Cliente" }
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="text-center"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">
+                {stat.number}
+              </div>
+              <div className="text-sm text-gray-400 font-medium">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Botones de acción mejorados */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.6, duration: 0.6 }}
+        >
+          <motion.a
+            href="/about-pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 flex items-center gap-3"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaCode className="text-lg" />
+            <span>Descargar CV</span>
+            <motion.div
+              className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"
+              layoutId="button-bg"
+            />
+          </motion.a>
+          
+          <motion.a
+            href="/projects"
+            className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaRocket className="text-lg" />
+            <span>Ver Proyectos</span>
+          </motion.a>
+        </motion.div>
+
+        {/* Redes sociales con efectos mejorados */}
+        <motion.div
+          className="flex gap-6 justify-center items-center mb-12"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 1.8, duration: 0.6 }}
+        >
+          {[
+            { icon: FaGithub, href: "https://github.com/tuusuario", color: "hover:text-gray-300" },
+            { icon: FaLinkedin, href: "https://linkedin.com/in/tuusuario", color: "hover:text-blue-400" }
+          ].map((social, index) => (
+            <motion.a
+              key={index}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-3xl text-gray-400 ${social.color} transition-colors duration-300 p-3 rounded-full border border-gray-600 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/25`}
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8 + index * 0.1 }}
+            >
+              <social.icon />
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Indicador de scroll */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.6 }}
+        >
+          <motion.div
+            className="flex flex-col items-center text-gray-400 cursor-pointer"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+          >
+            <span className="text-sm mb-2 font-medium">Scroll para explorar</span>
+            <FaArrowDown className="text-xl" />
+          </motion.div>
+        </motion.div>
       </motion.div>
-      {/* Redes sociales con iconos neón azul */}
-      <motion.div
-        className="flex gap-6 justify-center items-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-      >
-        <a
-          href="https://github.com/tuusuario"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-3xl text-[#00fff7] hover:text-[#005bea] transition-colors duration-300 shadow-[0_0_16px_#00fff7] hover:shadow-[0_0_32px_#005bea] rounded-full p-2 border-2 border-[#00fff7] hover:border-[#005bea]"
-          aria-label={t('home.githubAria', 'GitHub')}
-        >
-          <FaGithub />
-        </a>
-        <a
-          href="https://linkedin.com/in/tuusuario"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-3xl text-[#005bea] hover:text-[#00fff7] transition-colors duration-300 shadow-[0_0_16px_#005bea] hover:shadow-[0_0_32px_#00fff7] rounded-full p-2 border-2 border-[#005bea] hover:border-[#00fff7]"
-          aria-label={t('home.linkedinAria', 'LinkedIn')}
-        >
-          <FaLinkedin />
-        </a>
-      </motion.div>
+
+      {/* Overlay con gradiente */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
     </section>
   );
 };
