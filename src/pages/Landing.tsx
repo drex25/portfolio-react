@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Componente de partículas flotantes más sofisticado
@@ -236,7 +236,7 @@ const Landing: React.FC = () => {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaCode className="text-lg" />
+            <FaDownload className="text-lg" />
             <span>{t('home.downloadCV', 'Descargar CV')}</span>
             <motion.div
               className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"

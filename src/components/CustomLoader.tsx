@@ -57,7 +57,7 @@ const CustomLoader: React.FC = () => {
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
         {/* Logo central con efectos espectaculares */}
         <motion.div
-          className="relative mb-12"
+          className="relative mb-8"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ 
@@ -70,17 +70,17 @@ const CustomLoader: React.FC = () => {
           {/* Anillos orbitales múltiples */}
           <div className="absolute inset-0 flex items-center justify-center">
             <motion.div
-              className="w-40 h-40 rounded-full border-2 border-cyan-400/40"
+              className="w-32 h-32 rounded-full border-2 border-cyan-400/40"
               animate={{ rotate: 360 }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
-              className="absolute w-56 h-56 rounded-full border border-blue-400/30"
+              className="absolute w-44 h-44 rounded-full border border-blue-400/30"
               animate={{ rotate: -360 }}
               transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
-              className="absolute w-72 h-72 rounded-full border border-purple-400/20"
+              className="absolute w-56 h-56 rounded-full border border-purple-400/20"
               animate={{ rotate: 360 }}
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             />
@@ -88,7 +88,7 @@ const CustomLoader: React.FC = () => {
           
           {/* Logo central con glow dinámico */}
           <motion.div
-            className="relative w-32 h-32 rounded-3xl bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center text-white text-5xl font-black shadow-2xl"
+            className="relative w-24 h-24 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-black shadow-2xl mx-auto"
             animate={{ 
               scale: [1, 1.1, 1],
               boxShadow: [
@@ -122,14 +122,14 @@ const CustomLoader: React.FC = () => {
           </motion.div>
 
           {/* Partículas orbitales */}
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-cyan-400 rounded-full"
+              className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full"
               style={{
                 top: "50%",
                 left: "50%",
-                transformOrigin: `${60 + i * 15}px 0px`,
+                transformOrigin: `${40 + i * 8}px 0px`,
               }}
               animate={{
                 rotate: 360,
@@ -146,71 +146,85 @@ const CustomLoader: React.FC = () => {
 
         {/* Texto principal "itsdrex.dev" con efectos increíbles */}
         <motion.div
-          className="mb-8"
+          className="mb-6"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1 }}
         >
-          <motion.h1 
-            className="text-5xl md:text-7xl lg:text-8xl font-black mb-4"
-            style={{
-              background: "linear-gradient(45deg, #ffffff, #06b6d4, #3b82f6, #8b5cf6, #06b6d4, #ffffff)",
-              backgroundSize: "400% 400%",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-            animate={{ 
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-            }}
-            transition={{ 
-              duration: 4, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
-          >
-            {"itsdrex.dev".split('').map((char, index) => (
-              <motion.span
-                key={index}
-                initial={{ 
-                  opacity: 0, 
-                  y: 50,
-                  rotateX: -90
-                }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  rotateX: 0
-                }}
-                transition={{
-                  delay: 1.2 + index * 0.08,
-                  duration: 0.6,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 12
-                }}
-                whileHover={{
-                  scale: 1.1,
-                  textShadow: "0 0 20px rgba(34, 211, 238, 0.8)"
-                }}
-                className="inline-block"
-                style={{
-                  textShadow: char === '.' ? "0 0 15px rgba(34, 211, 238, 0.8)" : "none"
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </motion.h1>
+          <div className="relative">
+            <motion.h1 
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 relative z-10"
+              style={{
+                background: "linear-gradient(45deg, #ffffff, #06b6d4, #3b82f6, #8b5cf6, #06b6d4, #ffffff)",
+                backgroundSize: "400% 400%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                color: "transparent"
+              }}
+              animate={{ 
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+              }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            >
+              {"itsdrex.dev".split('').map((char, index) => (
+                <motion.span
+                  key={index}
+                  className="inline-block"
+                  initial={{ 
+                    opacity: 0, 
+                    y: 50,
+                    rotateX: -90
+                  }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    rotateX: 0
+                  }}
+                  transition={{
+                    delay: 1.2 + index * 0.08,
+                    duration: 0.6,
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 12
+                  }}
+                  style={{
+                    textShadow: char === '.' ? "0 0 15px rgba(34, 211, 238, 0.8)" : "none"
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.h1>
+            
+            {/* Glow effect detrás del texto */}
+            <motion.div
+              className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-cyan-400 blur-sm opacity-30"
+              animate={{
+                opacity: [0.2, 0.5, 0.2]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              itsdrex.dev
+            </motion.div>
+          </div>
           
           <motion.div
-            className="flex items-center justify-center gap-4"
+            className="flex items-center justify-center gap-4 mt-4"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 2, duration: 0.8 }}
           >
             <motion.div
-              className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent flex-1 max-w-32"
+              className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent flex-1 max-w-24"
               animate={{
                 scaleX: [0, 1, 0],
               }}
@@ -221,7 +235,7 @@ const CustomLoader: React.FC = () => {
               }}
             />
             <motion.p
-              className="text-cyan-400 text-lg md:text-xl font-bold tracking-[0.3em] px-4"
+              className="text-cyan-400 text-sm md:text-base font-bold tracking-[0.2em] px-4"
               animate={{
                 opacity: [0.7, 1, 0.7],
                 scale: [0.98, 1, 0.98]
@@ -235,7 +249,7 @@ const CustomLoader: React.FC = () => {
               FULL STACK DEVELOPER
             </motion.p>
             <motion.div
-              className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent flex-1 max-w-32"
+              className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent flex-1 max-w-24"
               animate={{
                 scaleX: [0, 1, 0],
               }}
@@ -251,7 +265,7 @@ const CustomLoader: React.FC = () => {
 
         {/* Barra de progreso futurista */}
         <motion.div
-          className="relative w-80 h-2 bg-white/10 rounded-full mx-auto overflow-hidden border border-cyan-400/30"
+          className="relative w-64 sm:w-80 h-2 bg-white/10 rounded-full mx-auto overflow-hidden border border-cyan-400/30 mb-6"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 2.5, duration: 0.8 }}
@@ -298,7 +312,7 @@ const CustomLoader: React.FC = () => {
 
         {/* Texto de estado con efectos */}
         <motion.div
-          className="mt-8 space-y-2"
+          className="space-y-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 3.5, duration: 0.8 }}
@@ -344,13 +358,13 @@ const CustomLoader: React.FC = () => {
 
         {/* Partículas de fondo mejoradas */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 30 }).map((_, i) => (
+          {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
               className="absolute rounded-full"
               style={{
-                width: Math.random() * 4 + 1,
-                height: Math.random() * 4 + 1,
+                width: Math.random() * 3 + 1,
+                height: Math.random() * 3 + 1,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 background: i % 3 === 0 ? "#06b6d4" : i % 3 === 1 ? "#3b82f6" : "#8b5cf6"
@@ -358,7 +372,7 @@ const CustomLoader: React.FC = () => {
               animate={{
                 y: [0, -30, 0],
                 x: [0, Math.random() * 20 - 10, 0],
-                opacity: [0, 1, 0],
+                opacity: [0, 0.8, 0],
                 scale: [0, 1, 0],
               }}
               transition={{
