@@ -229,15 +229,15 @@ const Landing: React.FC = () => {
           transition={{ delay: 1.6, duration: 0.6 }}
         >
           <motion.a
-            href="/about-pdf"
+            href="/cv"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 flex items-center gap-3"
+            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 flex items-center gap-3 hover:from-cyan-400 hover:to-blue-500"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaDownload className="text-lg" />
-            <span>{t('home.downloadCV', 'Descargar CV')}</span>
+            <FaDownload className="text-lg text-white" />
+            <span className="text-white font-bold">{t('home.downloadCV', 'Descargar CV')}</span>
             <motion.div
               className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"
               layoutId="button-bg"

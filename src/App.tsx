@@ -8,6 +8,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Skills from './pages/Skills';
 import Contact from './pages/Contact';
+import CV from './pages/CV';
 import CustomLoader from './components/CustomLoader';
 
 const App: React.FC = () => {
@@ -32,7 +33,8 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900">
       {loading && <CustomLoader />}
-      <Navbar onLanguageChange={changeLanguage} />
+      {/* Solo mostrar Navbar y Footer si no estamos en la página CV */}
+      {location.pathname !== '/cv' && <Navbar onLanguageChange={changeLanguage} />}
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -40,9 +42,11 @@ const App: React.FC = () => {
           <Route path="/projects" element={<Projects />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cv" element={<CV />} />
         </Routes>
       </main>
-      <Footer />
+      {/* Solo mostrar Footer si no estamos en la página CV */}
+      {location.pathname !== '/cv' && <Footer />}
     </div>
   );
 };
