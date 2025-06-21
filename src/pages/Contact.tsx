@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface ContactFormInputs {
   name: string;
@@ -21,59 +22,60 @@ interface ContactFormInputs {
   message: string;
 }
 
-const socialLinks = [
-  {
-    name: 'GitHub',
-    icon: FaGithub,
-    url: 'https://github.com/tuusuario',
-    color: 'hover:text-gray-300',
-    bgColor: 'hover:bg-gray-800'
-  },
-  {
-    name: 'LinkedIn',
-    icon: FaLinkedin,
-    url: 'https://linkedin.com/in/tuusuario',
-    color: 'hover:text-blue-400',
-    bgColor: 'hover:bg-blue-900/20'
-  },
-  {
-    name: 'Twitter',
-    icon: FaTwitter,
-    url: 'https://twitter.com/tuusuario',
-    color: 'hover:text-sky-400',
-    bgColor: 'hover:bg-sky-900/20'
-  }
-];
-
-const contactInfo = [
-  {
-    icon: FaEnvelope,
-    title: 'Email',
-    content: 'sylvain.drexler@email.com',
-    link: 'mailto:sylvain.drexler@email.com',
-    color: 'text-cyan-400'
-  },
-  {
-    icon: FaPhone,
-    title: 'Teléfono',
-    content: '+54 376 123-4567',
-    link: 'tel:+543761234567',
-    color: 'text-green-400'
-  },
-  {
-    icon: FaMapMarkerAlt,
-    title: 'Ubicación',
-    content: 'Posadas, Misiones, Argentina',
-    link: 'https://maps.google.com/?q=Posadas,Misiones,Argentina',
-    color: 'text-purple-400'
-  }
-];
-
 const Contact: React.FC = () => {
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+
+  const socialLinks = [
+    {
+      name: 'GitHub',
+      icon: FaGithub,
+      url: 'https://github.com/tuusuario',
+      color: 'hover:text-gray-300',
+      bgColor: 'hover:bg-gray-800'
+    },
+    {
+      name: 'LinkedIn',
+      icon: FaLinkedin,
+      url: 'https://linkedin.com/in/tuusuario',
+      color: 'hover:text-blue-400',
+      bgColor: 'hover:bg-blue-900/20'
+    },
+    {
+      name: 'Twitter',
+      icon: FaTwitter,
+      url: 'https://twitter.com/tuusuario',
+      color: 'hover:text-sky-400',
+      bgColor: 'hover:bg-sky-900/20'
+    }
+  ];
+
+  const contactInfo = [
+    {
+      icon: FaEnvelope,
+      title: 'Email',
+      content: 'sylvain.drexler@email.com',
+      link: 'mailto:sylvain.drexler@email.com',
+      color: 'text-cyan-400'
+    },
+    {
+      icon: FaPhone,
+      title: t('contact.phone', 'Teléfono'),
+      content: '+54 376 123-4567',
+      link: 'tel:+543761234567',
+      color: 'text-green-400'
+    },
+    {
+      icon: FaMapMarkerAlt,
+      title: t('contact.location', 'Ubicación'),
+      content: 'Posadas, Misiones, Argentina',
+      link: 'https://maps.google.com/?q=Posadas,Misiones,Argentina',
+      color: 'text-purple-400'
+    }
+  ];
 
   const {
     register,
@@ -122,11 +124,11 @@ const Contact: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
-            Contacto
+            {t('contact.title')}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            ¿Tienes un proyecto en mente? Me encantaría escuchar tus ideas y ayudarte a convertirlas en realidad.
+            {t('contact.description')}
           </p>
         </motion.div>
 
@@ -140,7 +142,7 @@ const Contact: React.FC = () => {
           >
             {/* Tarjeta principal */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-6">Información de Contacto</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">{t('contact.contactInfo')}</h3>
               
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
@@ -171,7 +173,7 @@ const Contact: React.FC = () => {
 
             {/* Redes sociales */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-6">Sígueme en</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">{t('contact.socialMedia')}</h3>
               
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
@@ -202,11 +204,10 @@ const Contact: React.FC = () => {
             >
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-green-400 font-semibold">Disponible para proyectos</span>
+                <span className="text-green-400 font-semibold">{t('contact.available')}</span>
               </div>
               <p className="text-gray-300 text-sm">
-                Actualmente acepto nuevos proyectos y colaboraciones. 
-                Tiempo de respuesta promedio: 24 horas.
+                {t('contact.availableDesc')}
               </p>
             </motion.div>
           </motion.div>
@@ -218,22 +219,22 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-6">Envíame un mensaje</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">{t('contact.sendMessage')}</h3>
               
               <div className="space-y-6">
                 {/* Nombre */}
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Nombre completo
+                    {t('contact.name')}
                   </label>
                   <input
                     type="text"
                     id="name"
-                    {...register('name', { required: 'El nombre es requerido' })}
+                    {...register('name', { required: t('contact.nameRequired') })}
                     className={`w-full px-4 py-3 rounded-xl border ${
                       errors.name ? 'border-red-500' : 'border-white/20'
                     } bg-white/5 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all`}
-                    placeholder="Tu nombre completo"
+                    placeholder={t('contact.namePlaceholder')}
                   />
                   {errors.name && (
                     <motion.p 
@@ -250,22 +251,22 @@ const Contact: React.FC = () => {
                 {/* Email */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email
+                    {t('contact.email')}
                   </label>
                   <input
                     type="email"
                     id="email"
                     {...register('email', {
-                      required: 'El email es requerido',
+                      required: t('contact.emailRequired'),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Email inválido'
+                        message: t('contact.emailInvalid')
                       }
                     })}
                     className={`w-full px-4 py-3 rounded-xl border ${
                       errors.email ? 'border-red-500' : 'border-white/20'
                     } bg-white/5 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all`}
-                    placeholder="tu@email.com"
+                    placeholder={t('contact.emailPlaceholder')}
                   />
                   {errors.email && (
                     <motion.p 
@@ -282,16 +283,16 @@ const Contact: React.FC = () => {
                 {/* Asunto */}
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                    Asunto
+                    {t('contact.subject')}
                   </label>
                   <input
                     type="text"
                     id="subject"
-                    {...register('subject', { required: 'El asunto es requerido' })}
+                    {...register('subject', { required: t('contact.subjectRequired') })}
                     className={`w-full px-4 py-3 rounded-xl border ${
                       errors.subject ? 'border-red-500' : 'border-white/20'
                     } bg-white/5 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all`}
-                    placeholder="¿En qué puedo ayudarte?"
+                    placeholder={t('contact.subjectPlaceholder')}
                   />
                   {errors.subject && (
                     <motion.p 
@@ -308,16 +309,16 @@ const Contact: React.FC = () => {
                 {/* Mensaje */}
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                    Mensaje
+                    {t('contact.message')}
                   </label>
                   <textarea
                     id="message"
                     rows={5}
-                    {...register('message', { required: 'El mensaje es requerido' })}
+                    {...register('message', { required: t('contact.messageRequired') })}
                     className={`w-full px-4 py-3 rounded-xl border ${
                       errors.message ? 'border-red-500' : 'border-white/20'
                     } bg-white/5 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all resize-none`}
-                    placeholder="Cuéntame sobre tu proyecto..."
+                    placeholder={t('contact.messagePlaceholder')}
                   />
                   {errors.message && (
                     <motion.p 
@@ -350,12 +351,12 @@ const Contact: React.FC = () => {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       />
-                      Enviando...
+                      {t('contact.sending')}
                     </>
                   ) : (
                     <>
                       <FaPaperPlane className="text-lg" />
-                      Enviar Mensaje
+                      {t('contact.send')}
                     </>
                   )}
                 </motion.button>
@@ -368,7 +369,7 @@ const Contact: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                   >
                     <FaCheckCircle />
-                    <span>¡Mensaje enviado con éxito! Te responderé pronto.</span>
+                    <span>{t('contact.success')}</span>
                   </motion.div>
                 )}
 
@@ -379,7 +380,7 @@ const Contact: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                   >
                     <FaExclamationTriangle />
-                    <span>Hubo un error al enviar el mensaje. Por favor, intenta de nuevo.</span>
+                    <span>{t('contact.error')}</span>
                   </motion.div>
                 )}
               </div>

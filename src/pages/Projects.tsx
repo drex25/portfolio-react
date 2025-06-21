@@ -19,6 +19,7 @@ import {
   SiDocker, 
   SiGit 
 } from 'react-icons/si';
+import { useTranslation } from 'react-i18next';
 
 interface Project {
   name: string;
@@ -42,6 +43,7 @@ const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
 
 // Componente de tarjeta de proyecto mejorado
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
@@ -125,7 +127,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           <div className="mb-4">
             <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
               <FaStar className="text-yellow-400" />
-              Características
+              {t('projects.features')}
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.features.map((feature) => (
@@ -141,7 +143,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
           {/* Tecnologías */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 mb-3">Stack Tecnológico</h4>
+            <h4 className="text-sm font-semibold text-gray-400 mb-3">{t('projects.technologies')}</h4>
             <div className="flex flex-wrap gap-3">
               {project.technologies.map((tech) => {
                 const techInfo = techIcons[tech];
@@ -166,6 +168,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 };
 
 const Projects: React.FC = () => {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -245,11 +248,11 @@ const Projects: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
-            Mis Proyectos
+            {t('projects.title')}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Una selección de proyectos que demuestran mi experiencia en desarrollo web moderno y soluciones innovadoras.
+            {t('projects.description')}
           </p>
         </motion.div>
 
@@ -266,7 +269,7 @@ const Projects: React.FC = () => {
             <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Buscar proyectos..."
+              placeholder={t('projects.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-full text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
@@ -286,7 +289,7 @@ const Projects: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <FaFilter className="text-sm" />
-              Todos ({projects.length})
+              {t('projects.filterAll')} ({projects.length})
             </motion.button>
             
             {allTechnologies.map((tech) => {
@@ -328,9 +331,9 @@ const Projects: React.FC = () => {
               animate={{ opacity: 1 }}
             >
               <FaSearch className="text-6xl text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-400 mb-2">No se encontraron proyectos</h3>
+              <h3 className="text-2xl font-bold text-gray-400 mb-2">{t('projects.noResults')}</h3>
               <p className="text-gray-500">
-                Intenta con otros términos de búsqueda o filtros diferentes.
+                {t('projects.noResultsDesc')}
               </p>
             </motion.div>
           )}
@@ -344,10 +347,9 @@ const Projects: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-2xl font-bold text-white mb-4">¿Tienes un proyecto en mente?</h3>
+          <h3 className="text-2xl font-bold text-white mb-4">{t('projects.projectIdea')}</h3>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            Me encantaría ayudarte a convertir tus ideas en realidad. 
-            Trabajemos juntos para crear algo increíble.
+            {t('projects.projectIdeaDesc')}
           </p>
           <motion.a
             href="/contact"
@@ -356,7 +358,7 @@ const Projects: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <FaRocket className="text-lg" />
-            Iniciar Proyecto
+            {t('projects.startProject')}
           </motion.a>
         </motion.div>
       </div>

@@ -26,30 +26,61 @@ export default {
     experience: 'Experience',
     education: 'Education',
     softSkills: 'Soft Skills',
-    technologies: 'Technologies'
+    technologies: 'Technologies',
+    languages: 'Languages',
+    techStack: 'Tech Stack',
+    philosophy: 'My Philosophy',
+    philosophyText: 'Technology is just a tool. What matters is how we use it to solve real problems and create experiences that positively impact people.',
+    workTogether: 'Let\'s work together?',
+    workTogetherDesc: 'I\'m available for new projects and collaborations. Let\'s talk about your next idea!'
   },
   projects: {
-    title: 'Projects',
+    title: 'My Projects',
     subtitle: 'My recent work',
+    description: 'A selection of projects that demonstrate my experience in modern web development and innovative solutions.',
     viewCode: 'View Code',
     viewDemo: 'View Demo',
     technologies: 'Technologies',
-    features: 'Features'
+    features: 'Features',
+    searchPlaceholder: 'Search projects...',
+    filterAll: 'All',
+    noResults: 'No projects found',
+    noResultsDesc: 'Try different search terms or filters.',
+    projectIdea: 'Have a project in mind?',
+    projectIdeaDesc: 'I\'d love to help you turn your ideas into reality. Let\'s work together to create something amazing.',
+    startProject: 'Start Project'
   },
   skills: {
     title: 'Skills',
     subtitle: 'Technologies and tools I use to create digital solutions',
+    description: 'A complete set of technologies and tools I master to create innovative and scalable digital solutions.',
     frontend: 'Frontend',
     backend: 'Backend',
     database: 'Database',
     devops: 'DevOps',
-    testing: 'Testing'
+    testing: 'Testing',
+    design: 'Design',
+    cms: 'CMS',
+    tools: 'Tools',
+    experienceTitle: 'My Technical Experience',
+    yearsExperience: 'Years of Experience',
+    technologiesMastered: 'Technologies Mastered',
+    projectsCompleted: 'Projects Completed',
+    dedication: 'Dedication',
+    philosophy: 'My Philosophy',
+    philosophyQuote: 'Technology is just a tool. What matters is how we use it to solve real problems and create experiences that positively impact people.',
+    levels: {
+      expert: 'Expert',
+      advanced: 'Advanced',
+      intermediate: 'Intermediate',
+      beginner: 'Beginner'
+    }
   },
   contact: {
     title: 'Contact',
     subtitle: 'Let\'s talk about your project',
-    description: 'Have a project in mind? Let\'s talk! I\'m here to help you make it happen.',
-    name: 'Name',
+    description: 'Have a project in mind? I\'d love to hear your ideas and help you make them happen.',
+    name: 'Full name',
     email: 'Email',
     subject: 'Subject',
     message: 'Message',
@@ -58,14 +89,29 @@ export default {
     success: 'Message sent successfully! I\'ll get back to you soon.',
     error: 'There was an error sending the message. Please try again.',
     contactInfo: 'Contact Information',
-    socialMedia: 'Social Media'
+    socialMedia: 'Follow me on',
+    available: 'Available for projects',
+    availableDesc: 'Currently accepting new projects and collaborations. Average response time: 24 hours.',
+    sendMessage: 'Send me a message',
+    namePlaceholder: 'Your full name',
+    emailPlaceholder: 'your@email.com',
+    subjectPlaceholder: 'How can I help you?',
+    messagePlaceholder: 'Tell me about your project...',
+    nameRequired: 'Name is required',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email',
+    subjectRequired: 'Subject is required',
+    messageRequired: 'Message is required'
   },
   footer: {
     rights: 'All rights reserved',
     madeWith: 'Made with',
-    by: 'by',
-    brandDescription: 'Transforming ideas into exceptional digital experiences.',
+    brandDescription: 'Transforming ideas into exceptional digital experiences with over 5 years of web development experience.',
     quickLinks: 'Quick Links',
-    contact: 'Contact'
+    contact: 'Contact',
+    workTogether: 'Let\'s work together?',
+    workTogetherDesc: 'I\'m available for new projects and collaborations. Let\'s talk about your next idea!',
+    contactButton: 'Contact',
+    backToTop: 'Back to top'
   }
 };

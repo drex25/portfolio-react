@@ -279,11 +279,11 @@ const About: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
-            Sobre Mí
+            {t('about.title')}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Conoce más sobre mi trayectoria profesional, formación académica y las habilidades que me definen como desarrollador.
+            {t('about.description')}
           </p>
         </motion.div>
 
@@ -341,7 +341,7 @@ const About: React.FC = () => {
               <div className="mb-8">
                 <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                   <FaLanguage className="text-cyan-400" />
-                  Idiomas
+                  {t('about.languages')}
                 </h4>
                 <div className="space-y-4">
                   {languages.map((lang) => (
@@ -370,7 +370,7 @@ const About: React.FC = () => {
               <div>
                 <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                   <FaLightbulb className="text-cyan-400" />
-                  Habilidades Blandas
+                  {t('about.softSkills')}
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
                   {skills.map((skill) => (
@@ -394,8 +394,8 @@ const About: React.FC = () => {
             <div className="flex justify-center mb-12">
               <div className="bg-white/5 backdrop-blur-sm rounded-full p-2 border border-white/10">
                 {[
-                  { key: 'experience', label: 'Experiencia', icon: FaBriefcase },
-                  { key: 'education', label: 'Educación', icon: FaGraduationCap }
+                  { key: 'experience', label: t('about.experience'), icon: FaBriefcase },
+                  { key: 'education', label: t('about.education'), icon: FaGraduationCap }
                 ].map((tab) => (
                   <motion.button
                     key={tab.key}
@@ -447,7 +447,7 @@ const About: React.FC = () => {
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <FaCode className="text-cyan-400" />
-              Stack Tecnológico
+              {t('about.techStack')}
             </h3>
             <p className="text-gray-400">Tecnologías y herramientas que domino</p>
           </div>

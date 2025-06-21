@@ -38,10 +38,10 @@ const Footer: React.FC = () => {
   ];
 
   const quickLinks = [
-    { name: t('nav.about', 'Sobre mí'), href: '/about' },
-    { name: t('nav.projects', 'Proyectos'), href: '/projects' },
-    { name: t('nav.skills', 'Habilidades'), href: '/skills' },
-    { name: t('nav.contact', 'Contacto'), href: '/contact' }
+    { name: t('nav.about'), href: '/about' },
+    { name: t('nav.projects'), href: '/projects' },
+    { name: t('nav.skills'), href: '/skills' },
+    { name: t('nav.contact'), href: '/contact' }
   ];
 
   const contactInfo = [
@@ -94,7 +94,7 @@ const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              {t('footer.brandDescription', 'Transformando ideas en experiencias digitales excepcionales con más de 5 años de experiencia en desarrollo web.')}
+              {t('footer.brandDescription')}
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -123,7 +123,7 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <h3 className="text-xl font-bold text-white">
-              {t('footer.quickLinks', 'Enlaces rápidos')}
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -149,7 +149,7 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h3 className="text-xl font-bold text-white">
-              {t('footer.contact', 'Contacto')}
+              {t('footer.contact')}
             </h3>
             <ul className="space-y-4">
               {contactInfo.map((info, index) => (
@@ -177,11 +177,10 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <h3 className="text-xl font-bold text-white">
-              ¿Trabajamos juntos?
+              {t('footer.workTogether')}
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Estoy disponible para nuevos proyectos y colaboraciones. 
-              ¡Hablemos sobre tu próxima idea!
+              {t('footer.workTogetherDesc')}
             </p>
             <motion.a
               href="/contact"
@@ -190,7 +189,7 @@ const Footer: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <FaEnvelope className="text-sm" />
-              Contactar
+              {t('footer.contactButton')}
             </motion.a>
           </motion.div>
         </div>
@@ -205,12 +204,12 @@ const Footer: React.FC = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center md:text-left">
-              &copy; {currentYear} Sylvain Drexler Wilvins. {t('footer.rights', 'Todos los derechos reservados.')}
+              &copy; {currentYear} Sylvain Drexler Wilvins. {t('footer.rights')}
             </p>
             
             <div className="flex items-center gap-6">
               <p className="text-gray-400 text-sm flex items-center gap-2">
-                <span>{t('footer.madeWith', 'Hecho con')}</span>
+                <span>{t('footer.madeWith')}</span>
                 <FaHeart className="text-red-400 animate-pulse" />
                 <span>en React & TypeScript</span>
               </p>
@@ -220,7 +219,7 @@ const Footer: React.FC = () => {
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/50 transition-all duration-300"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.9 }}
-                aria-label="Volver arriba"
+                aria-label={t('footer.backToTop')}
               >
                 <FaArrowUp className="text-sm" />
               </motion.button>

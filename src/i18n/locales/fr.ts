@@ -26,30 +26,61 @@ export default {
     experience: 'Expérience',
     education: 'Éducation',
     softSkills: 'Compétences Douces',
-    technologies: 'Technologies'
+    technologies: 'Technologies',
+    languages: 'Langues',
+    techStack: 'Stack Technologique',
+    philosophy: 'Ma Philosophie',
+    philosophyText: 'La technologie n\'est qu\'un outil. Ce qui compte, c\'est comment nous l\'utilisons pour résoudre de vrais problèmes et créer des expériences qui impactent positivement les gens.',
+    workTogether: 'Travaillons ensemble ?',
+    workTogetherDesc: 'Je suis disponible pour de nouveaux projets et collaborations. Parlons de votre prochaine idée !'
   },
   projects: {
-    title: 'Projets',
+    title: 'Mes Projets',
     subtitle: 'Mon travail récent',
+    description: 'Une sélection de projets qui démontrent mon expérience en développement web moderne et solutions innovantes.',
     viewCode: 'Voir Code',
     viewDemo: 'Voir Demo',
     technologies: 'Technologies',
-    features: 'Fonctionnalités'
+    features: 'Fonctionnalités',
+    searchPlaceholder: 'Rechercher des projets...',
+    filterAll: 'Tous',
+    noResults: 'Aucun projet trouvé',
+    noResultsDesc: 'Essayez avec d\'autres termes de recherche ou filtres.',
+    projectIdea: 'Vous avez un projet en tête ?',
+    projectIdeaDesc: 'J\'aimerais vous aider à concrétiser vos idées. Travaillons ensemble pour créer quelque chose d\'incroyable.',
+    startProject: 'Démarrer un Projet'
   },
   skills: {
     title: 'Compétences',
     subtitle: 'Technologies et outils que j\'utilise pour créer des solutions numériques',
+    description: 'Un ensemble complet de technologies et d\'outils que je maîtrise pour créer des solutions numériques innovantes et évolutives.',
     frontend: 'Frontend',
     backend: 'Backend',
     database: 'Base de Données',
     devops: 'DevOps',
-    testing: 'Tests'
+    testing: 'Tests',
+    design: 'Design',
+    cms: 'CMS',
+    tools: 'Outils',
+    experienceTitle: 'Mon Expérience Technique',
+    yearsExperience: 'Années d\'Expérience',
+    technologiesMastered: 'Technologies Maîtrisées',
+    projectsCompleted: 'Projets Terminés',
+    dedication: 'Dévouement',
+    philosophy: 'Ma Philosophie',
+    philosophyQuote: 'La technologie n\'est qu\'un outil. Ce qui compte, c\'est comment nous l\'utilisons pour résoudre de vrais problèmes et créer des expériences qui impactent positivement les gens.',
+    levels: {
+      expert: 'Expert',
+      advanced: 'Avancé',
+      intermediate: 'Intermédiaire',
+      beginner: 'Débutant'
+    }
   },
   contact: {
     title: 'Contact',
     subtitle: 'Parlons de votre projet',
-    description: 'Vous avez un projet en tête ? Parlons-en ! Je suis là pour vous aider à le concrétiser.',
-    name: 'Nom',
+    description: 'Vous avez un projet en tête ? J\'aimerais entendre vos idées et vous aider à les concrétiser.',
+    name: 'Nom complet',
     email: 'Email',
     subject: 'Sujet',
     message: 'Message',
@@ -58,14 +89,29 @@ export default {
     success: 'Message envoyé avec succès ! Je vous répondrai bientôt.',
     error: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.',
     contactInfo: 'Informations de Contact',
-    socialMedia: 'Réseaux Sociaux'
+    socialMedia: 'Suivez-moi sur',
+    available: 'Disponible pour projets',
+    availableDesc: 'J\'accepte actuellement de nouveaux projets et collaborations. Temps de réponse moyen : 24 heures.',
+    sendMessage: 'Envoyez-moi un message',
+    namePlaceholder: 'Votre nom complet',
+    emailPlaceholder: 'votre@email.com',
+    subjectPlaceholder: 'Comment puis-je vous aider ?',
+    messagePlaceholder: 'Parlez-moi de votre projet...',
+    nameRequired: 'Le nom est requis',
+    emailRequired: 'L\'email est requis',
+    emailInvalid: 'Email invalide',
+    subjectRequired: 'Le sujet est requis',
+    messageRequired: 'Le message est requis'
   },
   footer: {
     rights: 'Tous droits réservés',
     madeWith: 'Fait avec',
-    by: 'par',
-    brandDescription: 'Transformer les idées en expériences numériques exceptionnelles.',
+    brandDescription: 'Transformer les idées en expériences numériques exceptionnelles avec plus de 5 ans d\'expérience en développement web.',
     quickLinks: 'Liens Rapides',
-    contact: 'Contact'
+    contact: 'Contact',
+    workTogether: 'Travaillons ensemble ?',
+    workTogetherDesc: 'Je suis disponible pour de nouveaux projets et collaborations. Parlons de votre prochaine idée !',
+    contactButton: 'Contact',
+    backToTop: 'Retour en haut'
   }
 };
