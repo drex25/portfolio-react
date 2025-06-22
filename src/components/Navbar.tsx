@@ -16,20 +16,18 @@ const languages: Language[] = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' }
 ];
 
+// Enlaces de navegación actualizados para scroll suave
 const navLinks = [
-  { path: '/', label: 'nav.home' },
-  { path: '/about', label: 'nav.about' },
-  { path: '/projects', label: 'nav.projects' },
-  { path: '/skills', label: 'nav.skills' },
-  { path: '/contact', label: 'nav.contact' }
+  { path: '#home', label: 'nav.home', scrollTo: 'home' },
+  { path: '#about', label: 'nav.about', scrollTo: 'about' },
+  { path: '#skills', label: 'nav.skills', scrollTo: 'skills' },
+  { path: '#projects', label: 'nav.projects', scrollTo: 'projects' },
+  { path: '#contact', label: 'nav.contact', scrollTo: 'contact' }
 ];
 
 const pageTitles: Record<string, string> = {
   '/': 'Sylvain Drexler - Portfolio',
-  '/about': 'Sobre Mí - Sylvain Drexler',
-  '/projects': 'Proyectos - Sylvain Drexler',
-  '/skills': 'Habilidades - Sylvain Drexler',
-  '/contact': 'Contacto - Sylvain Drexler',
+  '/cv': 'CV - Sylvain Drexler',
 };
 
 interface NavbarProps {
@@ -41,6 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const [currentLanguage, setCurrentLanguage] = useState<Language>(
     languages.find(lang => lang.code === i18n.language) || languages[0]
   );
@@ -54,6 +53,23 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // Detectar sección activa
+      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -65,6 +81,14 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
     const newLanguage = languages.find(lang => lang.code === langCode) || languages[0];
     setCurrentLanguage(newLanguage);
     setIsLanguageMenuOpen(false);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMobileMenuOpen(false);
   };
 
   const navVariants = {
@@ -93,7 +117,10 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo mejorado */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <button 
+            onClick={() => scrollToSection('home')}
+            className="flex items-center gap-3 group"
+          >
             <motion.div 
               className="relative"
               whileHover={{ scale: 1.05 }}
@@ -115,20 +142,20 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                 DEVELOPER
               </div>
             </motion.div>
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
+              <button
+                key={link.scrollTo}
+                onClick={() => scrollToSection(link.scrollTo)}
                 className="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-all duration-300 group"
               >
                 <span className="relative z-10 font-medium">
                   {t(link.label)}
                 </span>
-                {location.pathname === link.path && (
+                {activeSection === link.scrollTo && (
                   <motion.div
                     layoutId="activeLink"
                     className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-400/30"
@@ -138,7 +165,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                   />
                 )}
                 <div className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -220,18 +247,17 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
           >
             <div className="px-4 py-6 space-y-2">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    location.pathname === link.path
+                <button
+                  key={link.scrollTo}
+                  onClick={() => scrollToSection(link.scrollTo)}
+                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    activeSection === link.scrollTo
                       ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30'
                       : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {t(link.label)}
-                </Link>
+                </button>
               ))}
               
               {/* Language options in mobile */}

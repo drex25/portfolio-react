@@ -1,7 +1,13 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaChevronDown } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+
+// Importar los componentes de las otras páginas
+import About from './About';
+import Projects from './Projects';
+import Skills from './Skills';
+import Contact from './Contact';
 
 // Componente de partículas flotantes más sofisticado
 const FloatingParticles: React.FC = () => {
@@ -73,7 +79,8 @@ const TypewriterText: React.FC<{ text: string; className?: string }> = ({ text, 
   );
 };
 
-const Landing: React.FC = () => {
+// Componente Hero Section
+const HeroSection: React.FC = () => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -87,11 +94,19 @@ const Landing: React.FC = () => {
 
   const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
+  const scrollToNext = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section 
       ref={containerRef}
       className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24"
       role="banner"
+      id="home"
     >
       {/* Fondo con gradiente animado */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -111,7 +126,7 @@ const Landing: React.FC = () => {
         className="relative z-10 text-center px-4 max-w-6xl mx-auto"
         style={{ y, opacity, scale }}
       >
-        {/* Avatar con efectos mejorados - SIN ICONO */}
+        {/* Avatar con efectos mejorados */}
         <motion.div
           className="relative mb-12 mx-auto w-fit"
           initial={{ scale: 0, rotate: -180 }}
@@ -137,7 +152,7 @@ const Landing: React.FC = () => {
             />
           </div>
           
-          {/* Avatar principal - SIN INDICADOR DE ESTADO */}
+          {/* Avatar principal */}
           <motion.div
             className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl"
             whileHover={{ scale: 1.05 }}
@@ -240,20 +255,25 @@ const Landing: React.FC = () => {
             <span>{t('home.downloadCV', 'Descargar CV')}</span>
           </motion.a>
           
-          <motion.a
-            href="/projects"
+          <motion.button
+            onClick={() => {
+              const projectsSection = document.getElementById('projects');
+              if (projectsSection) {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             <FaRocket className="text-lg" />
             <span>{t('home.viewProjects', 'Ver Proyectos')}</span>
-          </motion.a>
+          </motion.button>
         </motion.div>
 
         {/* Redes sociales con efectos mejorados */}
         <motion.div
-          className="flex gap-6 justify-center items-center"
+          className="flex gap-6 justify-center items-center mb-12"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.6 }}
@@ -278,11 +298,50 @@ const Landing: React.FC = () => {
             </motion.a>
           ))}
         </motion.div>
+
+        {/* Indicador de scroll */}
+        <motion.button
+          onClick={scrollToNext}
+          className="text-cyan-400 hover:text-white transition-colors duration-300 flex flex-col items-center gap-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.6 }}
+          whileHover={{ y: -5 }}
+        >
+          <span className="text-sm font-medium">{t('home.scrollToExplore', 'Scroll para explorar')}</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <FaChevronDown className="text-xl" />
+          </motion.div>
+        </motion.button>
       </motion.div>
 
       {/* Overlay con gradiente */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
     </section>
+  );
+};
+
+const Landing: React.FC = () => {
+  return (
+    <div className="relative">
+      {/* Hero Section */}
+      <HeroSection />
+      
+      {/* About Section */}
+      <About />
+      
+      {/* Skills Section */}
+      <Skills />
+      
+      {/* Projects Section */}
+      <Projects />
+      
+      {/* Contact Section */}
+      <Contact />
+    </div>
   );
 };
 
