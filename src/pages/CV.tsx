@@ -29,20 +29,21 @@ import {
   SiJavascript,
   SiMysql
 } from 'react-icons/si';
+import { getContactEmail } from '../config/environment';
 
 const CV: React.FC = () => {
   const cvRef = useRef<HTMLDivElement>(null);
 
   // Datos del CV - Centralizados para fácil actualización
   const personalInfo = {
-    name: "Sylvain Drexler Wilvins",
-    title: "Full Stack Developer & Systems Analyst",
-    email: "sylvain.drexler@email.com",
-    phone: "+54 376 123-4567",
+    name: "Sylvain Drexler",
+    title: "Full Stack Developer",
+    email: getContactEmail(),
+    phone: "+54 376 511-5897",
     location: "Posadas, Misiones, Argentina",
-    linkedin: "linkedin.com/in/sylvain-drexler",
-    github: "github.com/sylvain-drexler",
-    website: "itsdrex.dev"
+    website: "https://itsdrex.dev",
+    github: "https://github.com/drex25",
+    linkedin: "https://linkedin.com/in/sylvain-drexler"
   };
 
   const summary = "Desarrollador Full Stack apasionado con más de 5 años de experiencia en la creación de aplicaciones web modernas y escalables. Especializado en React, Laravel, PHP y tecnologías de vanguardia. Comprometido con la excelencia técnica, la innovación y la entrega de soluciones que generen impacto real en los usuarios y negocios.";

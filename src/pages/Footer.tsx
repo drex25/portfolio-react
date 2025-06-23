@@ -52,8 +52,9 @@ const Footer: React.FC = () => {
     },
     {
       icon: FaPhone,
-      text: '+54 376 123-4567',
-      href: 'tel:+543761234567'
+      text: '+54 376 511-5897',
+      href: 'tel:+543765115897',
+      color: 'text-green-400'
     },
     {
       icon: FaMapMarkerAlt,

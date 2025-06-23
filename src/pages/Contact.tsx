@@ -22,6 +22,7 @@ import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { sendEmail } from '../config/emailjs';
+import { getContactEmail } from '../config/environment';
 
 interface ContactFormInputs {
   name: string;
@@ -68,8 +69,8 @@ const Contact: React.FC = () => {
     {
       icon: FaEnvelope,
       title: 'Email',
-      content: 'sylvain.drexler@email.com',
-      link: 'mailto:sylvain.drexler@email.com',
+      content: getContactEmail(),
+      link: `mailto:${getContactEmail()}`,
       color: 'text-cyan-400',
       bgColor: 'from-cyan-500/10 to-blue-500/10',
       borderColor: 'border-cyan-500/20',
@@ -78,8 +79,8 @@ const Contact: React.FC = () => {
     {
       icon: FaPhone,
       title: 'Teléfono',
-      content: '+54 376 123-4567',
-      link: 'tel:+543761234567',
+      content: '+54 376 511-5897',
+      link: 'tel:+543765115897',
       color: 'text-green-400',
       bgColor: 'from-green-500/10 to-emerald-500/10',
       borderColor: 'border-green-500/20',
@@ -586,7 +587,7 @@ const Contact: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.a
-                href="mailto:sylvain.drexler@email.com"
+                href={`mailto:${getContactEmail()}`}
                 className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}

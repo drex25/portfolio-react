@@ -184,7 +184,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 📞 Contacto
 
-- **Email**: sylvain.drexler@email.com
+- **Email**: contacto@itsdrex.dev
 - **LinkedIn**: [Tu LinkedIn]
 - **GitHub**: [Tu GitHub]
 

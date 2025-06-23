@@ -11,6 +11,7 @@ import {
   FaArrowUp
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { getContactEmail } from '../config/environment';
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -47,13 +48,15 @@ const Footer: React.FC = () => {
   const contactInfo = [
     {
       icon: FaEnvelope,
-      text: 'sylvain.drexler@email.com',
-      href: 'mailto:sylvain.drexler@email.com'
+      text: getContactEmail(),
+      href: `mailto:${getContactEmail()}`,
+      color: 'text-cyan-400'
     },
     {
       icon: FaPhone,
-      text: '+54 376 123-4567',
-      href: 'tel:+543761234567'
+      text: '+54 376 511-5897',
+      href: 'tel:+543765115897',
+      color: 'text-green-400'
     },
     {
       icon: FaMapMarkerAlt,

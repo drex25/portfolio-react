@@ -1,4 +1,4 @@
 itsdrex.dev, www.itsdrex.dev {
-    tls tu-correo@ejemplo.com
+    tls admin@itsdrex.dev
     reverse_proxy portfolio:80
 }
