@@ -4,4 +4,21 @@ services:
     image: drex422/portfolio-react:latest
     ports:
       - "80:80"
-    restart: unless-stopped 
+      - "443:443"
+    restart: unless-stopped
+
+  caddy:
+    container_name: caddy
+    image: caddy:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

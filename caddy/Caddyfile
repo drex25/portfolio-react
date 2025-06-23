@@ -1,0 +1,48 @@
+itsdrex.dev, www.itsdrex.dev {
+    root * /usr/share/caddy
+    file_server
+    
+    # Handle static assets
+    @assets {
+        path /assets/*
+    }
+    handle @assets {
+        header Cache-Control "public, max-age=2592000"
+        file_server
+    }
+    
+    # Handle JSON data files
+    @data {
+        path /data/*
+    }
+    handle @data {
+        header Content-Type "application/json"
+        header Cache-Control "no-cache, no-store, must-revalidate"
+        file_server
+    }
+    
+    # Handle SPA routing - serve index.html for all other routes
+    @notFile {
+        not path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2 *.ttf *.eot
+    }
+    handle @notFile {
+        try_files {path} /index.html
+        file_server
+    }
+    
+    # Enable compression
+    encode gzip
+    
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+    
+    # Automatic HTTPS
+    tls {
+        on_demand
+    }
+}
