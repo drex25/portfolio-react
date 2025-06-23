@@ -17,7 +17,7 @@ import {
   FaLightbulb,
   FaEye,
   FaHandshake,
-  FaTarget,
+  FaBullseye,
   FaCoffee,
   FaMusic,
   FaGamepad,
@@ -123,7 +123,7 @@ const personalValues = [
   {
     title: 'Excelencia Técnica',
     description: 'Compromiso con la calidad del código y las mejores prácticas',
-    icon: FaTarget,
+    icon: FaBullseye,
     color: 'text-cyan-400'
   },
   {
