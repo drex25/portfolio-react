@@ -2,15 +2,13 @@ services:
   portfolio:
     container_name: portfolio-react-app
     image: drex422/portfolio-react:latest
-    ports:
-      - "80:80"
-      - "443:443"
+    expose:
+      - "80"
     restart: unless-stopped
 
   caddy:
+    image: caddy:2-alpine
     container_name: caddy
-    image: caddy:alpine
-    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -18,6 +16,9 @@ services:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+    restart: unless-stopped
+    depends_on:
+      - portfolio
 
 volumes:
   caddy_data:
