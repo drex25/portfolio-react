@@ -21,6 +21,7 @@ import {
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { sendEmail } from '../config/emailjs';
 
 interface ContactFormInputs {
   name: string;
@@ -131,13 +132,27 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      // Simulación de envío
-      console.log('Form data:', formData);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Preparar los parámetros para EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: 'Sylvain Drexler', // Tu nombre
+        reply_to: formData.email,
+      };
+
+      // Enviar email usando EmailJS
+      const result = await sendEmail(templateParams);
       
-      setSubmitStatus('success');
-      reset();
+      if (result.success) {
+        setSubmitStatus('success');
+        reset();
+      } else {
+        setSubmitStatus('error');
+      }
     } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
