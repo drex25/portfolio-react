@@ -23,7 +23,9 @@ import {
   FaGamepad,
   FaBook,
   FaCode,
-  FaStar
+  FaStar,
+  FaGlobe,
+  FaChartLine
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -117,32 +119,32 @@ const softSkills = [
   { name: 'Comunicación', icon: FaComments, description: 'Comunicación clara y asertiva', color: 'text-green-400' },
   { name: 'Resolución de problemas', icon: FaBrain, description: 'Análisis y solución creativa', color: 'text-purple-400' },
   { name: 'Aprendizaje continuo', icon: FaLaptopCode, description: 'Adaptación a nuevas tecnologías', color: 'text-cyan-400' },
-  { name: 'Liderazgo', icon: FaRocket, description: 'Guía y motivación de equipos', color: 'text-orange-400' },
-  { name: 'Creatividad', icon: FaHeart, description: 'Soluciones innovadoras', color: 'text-pink-400' }
+  { name: 'Metodologías ágiles', icon: FaRocket, description: 'Experiencia en entornos colaborativos', color: 'text-orange-400' },
+  { name: 'Orientación a resultados', icon: FaChartLine, description: 'Enfoque en soluciones escalables', color: 'text-pink-400' }
 ];
 
 const personalValues = [
   {
     title: 'Excelencia Técnica',
-    description: 'Compromiso con la calidad del código y las mejores prácticas',
+    description: 'Compromiso con buenas prácticas, rendimiento y calidad del código',
     icon: FaBullseye,
     color: 'text-cyan-400'
   },
   {
     title: 'Innovación Constante',
-    description: 'Siempre explorando nuevas tecnologías y metodologías',
+    description: 'Siempre explorando tecnologías modernas y soluciones escalables',
     icon: FaLightbulb,
     color: 'text-yellow-400'
   },
   {
-    title: 'Colaboración',
-    description: 'Creo en el poder del trabajo en equipo y la comunicación',
-    icon: FaHandshake,
+    title: 'Comunicación Multicultural',
+    description: 'Facilitando colaboración eficaz con equipos de diversas culturas',
+    icon: FaGlobe,
     color: 'text-green-400'
   },
   {
     title: 'Impacto Real',
-    description: 'Enfocado en crear soluciones que generen valor tangible',
+    description: 'Enfocado en crear soluciones orientadas a resultados',
     icon: FaEye,
     color: 'text-purple-400'
   }
@@ -197,7 +199,7 @@ const About: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Filosofía Personal */}
+        {/* Presentación Principal */}
         <motion.div
           className="mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -209,14 +211,57 @@ const About: React.FC = () => {
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-50" />
             
-            <div className="relative z-10 text-center">
-              <FaQuoteLeft className="text-4xl text-cyan-400/30 mx-auto mb-6" />
-              <blockquote className="text-xl sm:text-2xl text-gray-300 leading-relaxed mb-8 italic">
-                "Desarrollador apasionado con más de 5 años de experiencia creando soluciones digitales innovadoras. 
-                Me especializo en transformar ideas complejas en aplicaciones web elegantes y funcionales que generan 
-                impacto real en los usuarios y negocios."
-              </blockquote>
-              <div className="text-cyan-400 font-semibold text-lg">- Sylvain Drexler Wilvins</div>
+            <div className="relative z-10">
+              {/* Título y subtítulo */}
+              <div className="text-center mb-8">
+                <h3 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                  Sylvain Drexler Wilvins
+                </h3>
+                <div className="space-y-2">
+                  <p className="text-xl text-cyan-400 font-semibold">
+                    Técnico en Programación & Analista de Sistemas
+                  </p>
+                  <p className="text-lg text-gray-300">
+                    Desarrollador Web Full Stack | Multilingüe | +5 años de experiencia
+                  </p>
+                </div>
+              </div>
+
+              {/* Descripción principal */}
+              <div className="space-y-6 text-gray-300 leading-relaxed">
+                <p className="text-lg">
+                  Soy técnico en programación y analista de sistemas con más de 5 años de experiencia en el desarrollo de 
+                  <span className="text-cyan-400 font-semibold"> soluciones web modernas, escalables y orientadas a resultados</span>. 
+                  Mi especialidad es el diseño e implementación de aplicaciones web, siempre con enfoque en buenas prácticas, 
+                  rendimiento y experiencia del usuario.
+                </p>
+                
+                <p className="text-lg">
+                  Trabajo tanto en el <span className="text-blue-400 font-semibold">frontend como en el backend</span>, 
+                  integrando APIs, optimizando bases de datos y asegurando la calidad del código en cada etapa del desarrollo. 
+                  Tengo experiencia trabajando en entornos colaborativos, metodologías ágiles y adaptándome a distintas 
+                  necesidades y sectores.
+                </p>
+                
+                <p className="text-lg">
+                  Además, mi <span className="text-green-400 font-semibold">perfil multilingüe</span> (hablo creole haitiano 
+                  y francés como lenguas maternas, además de inglés y español avanzados) me permite comunicarme con equipos 
+                  y clientes de diversas culturas y regiones, facilitando una colaboración eficaz y fluida.
+                </p>
+              </div>
+
+              {/* Objetivo profesional */}
+              <div className="mt-8 p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaRocket className="text-2xl text-cyan-400" />
+                  <h4 className="text-xl font-bold text-white">Objetivo Profesional</h4>
+                </div>
+                <p className="text-gray-300 leading-relaxed">
+                  Seguir creciendo en el campo del desarrollo web y la ingeniería de software, participando en proyectos 
+                  desafiantes que impulsen la innovación tecnológica. Estoy comprometido con el aprendizaje continuo y 
+                  con aportar soluciones creativas, eficientes y alineadas con los objetivos del cliente o la empresa.
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>
