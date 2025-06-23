@@ -3,23 +3,25 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
-  FaCode, 
-  FaLightbulb, 
-  FaGithub, 
-  FaLinkedin, 
   FaLanguage,
   FaAward,
   FaMapMarkerAlt,
   FaCalendarAlt,
-  FaRocket,
   FaUsers,
   FaLaptopCode,
   FaBrain,
   FaHeart,
-  FaEye,
   FaComments,
-  FaDownload,
-  FaQuoteLeft
+  FaQuoteLeft,
+  FaRocket,
+  FaLightbulb,
+  FaEye,
+  FaHandshake,
+  FaTarget,
+  FaCoffee,
+  FaMusic,
+  FaGamepad,
+  FaBook
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +35,7 @@ const experiences = [
     description: 'Desarrollé un plugin de calendario de vencimientos y un tema hijo personalizado, mejorando la experiencia de usuario y optimizando la gestión de contenidos institucionales.',
     technologies: ['WordPress', 'PHP', 'JavaScript', 'CSS'],
     achievements: ['Plugin personalizado implementado', 'Mejora del 40% en UX'],
-    icon: FaCode,
+    icon: FaBriefcase,
     color: 'from-blue-500 to-cyan-500'
   },
   {
@@ -44,7 +46,7 @@ const experiences = [
     description: 'Responsable de la gestión y desarrollo de sitios web corporativos utilizando tecnologías modernas. Trabajo híbrido enfocado en soluciones escalables.',
     technologies: ['PHP', 'JavaScript', 'React', 'Laravel', 'WordPress'],
     achievements: ['15+ sitios web desarrollados', 'Implementación de CI/CD'],
-    icon: FaCode,
+    icon: FaBriefcase,
     color: 'from-purple-500 to-pink-500'
   },
   {
@@ -55,7 +57,7 @@ const experiences = [
     description: 'Diseño y desarrollo de sitios web a medida, creando soluciones digitales personalizadas para clientes de diversos sectores.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'Figma'],
     achievements: ['30+ proyectos completados', '98% satisfacción del cliente'],
-    icon: FaCode,
+    icon: FaBriefcase,
     color: 'from-green-500 to-teal-500'
   },
   {
@@ -66,7 +68,7 @@ const experiences = [
     description: 'Desarrollo de tiendas online y soluciones eCommerce personalizadas, ayudando a negocios a potenciar sus ventas digitales.',
     technologies: ['WooCommerce', 'AliDropship', 'WordPress', 'PHP'],
     achievements: ['25+ tiendas online', 'Aumento promedio del 60% en ventas'],
-    icon: FaCode,
+    icon: FaBriefcase,
     color: 'from-orange-500 to-red-500'
   }
 ];
@@ -108,7 +110,7 @@ const languages = [
   { name: 'Inglés', level: 'Avanzado', flag: '🇺🇸', proficiency: 'advanced' }
 ];
 
-const skills = [
+const softSkills = [
   { name: 'Trabajo en equipo', icon: FaUsers, description: 'Colaboración efectiva y liderazgo', color: 'text-blue-400' },
   { name: 'Comunicación', icon: FaComments, description: 'Comunicación clara y asertiva', color: 'text-green-400' },
   { name: 'Resolución de problemas', icon: FaBrain, description: 'Análisis y solución creativa', color: 'text-purple-400' },
@@ -117,15 +119,38 @@ const skills = [
   { name: 'Creatividad', icon: FaHeart, description: 'Soluciones innovadoras', color: 'text-pink-400' }
 ];
 
-const technologies = [
-  { name: 'Laravel', color: 'bg-red-500', level: 'Experto', years: '3+ años' },
-  { name: 'PHP', color: 'bg-indigo-500', level: 'Avanzado', years: '4+ años' },
-  { name: 'React', color: 'bg-cyan-500', level: 'Avanzado', years: '3+ años' },
-  { name: 'TypeScript', color: 'bg-blue-500', level: 'Intermedio', years: '2+ años' },
-  { name: 'WordPress', color: 'bg-blue-800', level: 'Experto', years: '5+ años' },
-  { name: 'Docker', color: 'bg-blue-600', level: 'Intermedio', years: '2+ años' },
-  { name: 'Git', color: 'bg-orange-500', level: 'Avanzado', years: '4+ años' },
-  { name: 'Tailwind', color: 'bg-teal-500', level: 'Avanzado', years: '2+ años' }
+const personalValues = [
+  {
+    title: 'Excelencia Técnica',
+    description: 'Compromiso con la calidad del código y las mejores prácticas',
+    icon: FaTarget,
+    color: 'text-cyan-400'
+  },
+  {
+    title: 'Innovación Constante',
+    description: 'Siempre explorando nuevas tecnologías y metodologías',
+    icon: FaLightbulb,
+    color: 'text-yellow-400'
+  },
+  {
+    title: 'Colaboración',
+    description: 'Creo en el poder del trabajo en equipo y la comunicación',
+    icon: FaHandshake,
+    color: 'text-green-400'
+  },
+  {
+    title: 'Impacto Real',
+    description: 'Enfocado en crear soluciones que generen valor tangible',
+    icon: FaEye,
+    color: 'text-purple-400'
+  }
+];
+
+const interests = [
+  { name: 'Café de especialidad', icon: FaCoffee, color: 'text-amber-500' },
+  { name: 'Música electrónica', icon: FaMusic, color: 'text-purple-500' },
+  { name: 'Gaming', icon: FaGamepad, color: 'text-green-500' },
+  { name: 'Lectura técnica', icon: FaBook, color: 'text-blue-500' }
 ];
 
 const About: React.FC = () => {
@@ -166,11 +191,11 @@ const About: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            {t('about.description')}
+            Conoce más sobre mi trayectoria profesional, valores y lo que me motiva como desarrollador
           </p>
         </motion.div>
 
-        {/* Hero Section - Perfil Principal */}
+        {/* Filosofía Personal */}
         <motion.div
           className="mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -182,115 +207,19 @@ const About: React.FC = () => {
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-50" />
             
-            <div className="relative z-10 grid lg:grid-cols-3 gap-8 lg:gap-12 items-center">
-              {/* Avatar y info básica */}
-              <div className="lg:col-span-1 text-center lg:text-left">
-                <motion.div
-                  className="w-48 h-48 sm:w-56 sm:h-56 mx-auto lg:mx-0 mb-6 rounded-full overflow-hidden border-4 border-cyan-400 shadow-2xl"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <img
-                    src="/assets/DREX.jpeg"
-                    alt="Sylvain Drexler"
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-                
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">Sylvain Drexler Wilvins</h3>
-                <p className="text-cyan-400 font-semibold text-lg mb-4">Full Stack Developer & Systems Analyst</p>
-                
-                {/* Redes sociales */}
-                <div className="flex justify-center lg:justify-start gap-4 mb-6">
-                  {[
-                    { icon: FaGithub, href: "https://github.com/tuusuario", color: "hover:text-gray-300" },
-                    { icon: FaLinkedin, href: "https://linkedin.com/in/tuusuario", color: "hover:text-blue-400" }
-                  ].map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`text-2xl text-gray-400 ${social.color} transition-colors p-3 rounded-full border border-gray-600 hover:border-cyan-400`}
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <social.icon />
-                    </motion.a>
-                  ))}
-                </div>
-
-                {/* Botón CV con el mismo estilo */}
-                <motion.a
-                  href="/cv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaDownload className="text-sm" />
-                  Descargar CV
-                </motion.a>
-              </div>
-
-              {/* Descripción y estadísticas */}
-              <div className="lg:col-span-2 space-y-8">
-                {/* Quote personal */}
-                <div className="relative">
-                  <FaQuoteLeft className="text-4xl text-cyan-400/30 absolute -top-2 -left-2" />
-                  <p className="text-lg sm:text-xl text-gray-300 leading-relaxed pl-8 italic">
-                    "Desarrollador apasionado con más de 5 años de experiencia creando soluciones digitales innovadoras. 
-                    Me especializo en transformar ideas complejas en aplicaciones web elegantes y funcionales."
-                  </p>
-                </div>
-
-                {/* Estadísticas */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                  {[
-                    { number: "5+", label: "Años de Experiencia", icon: FaCalendarAlt },
-                    { number: "50+", label: "Proyectos Completados", icon: FaRocket },
-                    { number: "25+", label: "Clientes Satisfechos", icon: FaHeart },
-                    { number: "100%", label: "Dedicación", icon: FaAward }
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      className="text-center p-4 bg-white/5 rounded-2xl border border-white/10"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <stat.icon className="text-2xl text-cyan-400 mx-auto mb-2" />
-                      <div className="text-2xl sm:text-3xl font-bold text-white mb-1">{stat.number}</div>
-                      <div className="text-xs sm:text-sm text-gray-400 font-medium">{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Skills rápidos */}
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <FaLightbulb className="text-cyan-400" />
-                    {t('about.softSkills')}
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {skills.map((skill) => (
-                      <motion.div
-                        key={skill.name}
-                        className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
-                        whileHover={{ scale: 1.02, x: 5 }}
-                      >
-                        <skill.icon className={`text-lg ${skill.color}`} />
-                        <span className="text-sm text-gray-300 font-medium">{skill.name}</span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            <div className="relative z-10 text-center">
+              <FaQuoteLeft className="text-4xl text-cyan-400/30 mx-auto mb-6" />
+              <blockquote className="text-xl sm:text-2xl text-gray-300 leading-relaxed mb-8 italic">
+                "Desarrollador apasionado con más de 5 años de experiencia creando soluciones digitales innovadoras. 
+                Me especializo en transformar ideas complejas en aplicaciones web elegantes y funcionales que generan 
+                impacto real en los usuarios y negocios."
+              </blockquote>
+              <div className="text-cyan-400 font-semibold text-lg">- Sylvain Drexler Wilvins</div>
             </div>
           </div>
         </motion.div>
 
-        {/* Sección de Idiomas */}
+        {/* Valores Personales */}
         <motion.div
           className="mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -300,8 +229,80 @@ const About: React.FC = () => {
         >
           <div className="text-center mb-12">
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+              <FaHeart className="text-pink-400" />
+              Mis Valores
+            </h3>
+            <p className="text-gray-400">Los principios que guían mi trabajo</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {personalValues.map((value, index) => (
+              <motion.div
+                key={value.title}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <value.icon className={`text-4xl ${value.color} mx-auto mb-4`} />
+                <h4 className="text-lg font-bold text-white mb-3">{value.title}</h4>
+                <p className="text-gray-400 text-sm leading-relaxed">{value.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Habilidades Blandas */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+              <FaLightbulb className="text-yellow-400" />
+              Habilidades Interpersonales
+            </h3>
+            <p className="text-gray-400">Competencias que complementan mi expertise técnico</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {softSkills.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, x: 5 }}
+              >
+                <skill.icon className={`text-2xl ${skill.color}`} />
+                <div>
+                  <h4 className="font-semibold text-white">{skill.name}</h4>
+                  <p className="text-sm text-gray-400">{skill.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sección de Idiomas */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <FaLanguage className="text-cyan-400" />
-              {t('about.languages')}
+              Idiomas
             </h3>
             <p className="text-gray-400">Comunicación multicultural</p>
           </div>
@@ -339,14 +340,14 @@ const About: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
         >
           {/* Tabs */}
           <div className="flex justify-center mb-12">
             <div className="bg-white/5 backdrop-blur-sm rounded-full p-2 border border-white/10">
               {[
-                { key: 'experience', label: t('about.experience'), icon: FaBriefcase },
-                { key: 'education', label: t('about.education'), icon: FaGraduationCap }
+                { key: 'experience', label: 'Experiencia Profesional', icon: FaBriefcase },
+                { key: 'education', label: 'Formación Académica', icon: FaGraduationCap }
               ].map((tab) => (
                 <motion.button
                   key={tab.key}
@@ -416,7 +417,7 @@ const About: React.FC = () => {
                     {item.technologies && (
                       <div>
                         <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
-                          <FaCode className="text-xs" />
+                          <FaRocket className="text-xs" />
                           Tecnologías:
                         </h4>
                         <div className="flex flex-wrap gap-2">
@@ -456,45 +457,35 @@ const About: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Sección de tecnologías */}
+        {/* Intereses Personales */}
         <motion.div
           className="mb-20"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
         >
           <div className="text-center mb-12">
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-              <FaCode className="text-cyan-400" />
-              {t('about.techStack')}
+              <FaCoffee className="text-amber-400" />
+              Más Allá del Código
             </h3>
-            <p className="text-gray-400">Tecnologías y herramientas que domino</p>
+            <p className="text-gray-400">Intereses que alimentan mi creatividad</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {technologies.map((tech, index) => (
+          <div className="flex flex-wrap justify-center gap-4">
+            {interests.map((interest, index) => (
               <motion.div
-                key={tech.name}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={interest.name}
+                className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-full border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
+                whileHover={{ scale: 1.05, y: -2 }}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-semibold text-white text-sm sm:text-base">{tech.name}</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                    tech.level === 'Experto' ? 'bg-green-500/20 text-green-400' :
-                    tech.level === 'Avanzado' ? 'bg-blue-500/20 text-blue-400' :
-                    'bg-purple-500/20 text-purple-400'
-                  }`}>
-                    {tech.level}
-                  </span>
-                </div>
-                <div className={`w-full h-2 rounded-full ${tech.color} opacity-80 mb-2`} />
-                <div className="text-xs text-gray-400">{tech.years}</div>
+                <interest.icon className={`text-xl ${interest.color}`} />
+                <span className="text-gray-300 font-medium">{interest.name}</span>
               </motion.div>
             ))}
           </div>
@@ -509,19 +500,24 @@ const About: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-3xl p-8 sm:p-12">
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t('about.workTogether')}</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">¿Trabajamos juntos?</h3>
             <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg">
-              {t('about.workTogetherDesc')}
+              Estoy disponible para nuevos proyectos y colaboraciones. ¡Hablemos sobre tu próxima idea!
             </p>
-            <motion.a
-              href="/contact"
+            <motion.button
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
               <FaRocket className="text-lg" />
               Trabajemos Juntos
-            </motion.a>
+            </motion.button>
           </div>
         </motion.div>
       </div>
