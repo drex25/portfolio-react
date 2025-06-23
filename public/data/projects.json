@@ -1,12 +1,21 @@
 {
   "projects": [
     {
+      "name": "ATM Misiones - Portal Tributario",
+      "description": "Portal web oficial de la Agencia Tributaria de Misiones. Desarrollo completo con WordPress, tema hijo de Divi y plugin personalizado de calendario de vencimientos. Sistema de autogestión tributaria con múltiples funcionalidades.",
+      "technologies": ["WordPress", "PHP", "Divi", "JavaScript", "CSS", "MySQL"],
+      "github": "https://github.com/tuusuario/atm-misiones",
+      "demo": "https://atmisiones.gob.ar/",
+      "image": "/assets/atm.jpg",
+      "features": ["Tema Hijo Divi", "Plugin Calendario", "Autogestión", "Sistema de Pagos", "Responsive"]
+    },
+    {
       "name": "Portfolio Personal",
       "description": "Portfolio profesional desarrollado con React, TypeScript y Tailwind CSS. Incluye animaciones suaves, modo oscuro y diseño responsive.",
       "technologies": ["React", "TypeScript", "Tailwind", "Git"],
       "github": "https://github.com/tuusuario/portfolio-react",
       "demo": "https://tudominio.com",
-      "image": "/src/assets/projects/portfolio.jpg",
+      "image": "/assets/portfolio.png",
       "features": ["Diseño Moderno", "Modo Oscuro", "Animaciones", "Responsive"]
     },
     {

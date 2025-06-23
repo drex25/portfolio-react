@@ -49,6 +49,7 @@ const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
   PHP: { icon: <SiPhp />, color: 'text-indigo-400' },
   MySQL: { icon: <SiMysql />, color: 'text-blue-600' },
   WordPress: { icon: <SiWordpress />, color: 'text-blue-800' },
+  Divi: { icon: <SiWordpress />, color: 'text-purple-600' },
   Docker: { icon: <SiDocker />, color: 'text-blue-400' },
   Git: { icon: <SiGit />, color: 'text-orange-500' },
 };

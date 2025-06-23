@@ -152,7 +152,7 @@ const personalValues = [
 
 const interests = [
   { name: 'Café de especialidad', icon: FaCoffee, color: 'text-amber-500' },
-  { name: 'Música electrónica', icon: FaMusic, color: 'text-purple-500' },
+  { name: 'Rap/Hip-Hop/Deep House', icon: FaMusic, color: 'text-purple-500' },
   { name: 'Gaming', icon: FaGamepad, color: 'text-green-500' },
   { name: 'Lectura técnica', icon: FaBook, color: 'text-blue-500' }
 ];

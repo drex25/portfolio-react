@@ -174,7 +174,7 @@ const Skills: React.FC = () => {
       color: 'text-orange-500',
       description: 'Control de versiones y colaboración',
       level: 'Avanzado',
-      experience: '4+ años'
+      experience: '2 años'
     },
     { 
       name: 'AWS', 
