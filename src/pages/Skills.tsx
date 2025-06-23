@@ -28,7 +28,8 @@ import {
   SiFigma,
   SiWordpress,
   SiLinux,
-  SiBootstrap
+  SiBootstrap,
+  SiTypescript
 } from 'react-icons/si';
 import { VscCode } from 'react-icons/vsc';
 
@@ -87,6 +88,15 @@ const Skills: React.FC = () => {
       description: 'ES6+ y programación funcional',
       level: 'Avanzado',
       experience: '4+ años'
+    },
+    { 
+      name: 'TypeScript', 
+      icon: <SiTypescript />, 
+      category: 'frontend', 
+      color: 'text-blue-500',
+      description: 'Tipado estático para JavaScript más robusto',
+      level: 'Principiante',
+      experience: '1 año'
     },
     { 
       name: 'React', 

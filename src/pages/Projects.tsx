@@ -17,7 +17,13 @@ import {
   SiLaravel, 
   SiPhp, 
   SiDocker, 
-  SiGit 
+  SiGit,
+  SiJavascript,
+  SiHtml5,
+  SiCss3,
+  SiBootstrap,
+  SiWordpress,
+  SiMysql
 } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
 
@@ -34,9 +40,15 @@ interface Project {
 const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
   React: { icon: <SiReact />, color: 'text-cyan-400' },
   TypeScript: { icon: <SiTypescript />, color: 'text-blue-500' },
-  Tailwind: { icon: <SiTailwindcss />, color: 'text-teal-400' },
+  JavaScript: { icon: <SiJavascript />, color: 'text-yellow-500' },
+  HTML5: { icon: <SiHtml5 />, color: 'text-orange-500' },
+  CSS3: { icon: <SiCss3 />, color: 'text-blue-500' },
+  'Tailwind CSS': { icon: <SiTailwindcss />, color: 'text-teal-400' },
+  Bootstrap: { icon: <SiBootstrap />, color: 'text-purple-500' },
   Laravel: { icon: <SiLaravel />, color: 'text-red-500' },
   PHP: { icon: <SiPhp />, color: 'text-indigo-400' },
+  MySQL: { icon: <SiMysql />, color: 'text-blue-600' },
+  WordPress: { icon: <SiWordpress />, color: 'text-blue-800' },
   Docker: { icon: <SiDocker />, color: 'text-blue-400' },
   Git: { icon: <SiGit />, color: 'text-orange-500' },
 };
@@ -206,9 +218,11 @@ const Projects: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
-  const allTechnologies = Array.from(
-    new Set(projects.flatMap(project => project.technologies))
-  );
+  // Tecnologías disponibles basadas en las habilidades reales
+  const availableTechnologies = [
+    'HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Bootstrap', 'Tailwind CSS',
+    'PHP', 'Laravel', 'MySQL', 'WordPress', 'Docker', 'Git'
+  ];
 
   if (isLoading) {
     return (
@@ -292,9 +306,11 @@ const Projects: React.FC = () => {
               {t('projects.filterAll')} ({projects.length})
             </motion.button>
             
-            {allTechnologies.map((tech) => {
+            {availableTechnologies.map((tech) => {
               const techInfo = techIcons[tech];
               const count = projects.filter(p => p.technologies.includes(tech)).length;
+              
+              if (count === 0) return null;
               
               return (
                 <motion.button
@@ -351,15 +367,20 @@ const Projects: React.FC = () => {
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
             {t('projects.projectIdeaDesc')}
           </p>
-          <motion.a
-            href="/contact"
+          <motion.button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             <FaRocket className="text-lg" />
             {t('projects.startProject')}
-          </motion.a>
+          </motion.button>
         </motion.div>
       </div>
     </section>

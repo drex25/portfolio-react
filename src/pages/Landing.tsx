@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaChevronDown } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Importar los componentes de las otras páginas
@@ -93,13 +93,6 @@ const HeroSection: React.FC = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
   const isInView = useInView(containerRef, { once: true, amount: 0.3 });
-
-  const scrollToNext = () => {
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section 
@@ -273,7 +266,7 @@ const HeroSection: React.FC = () => {
 
         {/* Redes sociales con efectos mejorados */}
         <motion.div
-          className="flex gap-6 justify-center items-center mb-12"
+          className="flex gap-6 justify-center items-center"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.6 }}
@@ -298,28 +291,6 @@ const HeroSection: React.FC = () => {
             </motion.a>
           ))}
         </motion.div>
-      </motion.div>
-
-      {/* Indicador de scroll - CENTRADO AL FINAL */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 0.6 }}
-      >
-        <motion.button
-          onClick={scrollToNext}
-          className="text-cyan-400 hover:text-white transition-colors duration-300 flex flex-col items-center gap-2"
-          whileHover={{ y: -5 }}
-        >
-          <span className="text-sm font-medium">{t('home.scrollToExplore', 'Scroll para explorar')}</span>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <FaChevronDown className="text-xl" />
-          </motion.div>
-        </motion.button>
       </motion.div>
 
       {/* Overlay con gradiente */}
