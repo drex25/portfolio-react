@@ -1,7 +1,32 @@
 #!/bin/bash
 set -e
 
-echo "Starting production deployment..."
+echo "🚀 Starting deployment..."
+
+# Check if .env file exists
+if [ ! -f .env ]; then
+    echo "❌ Error: .env file not found!"
+    echo "Please create a .env file with your EmailJS configuration:"
+    echo "VITE_EMAILJS_SERVICE_ID=your_service_id"
+    echo "VITE_EMAILJS_TEMPLATE_ID=your_template_id"
+    echo "VITE_EMAILJS_PUBLIC_KEY=your_public_key"
+    exit 1
+fi
+
+# Load environment variables
+source .env
+
+# Check if required variables are set
+if [ -z "$VITE_EMAILJS_SERVICE_ID" ] || [ -z "$VITE_EMAILJS_TEMPLATE_ID" ] || [ -z "$VITE_EMAILJS_PUBLIC_KEY" ]; then
+    echo "❌ Error: Missing required EmailJS environment variables!"
+    echo "Please check your .env file contains:"
+    echo "VITE_EMAILJS_SERVICE_ID=your_service_id"
+    echo "VITE_EMAILJS_TEMPLATE_ID=your_template_id"
+    echo "VITE_EMAILJS_PUBLIC_KEY=your_public_key"
+    exit 1
+fi
+
+echo "✅ Environment variables loaded successfully"
 
 # Install Docker Compose if missing
 if ! command -v docker-compose &> /dev/null; then

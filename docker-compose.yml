@@ -3,10 +3,16 @@ version: '3.8'
 services:
   portfolio:
     container_name: portfolio-react-app
-    image: drex422/portfolio-react:latest
+    build: .
     expose:
       - "80"
     restart: unless-stopped
+    environment:
+      - VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}
+      - VITE_EMAILJS_TEMPLATE_ID=${VITE_EMAILJS_TEMPLATE_ID}
+      - VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY}
+    env_file:
+      - .env
 
   caddy:
     image: caddy:2-alpine

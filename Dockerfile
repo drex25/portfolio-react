@@ -16,6 +16,15 @@ COPY . .
 RUN mkdir -p public/assets public/data && \
     chmod -R 755 public/assets public/data
 
+# Set environment variables for build (these will be replaced at runtime)
+ARG VITE_EMAILJS_SERVICE_ID
+ARG VITE_EMAILJS_TEMPLATE_ID
+ARG VITE_EMAILJS_PUBLIC_KEY
+
+ENV VITE_EMAILJS_SERVICE_ID=$VITE_EMAILJS_SERVICE_ID
+ENV VITE_EMAILJS_TEMPLATE_ID=$VITE_EMAILJS_TEMPLATE_ID
+ENV VITE_EMAILJS_PUBLIC_KEY=$VITE_EMAILJS_PUBLIC_KEY
+
 # Build the app
 RUN npm run build
 
