@@ -20,20 +20,20 @@ RUN mkdir -p public/assets public/data && \
 RUN npm run build
 
 # Production stage
-FROM caddy:2-alpine
+FROM nginx:alpine
 
 # Copy built assets from build stage
-COPY --from=build /app/dist /usr/share/caddy
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy Caddy configuration
-COPY caddy/Caddyfile /etc/caddy/Caddyfile
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create directories in caddy and ensure permissions
-RUN mkdir -p /usr/share/caddy/assets /usr/share/caddy/data && \
-    chmod -R 755 /usr/share/caddy/assets /usr/share/caddy/data
+# Create directories in nginx and ensure permissions
+RUN mkdir -p /usr/share/nginx/html/assets /usr/share/nginx/html/data && \
+    chmod -R 755 /usr/share/nginx/html/assets /usr/share/nginx/html/data
 
-# Expose ports 80 and 443
-EXPOSE 80 443
+# Expose port 80
+EXPOSE 80
 
-# Start caddy
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"] 
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"] 
