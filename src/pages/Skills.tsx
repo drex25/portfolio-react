@@ -122,8 +122,8 @@ const Skills: React.FC = () => {
       category: 'frontend', 
       color: 'text-teal-400',
       description: 'Framework CSS utility-first para diseños rápidos',
-      level: 'Principiante',
-      experience: '1 año'
+      level: 'Intermedio',
+      experience: '2 años'
     },
 
     // Backend
