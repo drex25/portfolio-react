@@ -10,6 +10,24 @@
       "features": ["Tema Hijo Divi", "Plugin Calendario", "Autogestión", "Sistema de Pagos", "Responsive"]
     },
     {
+      "name": "Contribumed - Servicio Médico Domiciliario",
+      "description": "Portal web de servicio médico integral que ofrece atención primaria de salud las 24 horas, tanto en domicilio como por video-consultas. Desarrollo de plataforma para gestión de citas, atención médica accesible y eficiente sin comprometer la calidad.",
+      "technologies": ["WordPress", "PHP", "JavaScript", "CSS", "MySQL"],
+      "github": "https://github.com/tuusuario/contribumed",
+      "demo": "https://contribumed.com",
+      "image": "/assets/contribumed.png",
+      "features": ["Atención 24/7", "Video-consultas", "Gestión de Citas", "Portal de Pacientes", "Responsive"]
+    },
+    {
+      "name": "TSGroup - Soluciones Tecnológicas",
+      "description": "Portal corporativo de TSGroup, empresa líder en soluciones tecnológicas para la innovación en organizaciones públicas y privadas. Desarrollo web con enfoque en transformación digital, aplicaciones web/mobile y consultoría tributaria.",
+      "technologies": ["WordPress", "PHP", "JavaScript", "CSS", "MySQL"],
+      "github": "https://github.com/tuusuario/tsgroup",
+      "demo": "https://tsgroup.com.ar/",
+      "image": "/assets/tsgroup.png",
+      "features": ["Portal Corporativo", "Soluciones 360°", "Transformación Digital", "Responsive", "SEO Optimizado"]
+    },
+    {
       "name": "Portfolio Personal",
       "description": "Portfolio profesional desarrollado con React, TypeScript y Tailwind CSS. Incluye animaciones suaves, modo oscuro y diseño responsive.",
       "technologies": ["React", "TypeScript", "Tailwind", "Git"],
