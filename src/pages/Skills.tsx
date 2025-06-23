@@ -14,7 +14,6 @@ import {
   FaLightbulb
 } from 'react-icons/fa';
 import { 
-  SiTypescript, 
   SiJavascript, 
   SiReact, 
   SiTailwindcss, 
@@ -25,16 +24,11 @@ import {
   SiGit,
   SiHtml5,
   SiCss3,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiMongodb,
-  SiPostgresql,
   SiAmazon,
   SiFigma,
   SiWordpress,
-  SiVuedotjs,
-  SiPython,
-  SiLinux
+  SiLinux,
+  SiBootstrap
 } from 'react-icons/si';
 import { VscCode } from 'react-icons/vsc';
 
@@ -68,51 +62,6 @@ const Skills: React.FC = () => {
   const skills: Skill[] = [
     // Frontend
     { 
-      name: 'React', 
-      icon: <SiReact />, 
-      category: 'frontend', 
-      color: 'text-cyan-400',
-      description: 'Desarrollo de SPAs modernas y componentes reutilizables',
-      level: 'Avanzado',
-      experience: '3+ años'
-    },
-    { 
-      name: 'TypeScript', 
-      icon: <SiTypescript />, 
-      category: 'frontend', 
-      color: 'text-blue-500',
-      description: 'Tipado estático para JavaScript más robusto',
-      level: 'Intermedio',
-      experience: '2+ años'
-    },
-    { 
-      name: 'Next.js', 
-      icon: <SiNextdotjs />, 
-      category: 'frontend', 
-      color: 'text-white',
-      description: 'Framework React para aplicaciones full-stack',
-      level: 'Intermedio',
-      experience: '1+ año'
-    },
-    { 
-      name: 'Tailwind CSS', 
-      icon: <SiTailwindcss />, 
-      category: 'frontend', 
-      color: 'text-teal-400',
-      description: 'Framework CSS utility-first para diseños rápidos',
-      level: 'Avanzado',
-      experience: '2+ años'
-    },
-    { 
-      name: 'Vue.js', 
-      icon: <SiVuedotjs />, 
-      category: 'frontend', 
-      color: 'text-green-500',
-      description: 'Framework progresivo para interfaces de usuario',
-      level: 'Intermedio',
-      experience: '1+ año'
-    },
-    { 
       name: 'HTML5', 
       icon: <SiHtml5 />, 
       category: 'frontend', 
@@ -139,17 +88,35 @@ const Skills: React.FC = () => {
       level: 'Avanzado',
       experience: '4+ años'
     },
+    { 
+      name: 'React', 
+      icon: <SiReact />, 
+      category: 'frontend', 
+      color: 'text-cyan-400',
+      description: 'Desarrollo de SPAs modernas y componentes reutilizables',
+      level: 'Principiante',
+      experience: '1 año'
+    },
+    { 
+      name: 'Bootstrap', 
+      icon: <SiBootstrap />, 
+      category: 'frontend', 
+      color: 'text-purple-500',
+      description: 'Framework CSS para desarrollo rápido y responsive',
+      level: 'Avanzado',
+      experience: '4+ años'
+    },
+    { 
+      name: 'Tailwind CSS', 
+      icon: <SiTailwindcss />, 
+      category: 'frontend', 
+      color: 'text-teal-400',
+      description: 'Framework CSS utility-first para diseños rápidos',
+      level: 'Principiante',
+      experience: '1 año'
+    },
 
     // Backend
-    { 
-      name: 'Laravel', 
-      icon: <SiLaravel />, 
-      category: 'backend', 
-      color: 'text-red-500',
-      description: 'Framework PHP elegante para desarrollo web',
-      level: 'Avanzado',
-      experience: '3+ años'
-    },
     { 
       name: 'PHP', 
       icon: <SiPhp />, 
@@ -160,22 +127,13 @@ const Skills: React.FC = () => {
       experience: '4+ años'
     },
     { 
-      name: 'Node.js', 
-      icon: <SiNodedotjs />, 
+      name: 'Laravel', 
+      icon: <SiLaravel />, 
       category: 'backend', 
-      color: 'text-green-500',
-      description: 'JavaScript del lado del servidor',
-      level: 'Intermedio',
-      experience: '2+ años'
-    },
-    { 
-      name: 'Python', 
-      icon: <SiPython />, 
-      category: 'backend', 
-      color: 'text-yellow-400',
-      description: 'Scripting y desarrollo de APIs',
-      level: 'Intermedio',
-      experience: '1+ año'
+      color: 'text-red-500',
+      description: 'Framework PHP elegante para desarrollo web',
+      level: 'Avanzado',
+      experience: '3+ años'
     },
 
     // Database
@@ -188,24 +146,6 @@ const Skills: React.FC = () => {
       level: 'Avanzado',
       experience: '4+ años'
     },
-    { 
-      name: 'MongoDB', 
-      icon: <SiMongodb />, 
-      category: 'database', 
-      color: 'text-green-600',
-      description: 'Base de datos NoSQL flexible',
-      level: 'Intermedio',
-      experience: '2+ años'
-    },
-    { 
-      name: 'PostgreSQL', 
-      icon: <SiPostgresql />, 
-      category: 'database', 
-      color: 'text-blue-400',
-      description: 'Base de datos avanzada con características enterprise',
-      level: 'Intermedio',
-      experience: '1+ año'
-    },
 
     // DevOps & Tools
     { 
@@ -214,8 +154,8 @@ const Skills: React.FC = () => {
       category: 'devops', 
       color: 'text-blue-400',
       description: 'Containerización y despliegue de aplicaciones',
-      level: 'Intermedio',
-      experience: '2+ años'
+      level: 'Principiante',
+      experience: '1 año'
     },
     { 
       name: 'Git', 
@@ -240,7 +180,7 @@ const Skills: React.FC = () => {
       icon: <SiLinux />, 
       category: 'devops', 
       color: 'text-yellow-300',
-      description: 'Administración de servidores y sistemas',
+      description: 'Administración de servidores y configuración con Docker',
       level: 'Intermedio',
       experience: '2+ años'
     },
@@ -251,16 +191,16 @@ const Skills: React.FC = () => {
       icon: <SiFigma />, 
       category: 'design', 
       color: 'text-purple-400',
-      description: 'Diseño de interfaces y prototipado',
-      level: 'Intermedio',
-      experience: '2+ años'
+      description: 'Diseño de interfaces básico y prototipado',
+      level: 'Principiante',
+      experience: '1+ año'
     },
     { 
       name: 'WordPress', 
       icon: <SiWordpress />, 
       category: 'cms', 
       color: 'text-blue-800',
-      description: 'CMS y desarrollo de temas personalizados',
+      description: 'CMS, desarrollo de plugins y child themes personalizados',
       level: 'Experto',
       experience: '5+ años'
     },
@@ -475,7 +415,7 @@ const Skills: React.FC = () => {
           })}
         </div>
 
-        {/* Resumen de experiencia */}
+        {/* Filosofía */}
         <motion.div
           className="mt-24 text-center"
           initial={{ opacity: 0, y: 30 }}
@@ -483,29 +423,9 @@ const Skills: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/10 max-w-5xl mx-auto">
-            <h3 className="text-3xl font-bold text-white mb-8">Mi Experiencia Técnica</h3>
-            <div className="grid md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-5xl font-bold text-cyan-400 mb-3">5+</div>
-                <div className="text-gray-400 font-medium">Años de Experiencia</div>
-              </div>
-              <div className="text-center">
-                <div className="text-5xl font-bold text-blue-400 mb-3">{skills.length}+</div>
-                <div className="text-gray-400 font-medium">Tecnologías Dominadas</div>
-              </div>
-              <div className="text-center">
-                <div className="text-5xl font-bold text-purple-400 mb-3">50+</div>
-                <div className="text-gray-400 font-medium">Proyectos Completados</div>
-              </div>
-              <div className="text-center">
-                <div className="text-5xl font-bold text-green-400 mb-3">100%</div>
-                <div className="text-gray-400 font-medium">Dedicación</div>
-              </div>
-            </div>
-            
-            {/* Filosofía */}
-            <div className="mt-8 p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/10 max-w-4xl mx-auto">
+            <h3 className="text-3xl font-bold text-white mb-8">Mi Filosofía</h3>
+            <div className="p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
               <p className="text-gray-300 text-lg leading-relaxed italic">
                 "La tecnología es solo una herramienta. Lo importante es cómo la usamos para resolver problemas reales y crear experiencias que impacten positivamente en las personas."
               </p>

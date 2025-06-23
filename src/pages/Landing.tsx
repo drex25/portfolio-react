@@ -123,7 +123,7 @@ const HeroSection: React.FC = () => {
 
       {/* Contenido principal */}
       <motion.div 
-        className="relative z-10 text-center px-4 max-w-6xl mx-auto"
+        className="relative z-10 text-center px-4 max-w-6xl mx-auto flex-1 flex flex-col justify-center"
         style={{ y, opacity, scale }}
       >
         {/* Avatar con efectos mejorados */}
@@ -298,14 +298,18 @@ const HeroSection: React.FC = () => {
             </motion.a>
           ))}
         </motion.div>
+      </motion.div>
 
-        {/* Indicador de scroll */}
+      {/* Indicador de scroll - CENTRADO AL FINAL */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 0.6 }}
+      >
         <motion.button
           onClick={scrollToNext}
           className="text-cyan-400 hover:text-white transition-colors duration-300 flex flex-col items-center gap-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.6 }}
           whileHover={{ y: -5 }}
         >
           <span className="text-sm font-medium">{t('home.scrollToExplore', 'Scroll para explorar')}</span>
