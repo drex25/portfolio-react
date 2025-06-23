@@ -279,8 +279,8 @@ const HeroSection: React.FC = () => {
           transition={{ delay: 1.8, duration: 0.6 }}
         >
           {[
-            { icon: FaGithub, href: "https://github.com/tuusuario", color: "hover:text-gray-300" },
-            { icon: FaLinkedin, href: "https://linkedin.com/in/tuusuario", color: "hover:text-blue-400" }
+            { icon: FaGithub, href: "https://github.com/drex25", color: "hover:text-gray-300" },
+            { icon: FaLinkedin, href: "https://www.linkedin.com/in/drexler-wilvins-sylvain-3627211b0/", color: "hover:text-blue-400" }
           ].map((social, index) => (
             <motion.a
               key={index}

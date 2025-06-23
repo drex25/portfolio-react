@@ -21,7 +21,9 @@ import {
   FaCoffee,
   FaMusic,
   FaGamepad,
-  FaBook
+  FaBook,
+  FaCode,
+  FaStar
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -215,6 +217,71 @@ const About: React.FC = () => {
                 impacto real en los usuarios y negocios."
               </blockquote>
               <div className="text-cyan-400 font-semibold text-lg">- Sylvain Drexler Wilvins</div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Mi Experiencia Técnica */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+              <FaCode className="text-cyan-400" />
+              Mi Experiencia Técnica
+            </h3>
+            <p className="text-gray-400">Números que reflejan mi trayectoria profesional</p>
+          </div>
+
+          <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 sm:p-12 border border-white/10 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="text-4xl sm:text-5xl font-bold text-cyan-400 mb-3">5+</div>
+                <div className="text-gray-400 font-medium">Años de Experiencia</div>
+              </motion.div>
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="text-4xl sm:text-5xl font-bold text-blue-400 mb-3">25+</div>
+                <div className="text-gray-400 font-medium">Tecnologías Dominadas</div>
+              </motion.div>
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="text-4xl sm:text-5xl font-bold text-purple-400 mb-3">50+</div>
+                <div className="text-gray-400 font-medium">Proyectos Completados</div>
+              </motion.div>
+              <motion.div
+                className="text-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="text-4xl sm:text-5xl font-bold text-green-400 mb-3">100%</div>
+                <div className="text-gray-400 font-medium">Dedicación</div>
+              </motion.div>
+            </div>
+            
+            {/* Filosofía */}
+            <div className="p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <FaStar className="text-yellow-400 text-xl" />
+                <h4 className="text-lg font-bold text-white">Mi Filosofía</h4>
+              </div>
+              <p className="text-gray-300 text-lg leading-relaxed italic text-center">
+                "La tecnología es solo una herramienta. Lo importante es cómo la usamos para resolver problemas reales y crear experiencias que impacten positivamente en las personas."
+              </p>
             </div>
           </div>
         </motion.div>
