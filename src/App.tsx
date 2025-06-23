@@ -33,7 +33,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900">
       {loading && <CustomLoader />}
-      {/* Solo mostrar Navbar y Footer si no estamos en la página CV */}
+      {/* Solo mostrar Navbar y Footer si no estamos en la página CV... */}
       {location.pathname !== '/cv' && <Navbar onLanguageChange={changeLanguage} />}
       <main>
         <Routes>
