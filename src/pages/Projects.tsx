@@ -8,7 +8,11 @@ import {
   FaSearch,
   FaEye,
   FaCode,
-  FaRocket
+  FaRocket,
+  FaAward,
+  FaChartLine,
+  FaShoppingCart,
+  FaGlobe
 } from 'react-icons/fa';
 import { 
   SiReact, 
@@ -35,6 +39,8 @@ interface Project {
   demo: string;
   image: string;
   features: string[];
+  category?: 'web' | 'ecommerce' | 'enterprise' | 'custom';
+  impact?: string;
 }
 
 const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
@@ -54,11 +60,30 @@ const techIcons: Record<string, { icon: React.ReactNode; color: string }> = {
   Git: { icon: <SiGit />, color: 'text-orange-500' },
 };
 
-// Componente de tarjeta de proyecto mejorado
+// Componente de tarjeta de proyecto mejorado con enfoque comercial
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const getCategoryIcon = (category?: string) => {
+    switch (category) {
+      case 'ecommerce': return <FaShoppingCart className="text-green-400" />;
+      case 'enterprise': return <FaAward className="text-purple-400" />;
+      case 'web': return <FaGlobe className="text-blue-400" />;
+      default: return <FaCode className="text-cyan-400" />;
+    }
+  };
+
+  const getCategoryLabel = (category?: string) => {
+    switch (category) {
+      case 'ecommerce': return 'E-commerce';
+      case 'enterprise': return 'Empresarial';
+      case 'web': return 'Sitio Web';
+      case 'custom': return 'Personalizado';
+      default: return 'Desarrollo';
+    }
+  };
 
   return (
     <motion.div
@@ -81,18 +106,28 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           
+          {/* Category badge */}
+          <div className="absolute top-4 left-4">
+            <div className="flex items-center gap-2 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs font-bold">
+              {getCategoryIcon(project.category)}
+              {getCategoryLabel(project.category)}
+            </div>
+          </div>
+          
           {/* Overlay con botones */}
           <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <motion.a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaGithub className="text-xl" />
-            </motion.a>
+            {project.github && (
+              <motion.a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaGithub className="text-xl" />
+              </motion.a>
+            )}
             <motion.a
               href={project.demo}
               target="_blank"
@@ -113,14 +148,16 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               {project.name}
             </h3>
             <div className="flex gap-2">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <FaGithub className="text-lg" />
-              </a>
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <FaGithub className="text-lg" />
+                </a>
+              )}
               <a
                 href={project.demo}
                 target="_blank"
@@ -136,14 +173,25 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             {project.description}
           </p>
 
+          {/* Impact/Results */}
+          {project.impact && (
+            <div className="mb-4 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+              <div className="flex items-center gap-2 mb-1">
+                <FaChartLine className="text-green-400 text-sm" />
+                <span className="text-green-400 text-sm font-semibold">Impacto:</span>
+              </div>
+              <p className="text-green-300 text-sm">{project.impact}</p>
+            </div>
+          )}
+
           {/* Features */}
           <div className="mb-4">
             <h4 className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
               <FaStar className="text-yellow-400" />
-              {t('projects.features')}
+              Características principales:
             </h4>
             <div className="flex flex-wrap gap-2">
-              {project.features.map((feature) => (
+              {project.features.slice(0, 3).map((feature) => (
                 <span
                   key={feature}
                   className="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs font-medium border border-cyan-500/30"
@@ -151,12 +199,17 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                   {feature}
                 </span>
               ))}
+              {project.features.length > 3 && (
+                <span className="px-2 py-1 bg-gray-500/20 text-gray-400 rounded-full text-xs font-medium">
+                  +{project.features.length - 3} más
+                </span>
+              )}
             </div>
           </div>
 
           {/* Tecnologías */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 mb-3">{t('projects.technologies')}</h4>
+            <h4 className="text-sm font-semibold text-gray-400 mb-3">Stack tecnológico:</h4>
             <div className="flex flex-wrap gap-3">
               {project.technologies.map((tech) => {
                 const techInfo = techIcons[tech];
@@ -201,7 +254,21 @@ const Projects: React.FC = () => {
         setIsLoading(true);
         const response = await fetch('/data/projects.json');
         const data = await response.json();
-        setProjects(data.projects || []);
+        
+        // Agregar categorías e impacto a los proyectos
+        const enhancedProjects = data.projects.map((project: Project) => ({
+          ...project,
+          category: project.name.includes('E-commerce') || project.name.includes('Tienda') ? 'ecommerce' :
+                   project.name.includes('Sistema') || project.name.includes('Empresarial') ? 'enterprise' :
+                   project.name.includes('WordPress') || project.name.includes('Landing') ? 'web' : 'custom',
+          impact: project.name.includes('RRHH') ? 'Optimización de procesos de recursos humanos' :
+                 project.name.includes('Tasa') ? 'Digitalización de trámites gubernamentales' :
+                 project.name.includes('ATM') ? 'Mejora en la experiencia del contribuyente' :
+                 project.name.includes('Contribumed') ? 'Acceso 24/7 a servicios médicos' :
+                 undefined
+        }));
+        
+        setProjects(enhancedProjects || []);
       } catch (error) {
         console.error('Error loading projects:', error);
         setProjects([]);
@@ -214,11 +281,19 @@ const Projects: React.FC = () => {
   }, []);
 
   const filteredProjects = projects.filter(project => {
-    const matchesFilter = filter === 'all' || project.technologies.includes(filter);
+    const matchesFilter = filter === 'all' || project.technologies.includes(filter) || project.category === filter;
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
   });
+
+  // Categorías disponibles
+  const categories = [
+    { id: 'all', name: 'Todos los Proyectos', icon: <FaGlobe /> },
+    { id: 'ecommerce', name: 'E-commerce', icon: <FaShoppingCart /> },
+    { id: 'enterprise', name: 'Empresarial', icon: <FaAward /> },
+    { id: 'web', name: 'Sitios Web', icon: <FaCode /> }
+  ];
 
   // Tecnologías disponibles basadas en las habilidades reales
   const availableTechnologies = [
@@ -265,12 +340,42 @@ const Projects: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
-            {t('projects.title')}
+            Casos de Éxito
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            {t('projects.description')}
+            Proyectos reales que demuestran nuestra capacidad para crear soluciones digitales que generan resultados medibles para nuestros clientes.
           </p>
+        </motion.div>
+
+        {/* Estadísticas de proyectos */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {[
+            { number: projects.length, label: 'Proyectos Completados', icon: <FaRocket /> },
+            { number: '100%', label: 'Satisfacción Cliente', icon: <FaStar /> },
+            { number: '5+', label: 'Años de Experiencia', icon: <FaAward /> },
+            { number: '24/7', label: 'Soporte Técnico', icon: <FaCode /> }
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="text-center p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
+              <div className="text-2xl text-cyan-400 mb-2">{stat.icon}</div>
+              <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
+              <div className="text-sm text-gray-400">{stat.label}</div>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Controles de filtrado */}
@@ -279,58 +384,40 @@ const Projects: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
           {/* Barra de búsqueda */}
           <div className="max-w-md mx-auto relative">
             <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder={t('projects.searchPlaceholder')}
+              placeholder="Buscar proyectos por nombre o tecnología..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-full text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
             />
           </div>
 
-          {/* Filtros de tecnología */}
+          {/* Filtros por categoría */}
           <div className="flex flex-wrap justify-center gap-3">
-            <motion.button
-              onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
-                filter === 'all'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
-                  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/20'
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaFilter className="text-sm" />
-              {t('projects.filterAll')} ({projects.length})
-            </motion.button>
-            
-            {availableTechnologies.map((tech) => {
-              const techInfo = techIcons[tech];
-              const count = projects.filter(p => p.technologies.includes(tech)).length;
-              
-              if (count === 0) return null;
+            {categories.map((category) => {
+              const count = category.id === 'all' ? projects.length : 
+                           projects.filter(p => p.category === category.id).length;
               
               return (
                 <motion.button
-                  key={tech}
-                  onClick={() => setFilter(tech)}
+                  key={category.id}
+                  onClick={() => setFilter(category.id)}
                   className={`px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${
-                    filter === tech
+                    filter === category.id
                       ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
                       : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/20'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className={techInfo?.color || 'text-gray-400'}>
-                    {techInfo?.icon}
-                  </span>
-                  {tech} ({count})
+                  {category.icon}
+                  {category.name} ({count})
                 </motion.button>
               );
             })}
@@ -350,9 +437,9 @@ const Projects: React.FC = () => {
               animate={{ opacity: 1 }}
             >
               <FaSearch className="text-6xl text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-400 mb-2">{t('projects.noResults')}</h3>
+              <h3 className="text-2xl font-bold text-gray-400 mb-2">No se encontraron proyectos</h3>
               <p className="text-gray-500">
-                {t('projects.noResultsDesc')}
+                Intenta con otros términos de búsqueda o filtros diferentes.
               </p>
             </motion.div>
           )}
@@ -366,24 +453,42 @@ const Projects: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-2xl font-bold text-white mb-4">{t('projects.projectIdea')}</h3>
-          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            {t('projects.projectIdeaDesc')}
-          </p>
-          <motion.button
-            onClick={() => {
-              const contactSection = document.getElementById('contact');
-              if (contactSection) {
-                contactSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaRocket className="text-lg" />
-            {t('projects.startProject')}
-          </motion.button>
+          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-3xl p-8 sm:p-12 max-w-4xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">¿Tu Proyecto Será el Próximo Caso de Éxito?</h3>
+            <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg">
+              Cada proyecto exitoso comienza con una idea. Transformemos la tuya en una solución digital que genere resultados reales para tu negocio.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                onClick={() => {
+                  const servicesSection = document.getElementById('services');
+                  if (servicesSection) {
+                    servicesSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaRocket className="text-lg" />
+                Ver Servicios
+              </motion.button>
+              <motion.button
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex items-center gap-3 px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaCode className="text-lg" />
+                Solicitar Cotización
+              </motion.button>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

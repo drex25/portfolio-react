@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore, FaCheckCircle, FaShieldAlt, FaHeadset, FaAward } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Importar los componentes de las otras páginas
@@ -96,6 +96,29 @@ const HeroSection: React.FC = () => {
 
   const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
+  const guarantees = [
+    {
+      icon: <FaCheckCircle />,
+      title: "Entrega Garantizada",
+      description: "Cumplimos los tiempos acordados"
+    },
+    {
+      icon: <FaShieldAlt />,
+      title: "Calidad Asegurada",
+      description: "Código limpio y optimizado"
+    },
+    {
+      icon: <FaHeadset />,
+      title: "Soporte Continuo",
+      description: "Acompañamiento post-entrega"
+    },
+    {
+      icon: <FaAward />,
+      title: "Satisfacción 100%",
+      description: "Garantía de resultado"
+    }
+  ];
+
   return (
     <section 
       ref={containerRef}
@@ -122,7 +145,7 @@ const HeroSection: React.FC = () => {
         className="relative z-10 text-center px-4 max-w-6xl mx-auto flex-1 flex flex-col justify-center"
         style={{ y, opacity, scale }}
       >
-        {/* Avatar con efectos mejorados */}
+        {/* Logo empresarial con efectos mejorados */}
         <motion.div
           className="relative mb-12 mx-auto w-fit"
           initial={{ scale: 0, rotate: -180 }}
@@ -148,22 +171,22 @@ const HeroSection: React.FC = () => {
             />
           </div>
           
-          {/* Avatar principal */}
+          {/* Logo empresarial */}
           <motion.div
-            className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl"
+            className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl bg-gradient-to-br from-slate-800 to-slate-900"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full animate-pulse" />
-            <img 
-              src="/assets/DREX.jpeg" 
-              alt="Sylvain Drexler" 
-              className="w-full h-full object-cover relative z-10"
-            />
+            <div className="w-full h-full flex items-center justify-center relative z-10">
+              <div className="text-6xl font-black text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text">
+                D
+              </div>
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* Texto principal con animaciones */}
+        {/* Texto principal con enfoque comercial */}
         <motion.div
           className="space-y-6 mb-12"
           initial={{ opacity: 0, y: 50 }}
@@ -176,11 +199,11 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            {t('home.greeting', 'Hola, soy')}
+            Soluciones Digitales Profesionales
           </motion.p>
           
           <TypewriterText
-            text="Sylvain Drexler"
+            text="Desarrollo Web"
             className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent leading-tight"
           />
           
@@ -190,21 +213,22 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
           >
-            <span className="text-cyan-400">{t('home.role', 'Full Stack')}</span> Developer & 
-            <span className="text-blue-400"> Systems Analyst</span>
+            <span className="text-cyan-400">Full Stack</span> & 
+            <span className="text-blue-400"> E-commerce</span>
           </motion.h2>
           
           <motion.p
-            className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            {t('home.description', 'Transformo ideas en experiencias digitales excepcionales. Especializado en desarrollo web moderno, optimización de procesos y consultoría tecnológica con más de 5 años de experiencia.')}
+            Transformamos tus ideas en experiencias digitales exitosas. Especializados en desarrollo web moderno, 
+            e-commerce y aplicaciones empresariales con más de 5 años de experiencia entregando resultados.
           </motion.p>
         </motion.div>
 
-        {/* Estadísticas rápidas */}
+        {/* Estadísticas comerciales */}
         <motion.div
           className="grid grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
@@ -212,9 +236,9 @@ const HeroSection: React.FC = () => {
           transition={{ delay: 1.4, duration: 0.6 }}
         >
           {[
-            { number: "5+", label: t('home.stats.experience', 'Años de Experiencia') },
-            { number: "50+", label: t('home.stats.projects', 'Proyectos Completados') },
-            { number: "100%", label: t('home.stats.satisfaction', 'Satisfacción Cliente') }
+            { number: "5+", label: "Años de Experiencia" },
+            { number: "50+", label: "Proyectos Entregados" },
+            { number: "100%", label: "Clientes Satisfechos" }
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -232,25 +256,13 @@ const HeroSection: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* Botones de acción mejorados */}
+        {/* Botones de acción comerciales */}
         <motion.div
           className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.6, duration: 0.6 }}
         >
-          <motion.a
-            href="/cv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaDownload className="text-lg" />
-            <span>{t('home.downloadCV', 'Descargar CV')}</span>
-          </motion.a>
-          
           <motion.button
             onClick={() => {
               const servicesSection = document.getElementById('services');
@@ -258,7 +270,7 @@ const HeroSection: React.FC = () => {
                 servicesSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -273,40 +285,50 @@ const HeroSection: React.FC = () => {
                 projectsSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="group relative px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-full hover:bg-purple-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             <FaRocket className="text-lg" />
-            <span>{t('home.viewProjects', 'Ver Proyectos')}</span>
+            <span>Ver Proyectos</span>
+          </motion.button>
+          
+          <motion.button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="group relative px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-full hover:bg-purple-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaHeadset className="text-lg" />
+            <span>Contactar</span>
           </motion.button>
         </motion.div>
 
-        {/* Redes sociales con efectos mejorados */}
+        {/* Garantías comerciales */}
         <motion.div
-          className="flex gap-6 justify-center items-center"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.8, duration: 0.6 }}
         >
-          {[
-            { icon: FaGithub, href: "https://github.com/drex25", color: "hover:text-gray-300" },
-            { icon: FaLinkedin, href: "https://www.linkedin.com/in/drexler-wilvins-sylvain-3627211b0/", color: "hover:text-blue-400" }
-          ].map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`text-3xl text-gray-400 ${social.color} transition-colors duration-300 p-3 rounded-full border border-gray-600 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/25`}
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
+          {guarantees.map((guarantee, index) => (
+            <motion.div
+              key={guarantee.title}
+              className="text-center p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.8 + index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -2 }}
             >
-              <social.icon />
-            </motion.a>
+              <div className="text-2xl text-cyan-400 mb-2">{guarantee.icon}</div>
+              <h3 className="text-sm font-bold text-white mb-1">{guarantee.title}</h3>
+              <p className="text-xs text-gray-400">{guarantee.description}</p>
+            </motion.div>
           ))}
         </motion.div>
       </motion.div>

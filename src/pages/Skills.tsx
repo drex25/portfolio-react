@@ -11,7 +11,10 @@ import {
   FaStar,
   FaFire,
   FaHeart,
-  FaLightbulb
+  FaLightbulb,
+  FaShieldAlt,
+  FaCheckCircle,
+  FaAward
 } from 'react-icons/fa';
 import { 
   SiJavascript, 
@@ -41,6 +44,7 @@ interface Skill {
   description: string;
   level: 'Principiante' | 'Intermedio' | 'Avanzado' | 'Experto';
   experience: string;
+  businessValue: string;
 }
 
 interface SkillCategory {
@@ -49,6 +53,7 @@ interface SkillCategory {
   icon: React.ReactNode;
   color: string;
   description: string;
+  businessImpact: string;
 }
 
 const Skills: React.FC = () => {
@@ -68,9 +73,10 @@ const Skills: React.FC = () => {
       icon: <SiHtml5 />, 
       category: 'frontend', 
       color: 'text-orange-500',
-      description: 'Marcado semántico y accesible',
+      description: 'Marcado semántico y accesible para mejor SEO',
       level: 'Experto',
-      experience: '5+ años'
+      experience: '5+ años',
+      businessValue: 'Mejor posicionamiento en buscadores y accesibilidad'
     },
     { 
       name: 'CSS3', 
@@ -79,25 +85,28 @@ const Skills: React.FC = () => {
       color: 'text-blue-500',
       description: 'Estilos modernos con animaciones y responsive design',
       level: 'Avanzado',
-      experience: '5+ años'
+      experience: '5+ años',
+      businessValue: 'Interfaces atractivas que mejoran la experiencia del usuario'
     },
     { 
       name: 'JavaScript', 
       icon: <SiJavascript />, 
       category: 'frontend', 
       color: 'text-yellow-500',
-      description: 'ES6+ y programación funcional',
+      description: 'ES6+ y programación funcional para aplicaciones dinámicas',
       level: 'Avanzado',
-      experience: '4+ años'
+      experience: '4+ años',
+      businessValue: 'Interactividad avanzada que aumenta el engagement'
     },
     { 
       name: 'TypeScript', 
       icon: <SiTypescript />, 
       category: 'frontend', 
       color: 'text-blue-500',
-      description: 'Tipado estático para JavaScript más robusto',
+      description: 'Tipado estático para código más robusto y mantenible',
       level: 'Principiante',
-      experience: '1 año'
+      experience: '1 año',
+      businessValue: 'Menor cantidad de errores y desarrollo más eficiente'
     },
     { 
       name: 'React', 
@@ -106,7 +115,8 @@ const Skills: React.FC = () => {
       color: 'text-cyan-400',
       description: 'Desarrollo de SPAs modernas y componentes reutilizables',
       level: 'Principiante',
-      experience: '1 año'
+      experience: '1 año',
+      businessValue: 'Aplicaciones web rápidas y escalables'
     },
     { 
       name: 'Bootstrap', 
@@ -115,16 +125,18 @@ const Skills: React.FC = () => {
       color: 'text-purple-500',
       description: 'Framework CSS para desarrollo rápido y responsive',
       level: 'Avanzado',
-      experience: '4+ años'
+      experience: '4+ años',
+      businessValue: 'Desarrollo más rápido y consistencia visual'
     },
     { 
       name: 'Tailwind CSS', 
       icon: <SiTailwindcss />, 
       category: 'frontend', 
       color: 'text-teal-400',
-      description: 'Framework CSS utility-first para diseños rápidos',
+      description: 'Framework CSS utility-first para diseños personalizados',
       level: 'Intermedio',
-      experience: '2 años'
+      experience: '2 años',
+      businessValue: 'Diseños únicos con tiempo de desarrollo optimizado'
     },
 
     // Backend
@@ -135,16 +147,18 @@ const Skills: React.FC = () => {
       color: 'text-indigo-400',
       description: 'Desarrollo backend robusto y escalable',
       level: 'Avanzado',
-      experience: '4+ años'
+      experience: '4+ años',
+      businessValue: 'Lógica de negocio sólida y APIs confiables'
     },
     { 
       name: 'Laravel', 
       icon: <SiLaravel />, 
       category: 'backend', 
       color: 'text-red-500',
-      description: 'Framework PHP elegante para desarrollo web',
+      description: 'Framework PHP elegante para aplicaciones empresariales',
       level: 'Avanzado',
-      experience: '3+ años'
+      experience: '3+ años',
+      businessValue: 'Desarrollo rápido de aplicaciones complejas y seguras'
     },
 
     // Database
@@ -153,9 +167,10 @@ const Skills: React.FC = () => {
       icon: <SiMysql />, 
       category: 'database', 
       color: 'text-blue-600',
-      description: 'Base de datos relacional robusta',
+      description: 'Base de datos relacional optimizada para rendimiento',
       level: 'Avanzado',
-      experience: '4+ años'
+      experience: '4+ años',
+      businessValue: 'Gestión eficiente de datos empresariales'
     },
 
     // DevOps & Tools
@@ -164,36 +179,40 @@ const Skills: React.FC = () => {
       icon: <SiDocker />, 
       category: 'devops', 
       color: 'text-blue-400',
-      description: 'Containerización y despliegue de aplicaciones',
+      description: 'Containerización para despliegues consistentes',
       level: 'Principiante',
-      experience: '1 año'
+      experience: '1 año',
+      businessValue: 'Despliegues más rápidos y entornos consistentes'
     },
     { 
       name: 'Git', 
       icon: <SiGit />, 
       category: 'devops', 
       color: 'text-orange-500',
-      description: 'Control de versiones y colaboración',
+      description: 'Control de versiones para colaboración eficiente',
       level: 'Avanzado',
-      experience: '2 años'
+      experience: '2 años',
+      businessValue: 'Desarrollo colaborativo y historial de cambios seguro'
     },
     { 
       name: 'AWS', 
       icon: <SiAmazon />, 
       category: 'devops', 
       color: 'text-orange-400',
-      description: 'Servicios en la nube y infraestructura',
+      description: 'Servicios en la nube para infraestructura escalable',
       level: 'Intermedio',
-      experience: '1+ año'
+      experience: '1+ año',
+      businessValue: 'Infraestructura escalable y costos optimizados'
     },
     { 
       name: 'Linux', 
       icon: <SiLinux />, 
       category: 'devops', 
       color: 'text-yellow-300',
-      description: 'Administración de servidores y configuración con Docker',
+      description: 'Administración de servidores y configuración',
       level: 'Intermedio',
-      experience: '2+ años'
+      experience: '2+ años',
+      businessValue: 'Servidores estables y seguros'
     },
 
     // Design & CMS
@@ -202,27 +221,30 @@ const Skills: React.FC = () => {
       icon: <SiFigma />, 
       category: 'design', 
       color: 'text-purple-400',
-      description: 'Diseño de interfaces básico y prototipado',
+      description: 'Diseño de interfaces y prototipado colaborativo',
       level: 'Principiante',
-      experience: '1+ año'
+      experience: '1+ año',
+      businessValue: 'Prototipos que validan ideas antes del desarrollo'
     },
     { 
       name: 'WordPress', 
       icon: <SiWordpress />, 
       category: 'cms', 
       color: 'text-blue-800',
-      description: 'CMS, desarrollo de plugins y child themes personalizados',
+      description: 'CMS líder con plugins y themes personalizados',
       level: 'Experto',
-      experience: '5+ años'
+      experience: '5+ años',
+      businessValue: 'Sitios web fáciles de gestionar y actualizar'
     },
     { 
       name: 'VS Code', 
       icon: <VscCode />, 
       category: 'tools', 
       color: 'text-blue-500',
-      description: 'Editor de código principal',
+      description: 'Editor de código optimizado para productividad',
       level: 'Experto',
-      experience: '5+ años'
+      experience: '5+ años',
+      businessValue: 'Desarrollo más eficiente y menos errores'
     }
   ];
 
@@ -232,49 +254,56 @@ const Skills: React.FC = () => {
       title: 'Frontend', 
       icon: <FaCode />, 
       color: 'from-cyan-500 to-blue-600',
-      description: 'Interfaces de usuario modernas y responsivas'
+      description: 'Interfaces de usuario modernas y responsivas',
+      businessImpact: 'Mejora la experiencia del usuario y aumenta las conversiones'
     },
     { 
       id: 'backend', 
       title: 'Backend', 
       icon: <FaServer />, 
       color: 'from-green-500 to-emerald-600',
-      description: 'APIs robustas y lógica de servidor'
+      description: 'APIs robustas y lógica de servidor',
+      businessImpact: 'Garantiza la funcionalidad y seguridad de las aplicaciones'
     },
     { 
       id: 'database', 
       title: 'Bases de Datos', 
       icon: <FaDatabase />, 
       color: 'from-purple-500 to-pink-600',
-      description: 'Gestión y optimización de datos'
+      description: 'Gestión y optimización de datos',
+      businessImpact: 'Almacenamiento eficiente y consultas rápidas'
     },
     { 
       id: 'devops', 
       title: 'DevOps', 
       icon: <FaCloud />, 
       color: 'from-orange-500 to-red-600',
-      description: 'Despliegue y infraestructura'
+      description: 'Despliegue y infraestructura',
+      businessImpact: 'Reduce costos operativos y mejora la disponibilidad'
     },
     { 
       id: 'design', 
       title: 'Diseño', 
       icon: <FaPalette />, 
       color: 'from-pink-500 to-purple-600',
-      description: 'UX/UI y prototipado'
+      description: 'UX/UI y prototipado',
+      businessImpact: 'Valida conceptos antes del desarrollo completo'
     },
     { 
       id: 'cms', 
       title: 'CMS', 
       icon: <FaTools />, 
       color: 'from-indigo-500 to-blue-600',
-      description: 'Sistemas de gestión de contenido'
+      description: 'Sistemas de gestión de contenido',
+      businessImpact: 'Permite gestión autónoma del contenido web'
     },
     { 
       id: 'tools', 
       title: 'Herramientas', 
       icon: <FaRocket />, 
       color: 'from-teal-500 to-cyan-600',
-      description: 'Editores y herramientas de desarrollo'
+      description: 'Editores y herramientas de desarrollo',
+      businessImpact: 'Acelera el desarrollo y reduce errores'
     }
   ];
 
@@ -340,9 +369,16 @@ const Skills: React.FC = () => {
               </div>
             </div>
           </div>
-          <p className="text-sm text-gray-400 leading-relaxed">
+          <p className="text-sm text-gray-400 leading-relaxed mb-3">
             {skill.description}
           </p>
+          <div className="p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+            <div className="flex items-center gap-2 mb-1">
+              <FaCheckCircle className="text-cyan-400 text-sm" />
+              <span className="text-cyan-400 text-xs font-semibold">Valor comercial:</span>
+            </div>
+            <p className="text-cyan-300 text-xs leading-relaxed">{skill.businessValue}</p>
+          </div>
         </div>
       </motion.div>
     );
@@ -372,11 +408,11 @@ const Skills: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent">
-            Habilidades
+            Stack Tecnológico
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Un conjunto completo de tecnologías y herramientas que domino para crear soluciones digitales innovadoras y escalables.
+            Tecnologías y herramientas especializadas que utilizamos para crear soluciones digitales que impulsan el crecimiento de tu negocio.
           </p>
         </motion.div>
 
@@ -406,11 +442,15 @@ const Skills: React.FC = () => {
                       <h3 className="text-4xl font-bold text-white mb-2">
                         {category.title}
                       </h3>
-                      <p className="text-gray-400 text-lg">
+                      <p className="text-gray-400 text-lg mb-2">
                         {category.description}
                       </p>
+                      <div className="flex items-center gap-2 text-sm">
+                        <FaShieldAlt className="text-green-400" />
+                        <span className="text-green-400 font-medium">{category.businessImpact}</span>
+                      </div>
                       <div className="text-sm text-cyan-400 font-medium mt-1">
-                        {categorySkills.length} tecnología{categorySkills.length !== 1 ? 's' : ''}
+                        {categorySkills.length} tecnología{categorySkills.length !== 1 ? 's' : ''} especializada{categorySkills.length !== 1 ? 's' : ''}
                       </div>
                     </div>
                   </div>
@@ -427,7 +467,7 @@ const Skills: React.FC = () => {
           })}
         </div>
 
-        {/* Filosofía */}
+        {/* Propuesta de valor */}
         <motion.div
           className="mt-24 text-center"
           initial={{ opacity: 0, y: 30 }}
@@ -436,12 +476,15 @@ const Skills: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-12 border border-white/10 max-w-4xl mx-auto">
-            <h3 className="text-3xl font-bold text-white mb-8">Mi Filosofía</h3>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <FaAward className="text-3xl text-cyan-400" />
+              <h3 className="text-3xl font-bold text-white">Nuestra Ventaja Competitiva</h3>
+            </div>
             <div className="p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/20">
               <p className="text-gray-300 text-lg leading-relaxed italic">
-                "La tecnología es solo una herramienta. Lo importante es cómo la usamos para resolver problemas reales y crear experiencias que impacten positivamente en las personas."
+                "No solo dominamos las tecnologías, sino que entendemos cómo aplicarlas estratégicamente para generar valor real en tu negocio. Cada herramienta que utilizamos está seleccionada para maximizar el ROI de tu inversión en desarrollo."
               </p>
-              <div className="text-cyan-400 font-semibold mt-3">- Sylvain Drexler</div>
+              <div className="text-cyan-400 font-semibold mt-3">- Enfoque orientado a resultados</div>
             </div>
           </div>
         </motion.div>
