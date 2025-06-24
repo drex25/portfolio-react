@@ -66,12 +66,11 @@ const CV: React.FC = () => {
       company: "Agencia Tributaria de Misiones (ATM)",
       period: "2024",
       location: "Misiones, Argentina",
-      description: "Desarrollé un plugin de calendario de vencimientos y un tema hijo personalizado, mejorando la experiencia de usuario y optimizando la gestión de contenidos institucionales.",
+      description: "Colaboré activamente en el desarrollo de un plugin de calendario de vencimientos y un tema hijo personalizado, trabajando en equipo para mejorar la experiencia de usuario y optimizar la gestión de contenidos institucionales. Mi contribución incluyó el desarrollo del 60% del plugin, demostrando capacidad técnica y trabajo colaborativo efectivo.",
       achievements: [
-        "Implementación de plugin personalizado para calendario de vencimientos",
-        "Desarrollo de tema hijo optimizado para WordPress",
-        "Mejora del 40% en la experiencia de usuario",
-        "Optimización de la gestión de contenidos institucionales"
+        "Plugin personalizado implementado",
+        "Mejora del 50% en UX",
+        "Trabajo colaborativo exitoso"
       ]
     },
     {
@@ -81,23 +80,9 @@ const CV: React.FC = () => {
       location: "Posadas, Misiones",
       description: "Responsable de la gestión y desarrollo de sitios web corporativos utilizando tecnologías modernas. Trabajo híbrido enfocado en soluciones escalables.",
       achievements: [
-        "Desarrollo de 15+ sitios web corporativos",
-        "Implementación de pipelines CI/CD",
-        "Optimización de rendimiento web (mejora del 60%)",
-        "Liderazgo técnico en proyectos de gran escala"
-      ]
-    },
-    {
-      title: "Web Designer",
-      company: "Wiltechnology",
-      period: "mar. 2020 - abr. 2023",
-      location: "Remoto",
-      description: "Diseño y desarrollo de sitios web a medida, creando soluciones digitales personalizadas para clientes de diversos sectores.",
-      achievements: [
-        "Completé 30+ proyectos web exitosos",
-        "Alcancé 98% de satisfacción del cliente",
-        "Implementé diseños responsive y accesibles",
-        "Desarrollé sistema de gestión de proyectos interno"
+        "5+ sitios web desarrollados",
+        "Mantenimiento WEB",
+        "Website Manager"
       ]
     },
     {
@@ -107,35 +92,39 @@ const CV: React.FC = () => {
       location: "Remoto",
       description: "Desarrollo de tiendas online y soluciones eCommerce personalizadas, ayudando a negocios a potenciar sus ventas digitales.",
       achievements: [
-        "Creación de 25+ tiendas online exitosas",
-        "Aumento promedio del 60% en ventas de clientes",
-        "Integración con múltiples pasarelas de pago",
-        "Desarrollo de sistemas de gestión de inventario"
+        "10+ tiendas online",
+        "Aumento promedio del 60% en ventas"
       ]
     }
   ];
 
   const education = [
     {
-      degree: "Tecnicatura en Análisis de Sistemas Informáticos",
+      degree: "Analista de Sistemas Informáticos",
       institution: "Instituto Tecnológico nro.3",
       period: "mar. 2019 - dic. 2022",
       location: "Argentina",
-      description: "Formación integral en análisis, diseño y desarrollo de sistemas informáticos, con enfoque en resolución de problemas y optimización de procesos."
+      description: "Formación integral en análisis, diseño y desarrollo de sistemas informáticos, con enfoque en resolución de problemas y optimización de procesos.",
+      type: "carrera",
+      badge: "Carrera"
     },
     {
       degree: "Desarrollo Web Completo",
       institution: "Udemy",
       period: "dic. 2021 - mar. 2022",
       location: "Online",
-      description: "Curso intensivo en HTML5, CSS3, JavaScript, AJAX, PHP y MySQL orientado a la creación de aplicaciones web modernas."
+      description: "Curso intensivo en HTML5, CSS3, JavaScript, AJAX, PHP y MySQL orientado a la creación de aplicaciones web modernas.",
+      type: "curso",
+      badge: "Curso"
     },
     {
       degree: "Desarrollo Web Completo",
       institution: "Coderhouse",
       period: "Finalizado",
       location: "Online",
-      description: "Capacitación práctica en desarrollo web, desde fundamentos hasta implementación de proyectos reales."
+      description: "Capacitación práctica en desarrollo web, desde fundamentos hasta implementación de proyectos reales.",
+      type: "curso",
+      badge: "Curso"
     }
   ];
 
@@ -349,7 +338,29 @@ const CV: React.FC = () => {
                 {education.map((edu, index) => (
                   <div key={index} className="border-l-4 border-blue-500 pl-4 sm:pl-6">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                      <h4 className="text-base sm:text-lg font-bold text-gray-800">{edu.degree}</h4>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-base sm:text-lg font-bold text-gray-800">{edu.degree}</h4>
+                        {/* Badge para educación */}
+                        {'badge' in edu && edu.badge && (
+                          <span className={`px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
+                            edu.type === 'carrera' 
+                              ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white' 
+                              : 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white'
+                          }`}>
+                            {edu.type === 'carrera' ? (
+                              <>
+                                <FaAward className="text-xs" />
+                                {edu.badge}
+                              </>
+                            ) : (
+                              <>
+                                <FaGraduationCap className="text-xs" />
+                                {edu.badge}
+                              </>
+                            )}
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
                         <FaCalendarAlt />
                         <span>{edu.period}</span>
@@ -468,7 +479,7 @@ const CV: React.FC = () => {
       </div>
 
       {/* Estilos para impresión */}
-      <style jsx>{`
+      <style>{`
         @media print {
           body { margin: 0; }
           .print\\:hidden { display: none !important; }
