@@ -76,11 +76,26 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Cerrar menús al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.navbar-container')) {
+        setIsMobileMenuOpen(false);
+        setIsLanguageMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const changeLanguage = (langCode: string) => {
     i18n.changeLanguage(langCode);
     const newLanguage = languages.find(lang => lang.code === langCode) || languages[0];
     setCurrentLanguage(newLanguage);
     setIsLanguageMenuOpen(false);
+    onLanguageChange(langCode);
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -108,25 +123,25 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 navbar-container ${
         isScrolled
-          ? 'bg-slate-900/80 backdrop-blur-xl shadow-2xl border-b border-white/10'
+          ? 'bg-slate-900/95 backdrop-blur-xl shadow-2xl border-b border-white/10'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo mejorado */}
           <button 
             onClick={() => scrollToSection('home')}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-3 group z-50"
           >
             <motion.div 
               className="relative"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:shadow-cyan-500/25 transition-all duration-300">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg group-hover:shadow-cyan-500/25 transition-all duration-300">
                 <FaCode />
               </div>
               <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 blur transition-opacity duration-300" />
@@ -135,7 +150,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
               className="hidden sm:block"
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 Drex
               </span>
               <div className="text-xs text-gray-400 font-medium tracking-wider">
@@ -170,16 +185,16 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
           </div>
 
           {/* Right side controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Language Selector */}
             <div className="relative">
               <motion.button
                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-white font-medium hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-white font-medium hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="text-lg">{currentLanguage.flag}</span>
+                <span className="text-base sm:text-lg">{currentLanguage.flag}</span>
                 <span className="hidden sm:block text-sm font-bold tracking-wide">
                   {currentLanguage.code.toUpperCase()}
                 </span>
@@ -192,7 +207,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-48 rounded-xl bg-slate-900/90 backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
+                    className="absolute right-0 mt-2 w-40 sm:w-48 rounded-xl bg-slate-900/95 backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden z-50"
                   >
                     {languages.map((lang) => (
                       <motion.button
@@ -208,7 +223,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                       >
                         <span className="text-lg">{lang.flag}</span>
                         <div>
-                          <div className="font-medium">{lang.name}</div>
+                          <div className="font-medium text-sm">{lang.name}</div>
                           <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
                         </div>
                       </motion.button>
@@ -223,12 +238,12 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
+              className="lg:hidden p-2 sm:p-3 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 z-50"
             >
               {isMobileMenuOpen ? (
-                <FaTimes className="text-xl" />
+                <FaTimes className="text-lg sm:text-xl" />
               ) : (
-                <FaBars className="text-xl" />
+                <FaBars className="text-lg sm:text-xl" />
               )}
             </motion.button>
           </div>
@@ -238,53 +253,98 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10"
-          >
-            <div className="px-4 py-6 space-y-2">
-              {navLinks.map((link) => (
-                <button
-                  key={link.scrollTo}
-                  onClick={() => scrollToSection(link.scrollTo)}
-                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    activeSection === link.scrollTo
-                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30'
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {t(link.label)}
-                </button>
-              ))}
-              
-              {/* Language options in mobile */}
-              <div className="pt-4 border-t border-white/10">
-                <div className="text-sm font-medium text-gray-400 mb-3 px-4">Idioma</div>
-                <div className="grid grid-cols-3 gap-2">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => { 
-                        changeLanguage(lang.code); 
-                        setIsMobileMenuOpen(false); 
-                      }}
-                      className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 ${
-                        i18n.language === lang.code 
-                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30' 
-                          : 'text-gray-400 hover:text-white hover:bg-white/5'
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            {/* Menu */}
+            <motion.div
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-slate-900/98 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden overflow-y-auto"
+            >
+              <div className="p-6 pt-20">
+                {/* Navigation Links */}
+                <div className="space-y-2 mb-8">
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                    Navegación
+                  </h3>
+                  {navLinks.map((link, index) => (
+                    <motion.button
+                      key={link.scrollTo}
+                      onClick={() => scrollToSection(link.scrollTo)}
+                      className={`block w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                        activeSection === link.scrollTo
+                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30'
+                          : 'text-gray-300 hover:text-white hover:bg-white/5'
                       }`}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
                     >
-                      <span className="text-xl">{lang.flag}</span>
-                      <span className="text-xs font-bold">{lang.code.toUpperCase()}</span>
-                    </button>
+                      {t(link.label)}
+                    </motion.button>
                   ))}
                 </div>
+                
+                {/* Language options */}
+                <div className="border-t border-white/10 pt-6">
+                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                    Idioma
+                  </h3>
+                  <div className="space-y-2">
+                    {languages.map((lang, index) => (
+                      <motion.button
+                        key={lang.code}
+                        onClick={() => { 
+                          changeLanguage(lang.code); 
+                          setIsMobileMenuOpen(false); 
+                        }}
+                        className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${
+                          i18n.language === lang.code 
+                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30' 
+                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                        }`}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (navLinks.length + index) * 0.1 }}
+                      >
+                        <span className="text-xl">{lang.flag}</span>
+                        <div className="text-left">
+                          <div className="font-medium">{lang.name}</div>
+                          <div className="text-xs opacity-70">{lang.code.toUpperCase()}</div>
+                        </div>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CV Link */}
+                <div className="border-t border-white/10 pt-6 mt-6">
+                  <motion.a
+                    href="/cv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Ver CV Completo
+                  </motion.a>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>
