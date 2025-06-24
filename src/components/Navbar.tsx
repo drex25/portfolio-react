@@ -13,7 +13,8 @@ import {
   FaFileAlt,
   FaGlobe,
   FaChevronRight,
-  FaExternalLinkAlt
+  FaExternalLinkAlt,
+  FaStore
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -35,6 +36,7 @@ const navLinks = [
   { path: '#about', label: 'nav.about', scrollTo: 'about', icon: FaUser },
   { path: '#skills', label: 'nav.skills', scrollTo: 'skills', icon: FaSkills },
   { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
+  { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
   { path: '#contact', label: 'nav.contact', scrollTo: 'contact', icon: FaEnvelope }
 ];
 
@@ -68,7 +70,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       setIsScrolled(window.scrollY > 20);
 
       // Detectar sección activa
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'services', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {

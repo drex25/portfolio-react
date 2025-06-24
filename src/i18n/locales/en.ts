@@ -4,6 +4,7 @@ export default {
     about: 'About',
     projects: 'Projects',
     skills: 'Skills',
+    services: 'Services',
     contact: 'Contact'
   },
   home: {
@@ -12,7 +13,7 @@ export default {
     description: 'I transform ideas into exceptional digital experiences. Specialized in modern web development, process optimization and technology consulting with over 5 years of experience.',
     downloadCV: 'Download CV',
     viewProjects: 'View Projects',
-    scrollToExplore: 'Scroll to explore',
+    viewServices: 'View Services',
     stats: {
       experience: 'Years of Experience',
       projects: 'Completed Projects',
@@ -75,6 +76,19 @@ export default {
       intermediate: 'Intermediate',
       beginner: 'Beginner'
     }
+  },
+  services: {
+    title: 'Services',
+    subtitle: 'Professional digital solutions',
+    description: 'I offer complete web development services, from landing pages to complex enterprise applications.',
+    pricing: 'Pricing',
+    features: 'Features',
+    popular: 'Most Popular',
+    premium: 'Premium',
+    getStarted: 'Get Started',
+    contactForQuote: 'Request Quote',
+    whatsappContact: 'Contact via WhatsApp',
+    emailContact: 'Contact via Email'
   },
   contact: {
     title: 'Contact',

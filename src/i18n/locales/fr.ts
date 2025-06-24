@@ -4,6 +4,7 @@ export default {
     about: 'À propos',
     projects: 'Projets',
     skills: 'Compétences',
+    services: 'Services',
     contact: 'Contact'
   },
   home: {
@@ -12,7 +13,7 @@ export default {
     description: 'Je transforme les idées en expériences numériques exceptionnelles. Spécialisé dans le développement web moderne, l\'optimisation des processus et le conseil technologique avec plus de 5 ans d\'expérience.',
     downloadCV: 'Télécharger CV',
     viewProjects: 'Voir Projets',
-    scrollToExplore: 'Faites défiler pour explorer',
+    viewServices: 'Voir Services',
     stats: {
       experience: 'Années d\'Expérience',
       projects: 'Projets Terminés',
@@ -75,6 +76,19 @@ export default {
       intermediate: 'Intermédiaire',
       beginner: 'Débutant'
     }
+  },
+  services: {
+    title: 'Services',
+    subtitle: 'Solutions numériques professionnelles',
+    description: 'J\'offre des services de développement web complets, des pages d\'atterrissage aux applications d\'entreprise complexes.',
+    pricing: 'Tarifs',
+    features: 'Fonctionnalités',
+    popular: 'Plus Populaire',
+    premium: 'Premium',
+    getStarted: 'Commencer',
+    contactForQuote: 'Demander un Devis',
+    whatsappContact: 'Contacter via WhatsApp',
+    emailContact: 'Contacter via Email'
   },
   contact: {
     title: 'Contact',

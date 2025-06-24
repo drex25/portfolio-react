@@ -1,12 +1,13 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Importar los componentes de las otras páginas
 import About from './About';
-import Projects from './Projects';
 import Skills from './Skills';
+import Projects from './Projects';
+import Services from './Services';
 import Contact from './Contact';
 
 // Componente de partículas flotantes más sofisticado
@@ -252,12 +253,27 @@ const HeroSection: React.FC = () => {
           
           <motion.button
             onClick={() => {
+              const servicesSection = document.getElementById('services');
+              if (servicesSection) {
+                servicesSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaStore className="text-lg" />
+            <span>Ver Servicios</span>
+          </motion.button>
+          
+          <motion.button
+            onClick={() => {
               const projectsSection = document.getElementById('projects');
               if (projectsSection) {
                 projectsSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="group relative px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
+            className="group relative px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-full hover:bg-purple-400 hover:text-slate-900 transition-all duration-300 flex items-center gap-3"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -315,6 +331,9 @@ const Landing: React.FC = () => {
       
       {/* Projects Section */}
       <Projects />
+      
+      {/* Services Section */}
+      <Services />
       
       {/* Contact Section */}
       <Contact />
