@@ -189,7 +189,8 @@ const Projects: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
@@ -245,6 +246,7 @@ const Projects: React.FC = () => {
       ref={containerRef}
       className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-20"
       id="projects"
+      style={{ position: 'relative' }}
     >
       {/* Fondo con patrón */}
       <div className="absolute inset-0 opacity-20">

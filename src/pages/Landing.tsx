@@ -85,7 +85,8 @@ const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
+    layoutEffect: false
   });
   
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -100,6 +101,7 @@ const HeroSection: React.FC = () => {
       className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24"
       role="banner"
       id="home"
+      style={{ position: 'relative' }}
     >
       {/* Fondo con gradiente animado */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">

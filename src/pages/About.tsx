@@ -163,7 +163,8 @@ const About: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
@@ -173,6 +174,7 @@ const About: React.FC = () => {
       ref={containerRef}
       className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-20"
       id="about"
+      style={{ position: 'relative' }}
     >
       {/* Fondo con patrón */}
       <div className="absolute inset-0 opacity-20">
@@ -453,15 +455,15 @@ const About: React.FC = () => {
                   <div className="lg:col-span-3 space-y-4">
                     <div>
                       <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 hover:text-cyan-400 transition-colors">
-                        {item.title || item.degree}
+                        {'title' in item ? item.title : item.degree}
                       </h3>
-                      <p className="text-cyan-400 font-semibold text-lg">{item.company || item.institution}</p>
+                      <p className="text-cyan-400 font-semibold text-lg">{'company' in item ? item.company : item.institution}</p>
                     </div>
 
                     <p className="text-gray-300 leading-relaxed">{item.description}</p>
 
                     {/* Tecnologías */}
-                    {item.technologies && (
+                    {'technologies' in item && item.technologies && (
                       <div>
                         <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
                           <FaRocket className="text-xs" />
@@ -481,7 +483,7 @@ const About: React.FC = () => {
                     )}
 
                     {/* Logros */}
-                    {item.achievements && (
+                    {'achievements' in item && item.achievements && (
                       <div>
                         <h4 className="text-sm font-semibold text-green-400 mb-3 flex items-center gap-2">
                           <FaAward className="text-xs" />
