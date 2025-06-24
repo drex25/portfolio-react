@@ -61,7 +61,7 @@ const Services: React.FC = () => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+  const isInView = true; // Forzar siempre visible para depuración
 
   const services: Service[] = [
     {
