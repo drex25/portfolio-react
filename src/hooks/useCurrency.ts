@@ -36,6 +36,7 @@ export const useCurrency = () => {
     // Mapear idiomas a regiones - Priorizar Argentina para español
     const languageToRegion: { [key: string]: string } = {
       'es-AR': 'AR',
+      'es-PY': 'PY',
       'es-MX': 'MX',
       'es-CL': 'CL',
       'es-CO': 'CO',
@@ -77,6 +78,7 @@ export const useCurrency = () => {
       // Mapear códigos de país a nuestras regiones
       const countryToRegion: { [key: string]: string } = {
         'AR': 'AR',
+        'PY': 'PY',
         'US': 'US',
         'CA': 'US',
         'MX': 'MX',
@@ -114,7 +116,7 @@ export const useCurrency = () => {
     const convertedPrice = convertPrice(price);
     
     // Para monedas con valores altos, mostrar en formato más legible
-    if (currencyConfig.currency === 'ARS' || currencyConfig.currency === 'CLP' || currencyConfig.currency === 'COP') {
+    if (currencyConfig.currency === 'ARS' || currencyConfig.currency === 'CLP' || currencyConfig.currency === 'COP' || currencyConfig.currency === 'PYG') {
       return `${currencyConfig.symbol}${convertedPrice.toLocaleString(currencyConfig.locale)}`;
     }
     

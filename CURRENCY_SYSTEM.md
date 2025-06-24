@@ -18,7 +18,8 @@ Este sistema permite mostrar los precios de los servicios en diferentes monedas 
 
 | Región | Moneda | Símbolo | Tasa (1 USD =) | Locale |
 |--------|--------|---------|----------------|--------|
-| AR | Peso Argentino | $ | 1000 | es-AR |
+| AR | Peso Argentino | $ | 1210 | es-AR |
+| PY | Guaraní Paraguayo | ₲ | 7500 | es-PY |
 | US | Dólar Estadounidense | $ | 1 | en-US |
 | EU | Euro | € | 0.85 | es-ES |
 | MX | Peso Mexicano | $ | 18.5 | es-MX |

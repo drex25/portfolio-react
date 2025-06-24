@@ -37,6 +37,13 @@ export const REGIONAL_PRICING = {
     name: 'Peso Argentino',
     locale: 'es-AR'
   },
+  'PY': { 
+    currency: 'PYG', 
+    rate: 7500, 
+    symbol: '₲',
+    name: 'Guaraní Paraguayo',
+    locale: 'es-PY'
+  },
   'US': { 
     currency: 'USD', 
     rate: 1, 
