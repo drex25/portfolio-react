@@ -53,6 +53,19 @@
       "demo": "https://realestate.tudominio.com",
       "image": "/src/assets/projects/realestate.jpg",
       "features": ["Búsqueda Avanzada", "Mapas", "Reservas", "Filtros"]
+    },
+    {
+      "name": "Tasa Turística Misiones",
+      "description": "Plataforma oficial para la gestión y declaración de la tasa turística en Misiones. Gestión simplificada, seguridad garantizada y trámites rápidos para prestadores turísticos.",
+      "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Docker"],
+      "github": "",
+      "demo": "https://turismo.atmisiones.gob.ar/",
+      "image": "/assets/tasa.png",
+      "features": [
+        "Gestión Simplificada: Administra tus declaraciones de forma intuitiva y eficiente",
+        "Seguridad Garantizada: Protección de datos y transacciones seguras en todo momento",
+        "Proceso Rápido: Completa tus trámites en minutos con nuestra plataforma optimizada"
+      ]
     }
   ]
-} 
+}

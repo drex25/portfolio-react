@@ -1,6 +1,35 @@
 {
   "projects": [
     {
+      "name": "Sistema Integral de RRHH",
+      "description": "Suite integral para la gestión de recursos humanos: automatiza procesos, centraliza información y potencia el talento de tu organización.",
+      "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Docker"],
+      "github": "",
+      "demo": "http://200.58.106.198:8000/",
+      "image": "/assets/rrhh.png",
+      "features": [
+        "Reclutamiento y selección",
+        "Legajos y documentación",
+        "Asistencias y licencias",
+        "Evaluaciones y capacitación",
+        "Nómina y reportes",
+        "Portal del empleado"
+      ]
+    },
+    {
+      "name": "Tasa Turística Misiones",
+      "description": "Plataforma oficial para la gestión y declaración de la tasa turística en Misiones. Gestión simplificada, seguridad garantizada y trámites rápidos para prestadores turísticos.",
+      "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Docker"],
+      "github": "",
+      "demo": "https://turismo.atmisiones.gob.ar/",
+      "image": "/assets/tasa.png",
+      "features": [
+        "Gestión Simplificada: Administra tus declaraciones de forma intuitiva y eficiente",
+        "Seguridad Garantizada: Protección de datos y transacciones seguras en todo momento",
+        "Proceso Rápido: Completa tus trámites en minutos con nuestra plataforma optimizada"
+      ]
+    },
+    {
       "name": "ATM Misiones - Portal Tributario",
       "description": "Portal web oficial de la Agencia Tributaria de Misiones. Desarrollo completo con WordPress, tema hijo de Divi y plugin personalizado de calendario de vencimientos. Sistema de autogestión tributaria con múltiples funcionalidades.",
       "technologies": ["WordPress", "PHP", "Divi", "JavaScript", "CSS", "MySQL"],
@@ -82,4 +111,4 @@
       "features": ["Búsqueda Avanzada", "Mapas", "Reservas", "Filtros"]
     }
   ]
-} 
+}
