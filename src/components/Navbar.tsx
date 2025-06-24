@@ -237,87 +237,188 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 navbar-container bg-white/10 backdrop-blur-xl shadow-2xl border-b border-white/10`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 navbar-container ${
+        isScrolled 
+          ? 'bg-slate-900/95 backdrop-blur-xl shadow-2xl border-b border-cyan-400/20' 
+          : 'bg-white/10 backdrop-blur-xl shadow-2xl border-b border-white/10'
+      }`}
       style={{
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        boxShadow: isScrolled 
+          ? '0 8px 32px 0 rgba(6, 182, 212, 0.15), 0 0 0 1px rgba(6, 182, 212, 0.1)' 
+          : '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
         WebkitBackdropFilter: 'blur(16px)',
         backdropFilter: 'blur(16px)'
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 w-full">
-          {/* Logo */}
-          <button 
+          {/* Logo empresarial espectacular */}
+          <motion.button 
             onClick={() => scrollToSection('home')}
-            className="flex items-center gap-3 group z-50"
+            className="flex items-center gap-3 group z-50 relative"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-              <FaCode />
+            {/* Glow effect detrás del logo */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-2xl border border-white/20 group-hover:border-cyan-400/50 transition-all duration-300">
+              <motion.div
+                animate={{ 
+                  rotate: [0, 5, -5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <FaCode />
+              </motion.div>
+              
+              {/* Partículas orbitales */}
+              <div className="absolute inset-0">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+                    style={{
+                      top: '50%',
+                      left: '50%',
+                      transformOrigin: `${15 + i * 5}px 0px`,
+                    }}
+                    animate={{
+                      rotate: 360,
+                    }}
+                    transition={{
+                      duration: 3 + i,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: i * 0.5
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="flex flex-col items-start">
-              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Drex</span>
-              <span className="text-xs text-gray-300 tracking-widest">DEVELOPER</span>
+            
+            <div className="flex flex-col items-start relative">
+              <motion.span 
+                className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  backgroundSize: "200% 200%"
+                }}
+              >
+                Drex
+              </motion.span>
+              <span className="text-xs text-gray-300 tracking-[0.2em] font-bold opacity-80 group-hover:opacity-100 transition-opacity">
+                DEVELOPER
+              </span>
             </div>
-          </button>
+          </motion.button>
 
-          {/* Menú centrado */}
+          {/* Menú centrado con efectos increíbles */}
           <div className="flex-1 flex justify-center">
             <div className="hidden md:flex items-center gap-2 lg:gap-4">
               {groupedNavLinks.map((item, idx) => {
                 if (item.submenu) {
-                  // Submenú desplegable
+                  // Submenú desplegable con efectos espectaculares
                   return (
                     <div key={item.label} className="relative group">
-                      <button
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white/80 hover:text-cyan-300 transition-all duration-300 group-hover:text-cyan-400"
+                      <motion.button
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white/80 hover:text-cyan-300 transition-all duration-300 group-hover:text-cyan-400 relative overflow-hidden"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <span className="text-xl"><item.icon /></span>
-                        <span>{item.label}</span>
-                        <FaChevronRight className="ml-1 text-xs group-hover:rotate-90 transition-transform duration-200" />
-                      </button>
-                      <div className="absolute left-0 mt-2 w-56 bg-slate-900/95 border border-white/10 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50">
-                        {item.submenu.map((subitem) => (
-                          subitem.external ? (
-                            <a
+                        {/* Fondo con efecto hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        
+                        <span className="text-xl relative z-10"><item.icon /></span>
+                        <span className="relative z-10">{item.label}</span>
+                        <motion.div
+                          className="relative z-10"
+                          animate={{ rotate: 0 }}
+                          whileHover={{ rotate: 90 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <FaChevronRight className="ml-1 text-xs" />
+                        </motion.div>
+                      </motion.button>
+                      
+                      {/* Dropdown con glassmorphism */}
+                      <div className="absolute left-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-cyan-400/20 rounded-2xl shadow-2xl opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 z-50 overflow-hidden">
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-50" />
+                        
+                        <div className="relative z-10">
+                          {item.submenu.map((subitem, subIdx) => (
+                            <motion.div
                               key={subitem.path}
-                              href={subitem.path}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-5 py-3 text-white/90 hover:bg-cyan-400/10 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0"
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: subIdx * 0.1 }}
                             >
-                              <span className="text-lg"><subitem.icon /></span>
-                              <span>{subitem.label}</span>
-                              <FaExternalLinkAlt className="ml-auto text-xs opacity-60" />
-                            </a>
-                          ) : (
-                            <button
-                              key={subitem.path}
-                              onClick={() => { if (subitem.scrollTo) scrollToSection(subitem.scrollTo); }}
-                              className="flex items-center gap-2 w-full px-5 py-3 text-white/90 hover:bg-cyan-400/10 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0"
-                            >
-                              <span className="text-lg"><subitem.icon /></span>
-                              <span>{t(subitem.label)}</span>
-                            </button>
-                          )
-                        ))}
+                              {subitem.external ? (
+                                <a
+                                  href={subitem.path}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-3 px-6 py-4 text-white/90 hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0 group/item"
+                                >
+                                  <span className="text-lg group-hover/item:scale-110 transition-transform"><subitem.icon /></span>
+                                  <span className="flex-1">{subitem.label}</span>
+                                  <FaExternalLinkAlt className="text-xs opacity-60 group-hover/item:opacity-100 transition-opacity" />
+                                </a>
+                              ) : (
+                                <button
+                                  onClick={() => { if (subitem.scrollTo) scrollToSection(subitem.scrollTo); }}
+                                  className="flex items-center gap-3 w-full px-6 py-4 text-white/90 hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0 group/item"
+                                >
+                                  <span className="text-lg group-hover/item:scale-110 transition-transform"><subitem.icon /></span>
+                                  <span>{t(subitem.label)}</span>
+                                </button>
+                              )}
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   );
                 } else {
-                  // Ítem principal
+                  // Ítem principal con efectos increíbles
                   const isActive = activeSection === item.scrollTo;
                   const Icon = item.icon;
                   return (
-                    <button
+                    <motion.button
                       key={item.path}
                       onClick={() => { if (item.scrollTo) scrollToSection(item.scrollTo); }}
-                      className={`relative flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 group
-                        ${isActive ? 'text-cyan-400 bg-cyan-400/10 shadow-lg' : 'text-white/80 hover:text-cyan-300'}
+                      className={`relative flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 group overflow-hidden
+                        ${isActive ? 'text-cyan-400 bg-cyan-400/10 shadow-lg border border-cyan-400/30' : 'text-white/80 hover:text-cyan-300'}
                       `}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       style={{ fontSize: '1.1rem' }}
                     >
-                      <span className={`text-xl transition-all duration-300 ${isActive ? 'text-cyan-400 drop-shadow-glow' : 'text-cyan-200 group-hover:text-cyan-300'}`}> <Icon /> </span>
-                      <span className="relative">
+                      {/* Fondo animado */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl opacity-0 group-hover:opacity-100"
+                        initial={false}
+                        animate={{ opacity: isActive ? 1 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                      
+                      <span className={`text-xl transition-all duration-300 relative z-10 ${isActive ? 'text-cyan-400 drop-shadow-glow' : 'text-cyan-200 group-hover:text-cyan-300'}`}>
+                        <Icon />
+                      </span>
+                      <span className="relative z-10">
                         {t(item.label)}
                         {isActive && (
                           <motion.span
@@ -328,7 +429,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                           />
                         )}
                       </span>
-                    </button>
+                    </motion.button>
                   );
                 }
               })}
@@ -337,62 +438,115 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
 
           {/* Botón de contacto y selector de idioma a la derecha */}
           <div className="flex items-center gap-2 sm:gap-4 ml-2">
-            {/* Botón destacado de contacto */}
+            {/* Botón destacado de contacto con efectos espectaculares */}
             <motion.button
               onClick={() => scrollToSection('contact')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 border-2 border-cyan-400/30 hover:border-cyan-400"
+              className="relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 border-2 border-cyan-400/30 hover:border-cyan-400 overflow-hidden group"
               whileHover={{ scale: 1.07, y: -2 }}
               whileTap={{ scale: 0.97 }}
             >
-              <FaEnvelope className="text-lg" />
-              <span>{t('nav.contact', 'Contacto')}</span>
+              {/* Efecto de brillo que se mueve */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
+              
+              <FaEnvelope className="text-lg relative z-10" />
+              <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
             </motion.button>
-            {/* Selector de idioma visual */}
+            
+            {/* Selector de idioma visual con efectos */}
             <div className="relative z-50">
-              <button
+              <motion.button
                 onClick={() => setIsLanguageMenuOpen((v) => !v)}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 hover:border-cyan-400/50 backdrop-blur-sm"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="text-xl">{currentLanguage.flag}</span>
+                <motion.span 
+                  className="text-xl"
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  {currentLanguage.flag}
+                </motion.span>
                 <span className="hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
-              </button>
+              </motion.button>
+              
               <AnimatePresence>
                 {isLanguageMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-40 bg-slate-900/95 border border-white/10 rounded-xl shadow-lg overflow-hidden z-50"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute right-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-xl border border-cyan-400/20 rounded-xl shadow-2xl overflow-hidden z-50"
                   >
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => changeLanguage(lang.code)}
-                        className={`flex items-center gap-2 w-full px-4 py-3 text-left text-white/90 hover:bg-cyan-400/10 transition-all duration-200 ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400' : ''}`}
-                      >
-                        <span className="text-xl">{lang.flag}</span>
-                        <span>{lang.name}</span>
-                      </button>
-                    ))}
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-50" />
+                    
+                    <div className="relative z-10">
+                      {languages.map((lang, idx) => (
+                        <motion.button
+                          key={lang.code}
+                          onClick={() => changeLanguage(lang.code)}
+                          className={`flex items-center gap-3 w-full px-4 py-3 text-left text-white/90 hover:bg-cyan-400/10 transition-all duration-200 ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400 bg-cyan-400/10' : ''}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          whileHover={{ x: 5 }}
+                        >
+                          <span className="text-xl">{lang.flag}</span>
+                          <span>{lang.name}</span>
+                        </motion.button>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           </div>
 
-          {/* Menú móvil */}
+          {/* Menú móvil con hamburger espectacular */}
           <div className="md:hidden flex items-center z-50">
-            <button
+            <motion.button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
-              className="p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white transition-all duration-300 border border-white/10"
+              className="relative p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white transition-all duration-300 border border-white/10 hover:border-cyan-400/50 backdrop-blur-sm overflow-hidden group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {isMobileMenuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
-            </button>
+              {/* Fondo con efecto hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <motion.div
+                className="relative z-10"
+                animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <FaTimes className="text-2xl" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <FaBars className="text-2xl" />
+                  </motion.div>
+                )}
+              </motion.div>
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Menú móvil desplegable */}
+      {/* Menú móvil desplegable espectacular */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -400,22 +554,62 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-2xl flex flex-col w-full h-full"
+            className="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900/98 via-purple-900/95 to-slate-900/98 backdrop-blur-2xl flex flex-col w-full h-full"
             role="dialog"
             aria-modal="true"
             onClick={() => setIsMobileMenuOpen(false)}
           >
+            {/* Efectos de fondo */}
+            <div className="absolute inset-0 overflow-hidden">
+              {/* Ondas de energía */}
+              <motion.div
+                className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-500/10 blur-3xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div
+                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-purple-400/10 to-pink-500/10 blur-3xl"
+                animate={{
+                  scale: [1.2, 1, 1.2],
+                  opacity: [0.4, 0.7, 0.4],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
+
             <div className="flex-1 flex flex-col justify-center items-center relative px-4 py-8 overflow-y-auto">
-              {/* Botón de cierre */}
-              <button
-                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white border border-white/10 text-3xl"
+              {/* Botón de cierre espectacular */}
+              <motion.button
+                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white border border-white/10 hover:border-cyan-400/50 text-3xl backdrop-blur-sm"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Cerrar menú"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
               >
                 <FaTimes />
-              </button>
+              </motion.button>
+              
               {/* Menú principal con submenús tipo accordion */}
-              <nav className="w-full max-w-xs mx-auto space-y-4 mt-8 mb-8">
+              <motion.nav 
+                className="w-full max-w-xs mx-auto space-y-4 mt-8 mb-8"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+              >
                 {/* Accordion para Perfil */}
                 <MobileAccordion
                   label="Perfil"
@@ -426,6 +620,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     { label: 'CV', icon: <FaFileAlt />, onClick: () => { setIsMobileMenuOpen(false); window.open('/cv', '_blank'); } }
                   ]}
                 />
+                
                 {/* Accordion para Portafolio */}
                 <MobileAccordion
                   label="Portafolio"
@@ -436,43 +631,72 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     { label: t('nav.testimonials'), icon: <FaStar />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('testimonials'); } }
                   ]}
                 />
+                
                 {/* Ítems principales */}
-                <button
+                <motion.button
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
                   onClick={() => { setIsMobileMenuOpen(false); scrollToSection('process'); }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <FaCode className="text-2xl" />
                   {t('nav.process')}
-                </button>
-                <button
+                </motion.button>
+                
+                <motion.button
                   className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
                   onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <FaEnvelope className="text-2xl" />
                   {t('nav.contact')}
-                </button>
-              </nav>
+                </motion.button>
+              </motion.nav>
+              
               {/* Botón de contacto destacado */}
-              <button
-                className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg"
+              <motion.button
+                className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg relative overflow-hidden"
                 onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
               >
-                <FaEnvelope className="text-xl" />
-                {t('nav.contact', 'Contacto')}
-              </button>
+                {/* Efecto de brillo */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+                <FaEnvelope className="text-xl relative z-10" />
+                <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
+              </motion.button>
+              
               {/* Selector de idioma visual */}
-              <div className="flex justify-center gap-4 mt-4 mb-2">
-                {languages.map((lang) => (
-                  <button
+              <motion.div 
+                className="flex justify-center gap-4 mt-4 mb-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                {languages.map((lang, idx) => (
+                  <motion.button
                     key={lang.code}
                     onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 text-xl ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400' : ''}`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 hover:border-cyan-400/50 text-xl ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400 bg-cyan-400/10 border-cyan-400/50' : ''}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.6 + idx * 0.1 }}
                   >
                     <span>{lang.flag}</span>
                     <span className="hidden sm:inline">{lang.code.toUpperCase()}</span>
-                  </button>
+                  </motion.button>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
