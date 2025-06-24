@@ -29,12 +29,6 @@ const Footer: React.FC = () => {
       url: 'https://www.linkedin.com/in/drexler-wilvins-sylvain-3627211b0/',
       icon: FaLinkedin,
       color: 'hover:text-blue-400'
-    },
-    {
-      name: 'Twitter',
-      url: 'https://twitter.com/tuusuario',
-      icon: FaTwitter,
-      color: 'hover:text-sky-400'
     }
   ];
 

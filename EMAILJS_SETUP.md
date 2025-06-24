@@ -566,7 +566,7 @@ Este documento explica cómo configurar EmailJS para que el formulario de contac
                 <div class="social-links">
                     <a href="https://itsdrex.dev" class="social-link" title="Portfolio">🌐</a>
                     <a href="https://github.com/drex25" class="social-link" title="GitHub">📚</a>
-                    <a href="https://linkedin.com/in/sylvain-drexler" class="social-link" title="LinkedIn">💼</a>
+                    <a href="https://www.linkedin.com/in/drexler-wilvins-sylvain-3627211b0/" class="social-link" title="LinkedIn">💼</a>
                 </div>
                 
                 <div class="timestamp">
@@ -626,7 +626,7 @@ VITE_EMAILJS_PUBLIC_KEY=tu_public_key_aqui
 - Footer con información de contacto
 
 ### 🔗 **Elementos Interactivos:**
-- Enlaces a redes sociales
+- Enlaces a redes sociales actualizados
 - Información de contacto
 - Timestamp del mensaje
 
@@ -646,6 +646,13 @@ El formulario envía las siguientes variables a EmailJS:
 - `{{message}}` - Contenido del mensaje
 - `{{to_name}}` - Tu nombre (configurado como "Sylvain Drexler")
 - `{{reply_to}}` - Email para responder (mismo que from_email)
+
+## Enlaces actualizados en el template
+
+### 🔗 **Enlaces reales incluidos:**
+- **Portfolio:** https://itsdrex.dev
+- **GitHub:** https://github.com/drex25
+- **LinkedIn:** https://www.linkedin.com/in/drexler-wilvins-sylvain-3627211b0/
 
 ## Personalización
 
@@ -704,4 +711,4 @@ Para más emails o funcionalidades, considera actualizar a un plan de pago.
 
 - Nunca compartas tu Public Key en repositorios públicos
 - Usa variables de entorno para las credenciales
-- El archivo `.env` ya está en `.gitignore` para proteger tus credenciales 
+- El archivo `.env` ya está en `.gitignore` para proteger tus credenciales
