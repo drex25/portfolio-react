@@ -231,7 +231,7 @@ const Contact: React.FC = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 relative">
         {/* Header mejorado */}
         <motion.div
           className="text-center mb-12 sm:mb-16 lg:mb-24"
