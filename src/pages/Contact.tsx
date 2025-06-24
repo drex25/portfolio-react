@@ -75,14 +75,15 @@ const Contact: React.FC = () => {
     },
     {
       icon: FaPhone,
-      title: 'Llamada Directa',
+      title: 'Teléfono',
       content: '+54 376 511-5897',
       link: 'tel:+543765115897',
       color: 'text-green-400',
       bgColor: 'from-green-500/10 to-emerald-500/10',
       borderColor: 'border-green-500/20',
-      description: 'Lun-Vie 9AM-6PM (GMT-3)',
-      badge: 'Inmediato'
+      description: 'Lun-Vie 9AM-6PM',
+      // fix: always show on mobile
+      alwaysShow: true
     },
     {
       icon: FaMapMarkerAlt,
