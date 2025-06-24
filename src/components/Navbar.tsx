@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -17,6 +18,7 @@ import {
   FaStore,
   FaStar
 } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
 import { useTranslation } from 'react-i18next';
 
 interface Language {
@@ -31,27 +33,17 @@ const languages: Language[] = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' }
 ];
 
-// Submenús agrupados
-const groupedNavLinks = [
-  {
-    label: 'Perfil',
-    icon: FaUser,
-    submenu: [
-      { path: '#about', label: 'nav.about', scrollTo: 'about', icon: FaUser },
-      { path: '#skills', label: 'nav.skills', scrollTo: 'skills', icon: FaSkills },
-      { path: '/cv', label: 'CV', scrollTo: null, icon: FaFileAlt, external: true }
-    ]
-  },
-  {
-    label: 'Portafolio',
-    icon: FaFolder,
-    submenu: [
-      { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
-      { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
-      { path: '#testimonials', label: 'nav.testimonials', scrollTo: 'testimonials', icon: FaStar }
-    ]
-  },
-  { path: '#process', label: 'nav.process', scrollTo: 'process', icon: FaCode },
+// Submenús agrupados - Simplificado para enfoque de servicios
+const groupedNavLinks: Array<{
+  path: string;
+  label: string;
+  scrollTo: string | null;
+  icon: IconType;
+  external?: boolean;
+}> = [
+  { path: '#about', label: 'nav.trajectory', scrollTo: 'about', icon: FaUser },
+  { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
+  { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
   { path: '#contact', label: 'nav.contact', scrollTo: 'contact', icon: FaEnvelope }
 ];
 
@@ -73,6 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(
     languages.find(lang => lang.code === i18n.language) || languages[0]
   );
+  const [mobileMenuMounted, setMobileMenuMounted] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -85,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       setIsScrolled(window.scrollY > 20);
 
       // Detectar sección activa
-      const sections = ['home', 'about', 'skills', 'projects', 'services', 'testimonials', 'process', 'contact'];
+      const sections = ['home', 'about', 'projects', 'services', 'testimonials', 'process', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -123,13 +116,29 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   // Bloquear scroll cuando el menú móvil está abierto
   useEffect(() => {
     if (isMobileMenuOpen) {
+      setMobileMenuMounted(true);
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
     } else {
-      document.body.style.overflow = 'unset';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+      // Delay para la animación de salida
+      setTimeout(() => setMobileMenuMounted(false), 300);
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     };
   }, [isMobileMenuOpen]);
 
@@ -194,42 +203,6 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   const menuItemVariants = {
     closed: { x: 20, opacity: 0 },
     open: { x: 0, opacity: 1 }
-  };
-
-  const MobileAccordion: React.FC<{ label: string; icon: React.ReactNode; items: { label: string; icon: React.ReactNode; onClick: () => void }[] }> = ({ label, icon, items }) => {
-    const [open, setOpen] = React.useState(false);
-    return (
-      <div className="w-full">
-        <button
-          className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-2xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2 justify-between"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls={`accordion-${label}`}
-        >
-          <span className="flex items-center gap-3">
-            <span className="text-3xl">{icon}</span>
-            {label}
-          </span>
-          <FaChevronRight className={`text-lg transition-transform duration-200 ${open ? 'rotate-90' : ''}`} />
-        </button>
-        <div
-          id={`accordion-${label}`}
-          className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-96' : 'max-h-0'}`}
-          style={{ background: 'rgba(255,255,255,0.03)' }}
-        >
-          {items.map((item) => (
-            <button
-              key={item.label}
-              className="w-full flex items-center gap-3 px-10 py-3 text-lg text-white/80 hover:text-cyan-400 transition-all duration-200 border-b border-white/5 last:border-b-0"
-              onClick={item.onClick}
-            >
-              <span className="text-xl">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -328,111 +301,27 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
           {/* Menú centrado con efectos increíbles */}
           <div className="flex-1 flex justify-center">
             <div className="hidden md:flex items-center gap-2 lg:gap-4">
-              {groupedNavLinks.map((item, idx) => {
-                if (item.submenu) {
-                  // Submenú desplegable con efectos espectaculares
-                  return (
-                    <div key={item.label} className="relative group">
-                      <motion.button
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white/80 hover:text-cyan-300 transition-all duration-300 group-hover:text-cyan-400 relative overflow-hidden"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {/* Fondo con efecto hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
-                        <span className="text-xl relative z-10"><item.icon /></span>
-                        <span className="relative z-10">{item.label}</span>
-                        <motion.div
-                          className="relative z-10"
-                          animate={{ rotate: 0 }}
-                          whileHover={{ rotate: 90 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <FaChevronRight className="ml-1 text-xs" />
-                        </motion.div>
-                      </motion.button>
-                      
-                      {/* Dropdown con glassmorphism */}
-                      <div className="absolute left-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-cyan-400/20 rounded-2xl shadow-2xl opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 z-50 overflow-hidden">
-                        {/* Glow effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 opacity-50" />
-                        
-                        <div className="relative z-10">
-                          {item.submenu.map((subitem, subIdx) => (
-                            <motion.div
-                              key={subitem.path}
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              transition={{ delay: subIdx * 0.1 }}
-                            >
-                              {subitem.external ? (
-                                <a
-                                  href={subitem.path}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="flex items-center gap-3 px-6 py-4 text-white/90 hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0 group/item"
-                                >
-                                  <span className="text-lg group-hover/item:scale-110 transition-transform"><subitem.icon /></span>
-                                  <span className="flex-1">{subitem.label}</span>
-                                  <FaExternalLinkAlt className="text-xs opacity-60 group-hover/item:opacity-100 transition-opacity" />
-                                </a>
-                              ) : (
-                                <button
-                                  onClick={() => { if (subitem.scrollTo) scrollToSection(subitem.scrollTo); }}
-                                  className="flex items-center gap-3 w-full px-6 py-4 text-white/90 hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0 group/item"
-                                >
-                                  <span className="text-lg group-hover/item:scale-110 transition-transform"><subitem.icon /></span>
-                                  <span>{t(subitem.label)}</span>
-                                </button>
-                              )}
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                } else {
-                  // Ítem principal con efectos increíbles
-                  const isActive = activeSection === item.scrollTo;
-                  const Icon = item.icon;
-                  return (
-                    <motion.button
-                      key={item.path}
-                      onClick={() => { if (item.scrollTo) scrollToSection(item.scrollTo); }}
-                      className={`relative flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 group overflow-hidden
-                        ${isActive ? 'text-cyan-400 bg-cyan-400/10 shadow-lg border border-cyan-400/30' : 'text-white/80 hover:text-cyan-300'}
-                      `}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      style={{ fontSize: '1.1rem' }}
-                    >
-                      {/* Fondo animado */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl opacity-0 group-hover:opacity-100"
-                        initial={false}
-                        animate={{ opacity: isActive ? 1 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                      
-                      <span className={`text-xl transition-all duration-300 relative z-10 ${isActive ? 'text-cyan-400 drop-shadow-glow' : 'text-cyan-200 group-hover:text-cyan-300'}`}>
-                        <Icon />
-                      </span>
-                      <span className="relative z-10">
-                        {t(item.label)}
-                        {isActive && (
-                          <motion.span
-                            layoutId="nav-underline"
-                            className="absolute left-0 -bottom-1 w-full h-1 rounded bg-gradient-to-r from-cyan-400 to-blue-500 shadow-cyan-400/30"
-                            style={{ zIndex: 1 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                          />
-                        )}
-                      </span>
-                    </motion.button>
-                  );
-                }
-              })}
+              {groupedNavLinks.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    if (item.scrollTo) {
+                      scrollToSection(item.scrollTo);
+                    } else if ('external' in item && item.external) {
+                      window.open(item.path, '_blank');
+                    }
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    activeSection === item.scrollTo
+                      ? 'text-cyan-400 bg-cyan-400/10'
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <span className="text-lg"><item.icon /></span>
+                  {t(item.label as string)}
+                  {'external' in item && item.external && <FaExternalLinkAlt className="text-xs" />}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -547,160 +436,152 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       </div>
 
       {/* Menú móvil desplegable espectacular */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900/98 via-purple-900/95 to-slate-900/98 backdrop-blur-2xl flex flex-col w-full h-full"
-            role="dialog"
-            aria-modal="true"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {/* Efectos de fondo */}
-            <div className="absolute inset-0 overflow-hidden">
-              {/* Ondas de energía */}
-              <motion.div
-                className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-500/10 blur-3xl"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.div
-                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-purple-400/10 to-pink-500/10 blur-3xl"
-                animate={{
-                  scale: [1.2, 1, 1.2],
-                  opacity: [0.4, 0.7, 0.4],
-                }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </div>
-
-            <div className="flex-1 flex flex-col justify-center items-center relative px-4 py-8 overflow-y-auto">
-              {/* Botón de cierre espectacular */}
-              <motion.button
-                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white border border-white/10 hover:border-cyan-400/50 text-3xl backdrop-blur-sm"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Cerrar menú"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                <FaTimes />
-              </motion.button>
-              
-              {/* Menú principal con submenús tipo accordion */}
-              <motion.nav 
-                className="w-full max-w-xs mx-auto space-y-4 mt-8 mb-8"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-              >
-                {/* Accordion para Perfil */}
-                <MobileAccordion
-                  label="Perfil"
-                  icon={<FaUser />}
-                  items={[
-                    { label: t('nav.about'), icon: <FaUser />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('about'); } },
-                    { label: t('nav.skills'), icon: <FaSkills />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('skills'); } },
-                    { label: 'CV', icon: <FaFileAlt />, onClick: () => { setIsMobileMenuOpen(false); window.open('/cv', '_blank'); } }
-                  ]}
-                />
-                
-                {/* Accordion para Portafolio */}
-                <MobileAccordion
-                  label="Portafolio"
-                  icon={<FaFolder />}
-                  items={[
-                    { label: t('nav.projects'), icon: <FaFolder />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('projects'); } },
-                    { label: t('nav.services'), icon: <FaStore />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('services'); } },
-                    { label: t('nav.testimonials'), icon: <FaStar />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('testimonials'); } }
-                  ]}
-                />
-                
-                {/* Ítems principales */}
-                <motion.button
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
-                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('process'); }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FaCode className="text-2xl" />
-                  {t('nav.process')}
-                </motion.button>
-                
-                <motion.button
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
-                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FaEnvelope className="text-2xl" />
-                  {t('nav.contact')}
-                </motion.button>
-              </motion.nav>
-              
-              {/* Botón de contacto destacado */}
-              <motion.button
-                className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg relative overflow-hidden"
-                onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                {/* Efecto de brillo */}
+      {mobileMenuMounted && createPortal(
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed inset-0 bg-gradient-to-br from-slate-900/98 via-purple-900/95 to-slate-900/98 backdrop-blur-2xl flex flex-col w-full h-full mobile-menu-overlay"
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                zIndex: 999999,
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                width: '100vw',
+                height: '100vh'
+              }}
+            >
+              {/* Efectos de fondo */}
+              <div className="absolute inset-0 overflow-hidden">
+                {/* Ondas de energía */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-cyan-400/10 to-blue-500/10 blur-3xl"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 />
-                <FaEnvelope className="text-xl relative z-10" />
-                <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
-              </motion.button>
-              
-              {/* Selector de idioma visual */}
-              <motion.div 
-                className="flex justify-center gap-4 mt-4 mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                {languages.map((lang, idx) => (
-                  <motion.button
-                    key={lang.code}
-                    onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 hover:border-cyan-400/50 text-xl ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400 bg-cyan-400/10 border-cyan-400/50' : ''}`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + idx * 0.1 }}
-                  >
-                    <span>{lang.flag}</span>
-                    <span className="hidden sm:inline">{lang.code.toUpperCase()}</span>
-                  </motion.button>
-                ))}
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <motion.div
+                  className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-purple-400/10 to-pink-500/10 blur-3xl"
+                  animate={{
+                    scale: [1.2, 1, 1.2],
+                    opacity: [0.4, 0.7, 0.4],
+                  }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center items-center relative px-4 py-8 overflow-y-auto">
+                {/* Botón de cierre espectacular */}
+                <motion.button
+                  className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white border border-white/10 hover:border-cyan-400/50 text-3xl backdrop-blur-sm"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Cerrar menú"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <FaTimes />
+                </motion.button>
+                
+                {/* Menú principal simplificado */}
+                <motion.nav 
+                  className="w-full max-w-xs mx-auto space-y-4 mt-8 mb-8"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                >
+                  {/* Ítems del menú */}
+                  {groupedNavLinks.map((item, idx) => (
+                    <motion.button
+                      key={idx}
+                      className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2 mobile-menu-item"
+                      onClick={() => { 
+                        setIsMobileMenuOpen(false); 
+                        if (item.scrollTo) {
+                          scrollToSection(item.scrollTo);
+                        } else if ('external' in item && item.external) {
+                          window.open(item.path, '_blank');
+                        }
+                      }}
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <item.icon className="text-2xl" />
+                      {t(item.label as string)}
+                      {'external' in item && item.external && <FaExternalLinkAlt className="text-lg ml-auto" />}
+                    </motion.button>
+                  ))}
+                </motion.nav>
+                
+                {/* Botón de contacto destacado */}
+                <motion.button
+                  className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg relative overflow-hidden"
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {/* Efecto de brillo */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={{ x: ["-100%", "100%"] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  />
+                  <FaEnvelope className="text-xl relative z-10" />
+                  <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
+                </motion.button>
+                
+                {/* Selector de idioma visual */}
+                <motion.div 
+                  className="flex justify-center gap-4 mt-4 mb-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  {languages.map((lang, idx) => (
+                    <motion.button
+                      key={lang.code}
+                      onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 hover:border-cyan-400/50 text-xl ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400 bg-cyan-400/10 border-cyan-400/50' : ''}`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6 + idx * 0.1 }}
+                    >
+                      <span>{lang.flag}</span>
+                      <span className="hidden sm:inline">{lang.code.toUpperCase()}</span>
+                    </motion.button>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </motion.nav>
   );
 };

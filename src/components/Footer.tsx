@@ -33,9 +33,8 @@ const Footer: React.FC = () => {
   ];
 
   const quickLinks = [
-    { name: t('nav.about', 'Sobre mí'), href: '#about' },
+    { name: t('nav.trajectory', 'Trayectoria'), href: '#about' },
     { name: t('nav.projects', 'Proyectos'), href: '#projects' },
-    { name: t('nav.skills', 'Habilidades'), href: '#skills' },
     { name: t('nav.contact', 'Contacto'), href: '#contact' }
   ];
 

@@ -2,12 +2,15 @@ export default {
   nav: {
     home: 'Home',
     about: 'About',
+    trajectory: 'Trajectory',
     projects: 'Projects',
     skills: 'Skills',
     services: 'Services',
+    portfolio: 'Portfolio',
     testimonials: 'Testimonials',
     process: 'Process',
-    contact: 'Contact'
+    contact: 'Contact',
+    cv: 'CV'
   },
   home: {
     greeting: 'Hi, I am',
@@ -23,8 +26,8 @@ export default {
     }
   },
   about: {
-    title: 'About Me',
-    subtitle: 'Get to know me better',
+    title: 'My Trajectory',
+    subtitle: 'Learn more about my experience',
     description: 'I am a passionate Full Stack Developer with experience in creating modern web applications. I love learning new technologies and solving complex problems.',
     experience: 'Experience',
     education: 'Education',

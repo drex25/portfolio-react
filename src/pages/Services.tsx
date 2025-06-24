@@ -270,29 +270,6 @@ const Services: React.FC = () => {
     }
   ];
 
-  const faqs = [
-    {
-      question: '¿Qué incluye el precio?',
-      answer: 'Cada servicio incluye todo lo listado en las características, sin costos ocultos. El precio es fijo y transparente.'
-    },
-    {
-      question: '¿Cuánto tiempo toma el desarrollo?',
-      answer: 'Los tiempos varían según el servicio, desde 5 días para landing pages hasta 6 semanas para e-commerce empresarial.'
-    },
-    {
-      question: '¿Ofrecen soporte post-lanzamiento?',
-      answer: 'Sí, todos los servicios incluyen soporte gratuito por un período determinado, desde 30 hasta 90 días.'
-    },
-    {
-      question: '¿Puedo solicitar modificaciones?',
-      answer: 'Absolutamente. Incluimos revisiones en cada servicio y trabajamos hasta que estés completamente satisfecho.'
-    },
-    {
-      question: '¿Qué métodos de pago aceptan?',
-      answer: 'Aceptamos transferencias bancarias, MercadoPago, PayPal y criptomonedas. Ofrecemos planes de pago flexibles.'
-    }
-  ];
-
   const filteredServices = selectedCategory === 'all' 
     ? services 
     : services.filter(service => service.category === selectedCategory);
@@ -582,41 +559,6 @@ const Services: React.FC = () => {
                 >
                   {formatPrice(addon.price)}
                 </motion.div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* FAQ Section */}
-        <motion.div
-          className="mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-              <FaQuestionCircle className="text-cyan-400" />
-              Preguntas Frecuentes
-            </h3>
-            <p className="text-gray-400">Resolvemos tus dudas más comunes</p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="p-6">
-                  <h4 className="text-lg font-bold text-white mb-3">{faq.question}</h4>
-                  <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
-                </div>
               </motion.div>
             ))}
           </div>

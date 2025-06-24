@@ -1,11 +1,10 @@
-import React, { useMemo, useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore, FaCheckCircle, FaShieldAlt, FaHeadset, FaAward, FaStar, FaEnvelope } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Importar los componentes de las otras páginas
 import About from './About';
-import Skills from './Skills';
 import Projects from './Projects';
 import Services from './Services';
 import Contact from './Contact';
@@ -127,106 +126,91 @@ const HeroSection: React.FC = () => {
       id="home"
       style={{ position: 'relative' }}
     >
-      {/* Fondo con gradiente animado */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        <div 
-          className="absolute inset-0 opacity-20" 
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }}
-        />
+      {/* Fondo animado y partículas parallax */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Gradiente animado */}
+        <div className="absolute inset-0 animate-gradient-move bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" style={{ backgroundSize: '200% 200%' }} />
+        {/* Líneas geométricas sutiles */}
+        <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gridline" x1="0" y1="0" x2="1920" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#67e8f9" stopOpacity="0.2" />
+              <stop offset="1" stopColor="#a78bfa" stopOpacity="0.1" />
+            </linearGradient>
+          </defs>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <line key={i} x1={i * 96} y1="0" x2={i * 96} y2="1080" stroke="url(#gridline)" strokeWidth="1" />
+          ))}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <line key={i} x1="0" y1={i * 90} x2="1920" y2={i * 90} stroke="url(#gridline)" strokeWidth="1" />
+          ))}
+        </svg>
+        {/* Partículas parallax */}
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-30"
+            style={{
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              filter: 'blur(1px)',
+              animation: `particleMove${i % 5} 18s linear infinite`,
+              animationDelay: `${i * 0.3}s`
+            }}
+          />
+        ))}
+        <style>{`
+          @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          ${Array.from({ length: 5 }).map((_, i) => `
+            @keyframes particleMove${i} {
+              0% { transform: translateY(0); }
+              50% { transform: translateY(${10 + i * 5}px); }
+              100% { transform: translateY(0); }
+            }
+          `).join('')}
+        `}</style>
       </div>
-
-      {/* Partículas flotantes */}
-      <FloatingParticles />
 
       {/* Contenido principal */}
       <motion.div 
         className="relative z-10 text-center px-4 max-w-6xl mx-auto flex-1 flex flex-col justify-center"
         style={{ y, opacity, scale }}
       >
-        {/* Logo empresarial con efectos mejorados */}
-        <motion.div
-          className="relative mb-12 mx-auto w-fit"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 260, 
-            damping: 20,
-            duration: 1 
-          }}
+        <div className="pt-10" />
+        <motion.p 
+          className="text-cyan-400 text-xl font-medium tracking-wide"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
         >
-          {/* Anillos orbitales */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              className="w-64 h-64 rounded-full border border-cyan-400/30"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              className="absolute w-80 h-80 rounded-full border border-blue-400/20"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            />
-          </div>
-          
-          {/* Logo empresarial */}
-          <motion.div
-            className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl bg-gradient-to-br from-slate-800 to-slate-900"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full animate-pulse" />
-            <div className="w-full h-full flex items-center justify-center relative z-10">
-              <div className="text-6xl font-black text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text">
-                D
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Texto principal con enfoque comercial */}
-        <motion.div
-          className="space-y-6 mb-12"
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          Soluciones Digitales Profesionales
+        </motion.p>
+        <AnimatedGradientTitle>Desarrollo Web</AnimatedGradientTitle>
+        <motion.h2
+          className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
         >
-          <motion.p 
-            className="text-cyan-400 text-xl font-medium tracking-wide"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            Soluciones Digitales Profesionales
-          </motion.p>
-          
-          <TypewriterText
-            text="Desarrollo Web"
-            className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-cyan-200 to-blue-400 bg-clip-text text-transparent leading-tight"
-          />
-          
-          <motion.h2
-            className="text-2xl md:text-4xl font-bold text-gray-300 mb-6"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            <span className="text-cyan-400">Full Stack</span> & 
-            <span className="text-blue-400"> E-commerce</span>
-          </motion.h2>
-          
-          <motion.p
-            className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-          >
-            Transformamos tus ideas en experiencias digitales exitosas. Especializados en desarrollo web moderno, 
-            e-commerce y aplicaciones empresariales con más de 5 años de experiencia entregando resultados.
-          </motion.p>
-        </motion.div>
+          <span className="text-cyan-400">Full Stack</span> & 
+          <span className="text-blue-400"> E-commerce</span>
+        </motion.h2>
+        <motion.p
+          className="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          Transformamos tus ideas en experiencias digitales exitosas. Especializados en desarrollo web moderno, 
+          e-commerce y aplicaciones empresariales con más de 5 años de experiencia entregando resultados.
+        </motion.p>
+        <FuturisticSeparator />
 
         {/* Estadísticas comerciales */}
         <motion.div
@@ -657,6 +641,32 @@ const WorkProcessSection: React.FC = () => {
   );
 };
 
+// 2. Título principal con gradiente animado y glow
+const AnimatedGradientTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <motion.h1
+    className="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_8px_40px_rgba(34,211,238,0.25)]"
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+  >
+    {children}
+  </motion.h1>
+);
+
+// 3. Separador animado
+const FuturisticSeparator: React.FC = () => (
+  <div className="flex justify-center my-12">
+    <motion.div
+      className="w-48 h-1 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 shadow-lg"
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      transition={{ duration: 1, delay: 0.2 }}
+      viewport={{ once: true }}
+      style={{ originX: 0.5 }}
+    />
+  </div>
+);
+
 const Landing: React.FC = () => {
   return (
     <div className="relative">
@@ -665,9 +675,6 @@ const Landing: React.FC = () => {
       
       {/* About Section */}
       <About />
-      
-      {/* Skills Section */}
-      <Skills />
       
       {/* Projects Section */}
       <Projects />

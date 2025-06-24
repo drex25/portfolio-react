@@ -2,12 +2,15 @@ export default {
   nav: {
     home: 'Inicio',
     about: 'Sobre mí',
+    trajectory: 'Trayectoria',
     projects: 'Proyectos',
     skills: 'Habilidades',
     services: 'Servicios',
+    portfolio: 'Portafolio',
     testimonials: 'Testimonios',
     process: 'Proceso',
-    contact: 'Contacto'
+    contact: 'Contacto',
+    cv: 'CV'
   },
   home: {
     greeting: 'Hola, soy',
@@ -23,8 +26,8 @@ export default {
     }
   },
   about: {
-    title: 'Sobre Mí',
-    subtitle: 'Conoce más sobre mí',
+    title: 'Mi Trayectoria',
+    subtitle: 'Conoce más sobre mi experiencia',
     description: 'Soy un Desarrollador Full Stack apasionado con experiencia en la creación de aplicaciones web modernas. Me encanta aprender nuevas tecnologías y resolver problemas complejos.',
     experience: 'Experiencia',
     education: 'Educación',
