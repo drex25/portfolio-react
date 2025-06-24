@@ -14,7 +14,8 @@ import {
   FaGlobe,
   FaChevronRight,
   FaExternalLinkAlt,
-  FaStore
+  FaStore,
+  FaStar
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -30,13 +31,27 @@ const languages: Language[] = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' }
 ];
 
-// Enlaces de navegación actualizados con iconos
-const navLinks = [
-  { path: '#home', label: 'nav.home', scrollTo: 'home', icon: FaHome },
-  { path: '#about', label: 'nav.about', scrollTo: 'about', icon: FaUser },
-  { path: '#skills', label: 'nav.skills', scrollTo: 'skills', icon: FaSkills },
-  { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
-  { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
+// Submenús agrupados
+const groupedNavLinks = [
+  {
+    label: 'Perfil',
+    icon: FaUser,
+    submenu: [
+      { path: '#about', label: 'nav.about', scrollTo: 'about', icon: FaUser },
+      { path: '#skills', label: 'nav.skills', scrollTo: 'skills', icon: FaSkills },
+      { path: '/cv', label: 'CV', scrollTo: null, icon: FaFileAlt, external: true }
+    ]
+  },
+  {
+    label: 'Portafolio',
+    icon: FaFolder,
+    submenu: [
+      { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
+      { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
+      { path: '#testimonials', label: 'nav.testimonials', scrollTo: 'testimonials', icon: FaStar }
+    ]
+  },
+  { path: '#process', label: 'nav.process', scrollTo: 'process', icon: FaCode },
   { path: '#contact', label: 'nav.contact', scrollTo: 'contact', icon: FaEnvelope }
 ];
 
@@ -70,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       setIsScrolled(window.scrollY > 20);
 
       // Detectar sección activa
-      const sections = ['home', 'about', 'skills', 'projects', 'services', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'services', 'testimonials', 'process', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -181,339 +196,285 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
     open: { x: 0, opacity: 1 }
   };
 
+  const MobileAccordion: React.FC<{ label: string; icon: React.ReactNode; items: { label: string; icon: React.ReactNode; onClick: () => void }[] }> = ({ label, icon, items }) => {
+    const [open, setOpen] = React.useState(false);
+    return (
+      <div className="w-full">
+        <button
+          className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-2xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2 justify-between"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls={`accordion-${label}`}
+        >
+          <span className="flex items-center gap-3">
+            <span className="text-3xl">{icon}</span>
+            {label}
+          </span>
+          <FaChevronRight className={`text-lg transition-transform duration-200 ${open ? 'rotate-90' : ''}`} />
+        </button>
+        <div
+          id={`accordion-${label}`}
+          className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-96' : 'max-h-0'}`}
+          style={{ background: 'rgba(255,255,255,0.03)' }}
+        >
+          {items.map((item) => (
+            <button
+              key={item.label}
+              className="w-full flex items-center gap-3 px-10 py-3 text-lg text-white/80 hover:text-cyan-400 transition-all duration-200 border-b border-white/5 last:border-b-0"
+              onClick={item.onClick}
+            >
+              <span className="text-xl">{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <motion.nav
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 navbar-container ${
-        isScrolled
-          ? 'bg-slate-900/95 backdrop-blur-xl shadow-2xl border-b border-white/10'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 navbar-container bg-white/10 backdrop-blur-xl shadow-2xl border-b border-white/10`}
+      style={{
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        WebkitBackdropFilter: 'blur(16px)',
+        backdropFilter: 'blur(16px)'
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo mejorado */}
+        <div className="flex items-center justify-between h-16 sm:h-20 w-full">
+          {/* Logo */}
           <button 
             onClick={() => scrollToSection('home')}
             className="flex items-center gap-3 group z-50"
           >
-            <motion.div 
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg group-hover:shadow-cyan-500/25 transition-all duration-300">
-                <FaCode />
-              </div>
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-20 blur transition-opacity duration-300" />
-            </motion.div>
-            <motion.div
-              className="hidden sm:block"
-              whileHover={{ scale: 1.02 }}
-            >
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                Drex
-              </span>
-              <div className="text-xs text-gray-400 font-medium tracking-wider">
-                DEVELOPER
-              </div>
-            </motion.div>
+            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+              <FaCode />
+            </div>
+            <div className="flex flex-col items-start">
+              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Drex</span>
+              <span className="text-xs text-gray-300 tracking-widest">DEVELOPER</span>
+            </div>
           </button>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.scrollTo}
-                onClick={() => scrollToSection(link.scrollTo)}
-                className="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-all duration-300 group"
-              >
-                <span className="relative z-10 font-medium">
-                  {t(link.label)}
-                </span>
-                {activeSection === link.scrollTo && (
-                  <motion.div
-                    layoutId="activeLink"
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-400/30"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                <div className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
-            ))}
+          {/* Menú centrado */}
+          <div className="flex-1 flex justify-center">
+            <div className="hidden md:flex items-center gap-2 lg:gap-4">
+              {groupedNavLinks.map((item, idx) => {
+                if (item.submenu) {
+                  // Submenú desplegable
+                  return (
+                    <div key={item.label} className="relative group">
+                      <button
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white/80 hover:text-cyan-300 transition-all duration-300 group-hover:text-cyan-400"
+                      >
+                        <span className="text-xl"><item.icon /></span>
+                        <span>{item.label}</span>
+                        <FaChevronRight className="ml-1 text-xs group-hover:rotate-90 transition-transform duration-200" />
+                      </button>
+                      <div className="absolute left-0 mt-2 w-56 bg-slate-900/95 border border-white/10 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50">
+                        {item.submenu.map((subitem) => (
+                          subitem.external ? (
+                            <a
+                              key={subitem.path}
+                              href={subitem.path}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-5 py-3 text-white/90 hover:bg-cyan-400/10 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0"
+                            >
+                              <span className="text-lg"><subitem.icon /></span>
+                              <span>{subitem.label}</span>
+                              <FaExternalLinkAlt className="ml-auto text-xs opacity-60" />
+                            </a>
+                          ) : (
+                            <button
+                              key={subitem.path}
+                              onClick={() => { if (subitem.scrollTo) scrollToSection(subitem.scrollTo); }}
+                              className="flex items-center gap-2 w-full px-5 py-3 text-white/90 hover:bg-cyan-400/10 transition-all duration-200 text-base font-medium border-b border-white/5 last:border-b-0"
+                            >
+                              <span className="text-lg"><subitem.icon /></span>
+                              <span>{t(subitem.label)}</span>
+                            </button>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  // Ítem principal
+                  const isActive = activeSection === item.scrollTo;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => { if (item.scrollTo) scrollToSection(item.scrollTo); }}
+                      className={`relative flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 group
+                        ${isActive ? 'text-cyan-400 bg-cyan-400/10 shadow-lg' : 'text-white/80 hover:text-cyan-300'}
+                      `}
+                      style={{ fontSize: '1.1rem' }}
+                    >
+                      <span className={`text-xl transition-all duration-300 ${isActive ? 'text-cyan-400 drop-shadow-glow' : 'text-cyan-200 group-hover:text-cyan-300'}`}> <Icon /> </span>
+                      <span className="relative">
+                        {t(item.label)}
+                        {isActive && (
+                          <motion.span
+                            layoutId="nav-underline"
+                            className="absolute left-0 -bottom-1 w-full h-1 rounded bg-gradient-to-r from-cyan-400 to-blue-500 shadow-cyan-400/30"
+                            style={{ zIndex: 1 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                          />
+                        )}
+                      </span>
+                    </button>
+                  );
+                }
+              })}
+            </div>
           </div>
 
-          {/* Right side controls */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* Language Selector */}
-            <div className="relative">
-              <motion.button
-                onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-white font-medium hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-300"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+          {/* Botón de contacto y selector de idioma a la derecha */}
+          <div className="flex items-center gap-2 sm:gap-4 ml-2">
+            {/* Botón destacado de contacto */}
+            <motion.button
+              onClick={() => scrollToSection('contact')}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 border-2 border-cyan-400/30 hover:border-cyan-400"
+              whileHover={{ scale: 1.07, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <FaEnvelope className="text-lg" />
+              <span>{t('nav.contact', 'Contacto')}</span>
+            </motion.button>
+            {/* Selector de idioma visual */}
+            <div className="relative z-50">
+              <button
+                onClick={() => setIsLanguageMenuOpen((v) => !v)}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10"
               >
-                <span className="text-base sm:text-lg">{currentLanguage.flag}</span>
-                <span className="hidden sm:block text-sm font-bold tracking-wide">
-                  {currentLanguage.code.toUpperCase()}
-                </span>
-              </motion.button>
-
+                <span className="text-xl">{currentLanguage.flag}</span>
+                <span className="hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
+              </button>
               <AnimatePresence>
                 {isLanguageMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-40 sm:w-48 rounded-xl bg-slate-900/95 backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden z-50"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-40 bg-slate-900/95 border border-white/10 rounded-xl shadow-lg overflow-hidden z-50"
                   >
                     {languages.map((lang) => (
-                      <motion.button
+                      <button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 ${
-                          i18n.language === lang.code 
-                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border-l-2 border-cyan-400' 
-                            : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                        }`}
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
+                        className={`flex items-center gap-2 w-full px-4 py-3 text-left text-white/90 hover:bg-cyan-400/10 transition-all duration-200 ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400' : ''}`}
                       >
-                        <span className="text-lg">{lang.flag}</span>
-                        <div>
-                          <div className="font-medium text-sm">{lang.name}</div>
-                          <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
-                        </div>
-                      </motion.button>
+                        <span className="text-xl">{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </button>
                     ))}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+          </div>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 sm:p-3 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 z-50"
+          {/* Menú móvil */}
+          <div className="md:hidden flex items-center z-50">
+            <button
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+              className="p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white transition-all duration-300 border border-white/10"
             >
-              <AnimatePresence mode="wait">
-                {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <FaTimes className="text-lg sm:text-xl" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <FaBars className="text-lg sm:text-xl" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              {isMobileMenuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Menú móvil desplegable */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <>
-            {/* Overlay con blur mejorado */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-            
-            {/* Menu principal */}
-            <motion.div
-              variants={mobileMenuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-slate-900/98 to-slate-800/98 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden overflow-y-auto"
-            >
-              {/* Header del menú */}
-              <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/10 p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                      <FaCode />
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                        Drex
-                      </div>
-                      <div className="text-xs text-gray-400 font-medium tracking-wider">
-                        DEVELOPER
-                      </div>
-                    </div>
-                  </div>
-                  <motion.button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 rounded-lg bg-white/5 border border-white/20 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <FaTimes className="text-lg" />
-                  </motion.button>
-                </div>
-              </div>
-
-              <div className="p-6">
-                {/* Navigation Links con iconos */}
-                <div className="space-y-2 mb-8">
-                  <motion.h3 
-                    className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2"
-                    variants={menuItemVariants}
-                  >
-                    <FaGlobe className="text-cyan-400" />
-                    Navegación
-                  </motion.h3>
-                  {navLinks.map((link, index) => {
-                    const IconComponent = link.icon;
-                    return (
-                      <motion.button
-                        key={link.scrollTo}
-                        onClick={() => scrollToSection(link.scrollTo)}
-                        className={`block w-full text-left px-4 py-4 rounded-xl font-medium transition-all duration-300 group relative overflow-hidden ${
-                          activeSection === link.scrollTo
-                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30'
-                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                        }`}
-                        variants={menuItemVariants}
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-lg transition-all duration-300 ${
-                              activeSection === link.scrollTo
-                                ? 'bg-cyan-400/20 text-cyan-400'
-                                : 'bg-white/5 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
-                            }`}>
-                              <IconComponent className="text-lg" />
-                            </div>
-                            <span className="font-medium">{t(link.label)}</span>
-                          </div>
-                          {activeSection === link.scrollTo && (
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="w-2 h-2 bg-cyan-400 rounded-full"
-                            />
-                          )}
-                        </div>
-                        {/* Efecto de brillo al hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                      </motion.button>
-                    );
-                  })}
-                </div>
-                
-                {/* Language options mejoradas */}
-                <div className="border-t border-white/10 pt-6 mb-6">
-                  <motion.h3 
-                    className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2"
-                    variants={menuItemVariants}
-                  >
-                    <FaGlobe className="text-cyan-400" />
-                    Idioma
-                  </motion.h3>
-                  <div className="space-y-2">
-                    {languages.map((lang, index) => (
-                      <motion.button
-                        key={lang.code}
-                        onClick={() => { 
-                          changeLanguage(lang.code); 
-                          setIsMobileMenuOpen(false); 
-                        }}
-                        className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
-                          i18n.language === lang.code 
-                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-400/30' 
-                            : 'text-gray-400 hover:text-white hover:bg-white/5'
-                        }`}
-                        variants={menuItemVariants}
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">{lang.flag}</span>
-                          <div className="text-left">
-                            <div className="font-medium">{lang.name}</div>
-                            <div className="text-xs opacity-70">{lang.code.toUpperCase()}</div>
-                          </div>
-                        </div>
-                        {i18n.language === lang.code && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="w-2 h-2 bg-cyan-400 rounded-full"
-                          />
-                        )}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* CV Link mejorado */}
-                <motion.div 
-                  className="border-t border-white/10 pt-6"
-                  variants={menuItemVariants}
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-2xl flex flex-col w-full h-full"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div className="flex-1 flex flex-col justify-center items-center relative px-4 py-8 overflow-y-auto">
+              {/* Botón de cierre */}
+              <button
+                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white border border-white/10 text-3xl"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Cerrar menú"
+              >
+                <FaTimes />
+              </button>
+              {/* Menú principal con submenús tipo accordion */}
+              <nav className="w-full max-w-xs mx-auto space-y-4 mt-8 mb-8">
+                {/* Accordion para Perfil */}
+                <MobileAccordion
+                  label="Perfil"
+                  icon={<FaUser />}
+                  items={[
+                    { label: t('nav.about'), icon: <FaUser />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('about'); } },
+                    { label: t('nav.skills'), icon: <FaSkills />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('skills'); } },
+                    { label: 'CV', icon: <FaFileAlt />, onClick: () => { setIsMobileMenuOpen(false); window.open('/cv', '_blank'); } }
+                  ]}
+                />
+                {/* Accordion para Portafolio */}
+                <MobileAccordion
+                  label="Portafolio"
+                  icon={<FaFolder />}
+                  items={[
+                    { label: t('nav.projects'), icon: <FaFolder />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('projects'); } },
+                    { label: t('nav.services'), icon: <FaStore />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('services'); } },
+                    { label: t('nav.testimonials'), icon: <FaStar />, onClick: () => { setIsMobileMenuOpen(false); scrollToSection('testimonials'); } }
+                  ]}
+                />
+                {/* Ítems principales */}
+                <button
+                  className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('process'); }}
                 >
-                  <motion.a
-                    href="/cv"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-center px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group relative overflow-hidden"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <FaFileAlt className="text-lg" />
-                      <span>Ver CV Completo</span>
-                      <FaExternalLinkAlt className="text-sm opacity-70 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    {/* Efecto de brillo */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  </motion.a>
-                </motion.div>
-
-                {/* Footer del menú */}
-                <motion.div 
-                  className="mt-8 pt-6 border-t border-white/10 text-center"
-                  variants={menuItemVariants}
+                  <FaCode className="text-2xl" />
+                  {t('nav.process')}
+                </button>
+                <button
+                  className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2"
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
                 >
-                  <div className="text-xs text-gray-500">
-                    © 2024 Sylvain Drexler
-                  </div>
-                  <div className="text-xs text-gray-600 mt-1">
-                    Full Stack Developer
-                  </div>
-                </motion.div>
+                  <FaEnvelope className="text-2xl" />
+                  {t('nav.contact')}
+                </button>
+              </nav>
+              {/* Botón de contacto destacado */}
+              <button
+                className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg"
+                onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
+              >
+                <FaEnvelope className="text-xl" />
+                {t('nav.contact', 'Contacto')}
+              </button>
+              {/* Selector de idioma visual */}
+              <div className="flex justify-center gap-4 mt-4 mb-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => { changeLanguage(lang.code); setIsMobileMenuOpen(false); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-cyan-400/10 text-white font-semibold transition-all duration-300 border border-white/10 text-xl ${currentLanguage.code === lang.code ? 'font-bold text-cyan-400' : ''}`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span className="hidden sm:inline">{lang.code.toUpperCase()}</span>
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.nav>

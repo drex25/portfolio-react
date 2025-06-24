@@ -622,51 +622,192 @@ const Services: React.FC = () => {
           </div>
         </motion.div>
 
+        {/* Sección de Garantías y Beneficios */}
+        <motion.div
+          className="mt-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              ¿Por qué{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                elegirme
+              </span>{' '}
+              para tu proyecto?
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Más que un desarrollador, soy tu socio estratégico para el éxito digital de tu negocio.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <FaShieldAlt />,
+                title: "Garantía de Calidad",
+                description: "Código limpio, optimizado y mantenible que cumple con los más altos estándares de la industria.",
+                color: "text-green-400",
+                bgColor: "from-green-500/10 to-emerald-500/10"
+              },
+              {
+                icon: <FaHeadset />,
+                title: "Soporte 24/7",
+                description: "Estoy disponible para resolver cualquier duda o problema que pueda surgir durante y después del desarrollo.",
+                color: "text-blue-400",
+                bgColor: "from-blue-500/10 to-cyan-500/10"
+              },
+              {
+                icon: <FaRocket />,
+                title: "Entrega Rápida",
+                description: "Cumplo con los plazos acordados y mantengo una comunicación constante sobre el progreso del proyecto.",
+                color: "text-orange-400",
+                bgColor: "from-orange-500/10 to-red-500/10"
+              },
+              {
+                icon: <FaHeart />,
+                title: "Compromiso Total",
+                description: "Me involucro completamente en tu proyecto, entendiendo tus objetivos y trabajando para alcanzarlos.",
+                color: "text-purple-400",
+                bgColor: "from-purple-500/10 to-pink-500/10"
+              }
+            ].map((benefit, index) => (
+              <motion.div
+                key={benefit.title}
+                className="relative group"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+              >
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-1000" />
+                
+                <div className={`relative bg-gradient-to-br ${benefit.bgColor} backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300 h-full`}>
+                  <div className={`text-4xl mb-6 ${benefit.color}`}>
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed">
+                    {benefit.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sección de Preguntas Frecuentes */}
+        <motion.div
+          className="mt-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Preguntas{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                frecuentes
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Resuelve tus dudas sobre mi proceso de trabajo y servicios.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                question: "¿Cuánto tiempo toma desarrollar un proyecto?",
+                answer: "El tiempo varía según la complejidad. Una landing page toma 5-7 días, un e-commerce 10-14 días, y aplicaciones personalizadas 3-4 semanas. Siempre te doy un cronograma detallado al inicio."
+              },
+              {
+                question: "¿Incluyes hosting y dominio en los precios?",
+                answer: "Sí, incluyo hosting gratuito por 3 meses y configuración de dominio. También te ayudo a elegir la mejor opción para tu proyecto según tus necesidades."
+              },
+              {
+                question: "¿Qué pasa si no estoy satisfecho con el resultado?",
+                answer: "Mi objetivo es tu satisfacción total. Incluyo 3 revisiones gratuitas en todos los proyectos y trabajo hasta que estés completamente satisfecho con el resultado."
+              },
+              {
+                question: "¿Ofreces mantenimiento después del lanzamiento?",
+                answer: "Sí, ofrezco planes de mantenimiento mensual que incluyen actualizaciones de seguridad, backups, optimización de velocidad y soporte técnico prioritario."
+              },
+              {
+                question: "¿Puedo hacer cambios después de que el proyecto esté terminado?",
+                answer: "Por supuesto. Incluyo 30 días de soporte post-lanzamiento para ajustes menores. Para cambios mayores, podemos discutir un presupuesto adicional."
+              },
+              {
+                question: "¿Trabajas con empresas de otros países?",
+                answer: "¡Absolutamente! He trabajado con clientes de diferentes países. Utilizo herramientas de comunicación efectivas y puedo adaptarme a diferentes zonas horarias."
+              }
+            ].map((faq, index) => (
+              <motion.div
+                key={faq.question}
+                className="relative group"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
+              >
+                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="text-2xl text-cyan-400 mt-1">
+                      <FaQuestionCircle />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                        {faq.question}
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* CTA Final */}
         <motion.div
-          className="text-center"
+          className="text-center mt-20"
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 2.0 }}
         >
-          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-3xl p-12 max-w-4xl mx-auto">
-            <motion.div
-              className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaRocket className="text-3xl text-white" />
-            </motion.div>
-            <h3 className="text-3xl font-bold text-white mb-4">
-              ¿Listo para Impulsar tu Negocio?
-            </h3>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
-              Elige el servicio que mejor se adapte a tus necesidades y comencemos a trabajar juntos en tu próximo proyecto exitoso.
+          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm rounded-3xl p-12 border border-cyan-500/20">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              ¿Listo para transformar tu{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                presencia digital
+              </span>
+              ?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              No importa el tamaño de tu proyecto, cada idea merece ser ejecutada con excelencia. 
+              Hablemos sobre cómo puedo ayudarte a alcanzar tus objetivos digitales.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
                 onClick={() => handleWhatsAppContact('Consulta General')}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FaWhatsapp className="text-lg" />
-                Consultar por WhatsApp
+                <span>Consultar por WhatsApp</span>
               </motion.button>
               <motion.button
-                onClick={() => {
-                  const contactSection = document.getElementById('contact');
-                  if (contactSection) {
-                    contactSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className="inline-flex items-center gap-3 px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all duration-300"
+                onClick={() => handleEmailContact('Consulta General')}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FaEnvelope className="text-lg" />
-                Formulario de Contacto
+                <span>Enviar Email</span>
               </motion.button>
             </div>
           </div>

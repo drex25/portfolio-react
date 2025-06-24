@@ -198,6 +198,107 @@ const Footer: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Sección de servicios destacados */}
+        <motion.div
+          className="mt-16 pt-16 border-t border-white/10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Servicios Destacados
+            </h3>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Soluciones digitales profesionales que transforman tu negocio
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Desarrollo Web",
+                description: "Sitios web modernos y responsivos con las mejores tecnologías",
+                icon: "🌐",
+                features: ["React/Next.js", "Diseño Responsive", "SEO Optimizado"]
+              },
+              {
+                title: "E-commerce",
+                description: "Tiendas online completas con pasarelas de pago integradas",
+                icon: "🛒",
+                features: ["MercadoPago/Stripe", "Gestión de Inventario", "Panel Admin"]
+              },
+              {
+                title: "Aplicaciones Web",
+                description: "Aplicaciones personalizadas para necesidades específicas",
+                icon: "⚡",
+                features: ["Laravel/PHP", "Base de Datos", "API REST"]
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={service.title}
+                className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                <div className="text-4xl mb-4">{service.icon}</div>
+                <h4 className="text-lg font-bold text-white mb-3">{service.title}</h4>
+                <p className="text-gray-400 text-sm mb-4">{service.description}</p>
+                <div className="space-y-2">
+                  {service.features.map((feature) => (
+                    <div key={feature} className="text-xs text-cyan-400 font-medium">
+                      • {feature}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sección de garantías */}
+        <motion.div
+          className="mt-16 pt-16 border-t border-white/10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Mis Garantías
+            </h3>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Compromiso total con la calidad y satisfacción del cliente
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { text: "Código Limpio", icon: "✨" },
+              { text: "Entrega a Tiempo", icon: "⏰" },
+              { text: "Soporte 24/7", icon: "🛠️" },
+              { text: "Satisfacción 100%", icon: "💯" }
+            ].map((guarantee, index) => (
+              <motion.div
+                key={guarantee.text}
+                className="text-center p-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
+              >
+                <div className="text-2xl mb-2">{guarantee.icon}</div>
+                <div className="text-sm text-gray-300 font-medium">{guarantee.text}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Bottom section */}
         <motion.div
           className="mt-16 pt-8 border-t border-white/10"

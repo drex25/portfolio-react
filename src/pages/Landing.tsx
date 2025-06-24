@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore, FaCheckCircle, FaShieldAlt, FaHeadset, FaAward } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore, FaCheckCircle, FaShieldAlt, FaHeadset, FaAward, FaStar, FaEnvelope } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // Importar los componentes de las otras páginas
@@ -230,27 +230,51 @@ const HeroSection: React.FC = () => {
 
         {/* Estadísticas comerciales */}
         <motion.div
-          className="grid grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.4, duration: 0.6 }}
         >
           {[
-            { number: "5+", label: "Años de Experiencia" },
-            { number: "50+", label: "Proyectos Entregados" },
-            { number: "100%", label: "Clientes Satisfechos" }
+            { 
+              number: "5+", 
+              label: "Años de Experiencia",
+              description: "Desarrollo profesional"
+            },
+            { 
+              number: "50+", 
+              label: "Proyectos Entregados",
+              description: "Clientes satisfechos"
+            },
+            { 
+              number: "100%", 
+              label: "Tasa de Éxito",
+              description: "Proyectos completados"
+            },
+            { 
+              number: "24h", 
+              label: "Tiempo de Respuesta",
+              description: "Soporte garantizado"
+            }
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="text-center"
+              className="text-center group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
               whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">
-                {stat.number}
-              </div>
-              <div className="text-sm text-gray-400 font-medium">
-                {stat.label}
+              <div className="relative p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300">
+                <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2 group-hover:text-cyan-300 transition-colors">
+                  {stat.number}
+                </div>
+                <div className="text-sm text-gray-300 font-medium mb-1">
+                  {stat.label}
+                </div>
+                <div className="text-xs text-gray-400">
+                  {stat.description}
+                </div>
               </div>
             </motion.div>
           ))}
@@ -339,6 +363,300 @@ const HeroSection: React.FC = () => {
   );
 };
 
+// Componente de Testimonios
+const TestimonialsSection: React.FC = () => {
+  const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+
+  const testimonials = [
+    {
+      name: "María González",
+      position: "CEO, TechStart",
+      content: "Sylvain transformó completamente nuestra presencia digital. Su trabajo profesional y atención al detalle superó nuestras expectativas. ¡Altamente recomendado!",
+      rating: 5,
+      project: "E-commerce Empresarial",
+      avatar: "👩‍💼"
+    },
+    {
+      name: "Carlos Rodríguez",
+      position: "Emprendedor",
+      content: "Increíble experiencia trabajando con Sylvain. Entregó nuestro proyecto a tiempo, con calidad excepcional y soporte continuo. Definitivamente volveremos a trabajar juntos.",
+      rating: 5,
+      project: "Landing Page Profesional",
+      avatar: "👨‍💻"
+    },
+    {
+      name: "Ana Martínez",
+      position: "Directora de Marketing",
+      content: "La mejor inversión que hemos hecho este año. Sylvain no solo desarrolló nuestro sitio web, sino que nos ayudó a optimizar nuestra estrategia digital completa.",
+      rating: 5,
+      project: "Sitio WordPress Personalizado",
+      avatar: "👩‍🎨"
+    }
+  ];
+
+  return (
+    <section 
+      ref={containerRef}
+      className="py-20 bg-gradient-to-br from-slate-800 via-purple-900 to-slate-800 relative overflow-hidden"
+      id="testimonials"
+    >
+      {/* Fondo con patrón */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Lo que dicen mis{' '}
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              clientes
+            </span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            La satisfacción de mis clientes es mi mayor logro. Cada proyecto es una oportunidad para superar expectativas.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.name}
+              className="relative group"
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+            >
+              {/* Glow effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-1000" />
+              
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300">
+                {/* Rating */}
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <FaStar key={i} className="text-yellow-400 text-lg" />
+                  ))}
+                </div>
+
+                {/* Content */}
+                <blockquote className="text-gray-300 mb-6 leading-relaxed italic">
+                  "{testimonial.content}"
+                </blockquote>
+
+                {/* Project badge */}
+                <div className="mb-6">
+                  <span className="inline-block px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-sm font-medium border border-cyan-500/30">
+                    {testimonial.project}
+                  </span>
+                </div>
+
+                {/* Author */}
+                <div className="flex items-center gap-4">
+                  <div className="text-3xl">{testimonial.avatar}</div>
+                  <div>
+                    <div className="font-semibold text-white">{testimonial.name}</div>
+                    <div className="text-sm text-gray-400">{testimonial.position}</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA adicional */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <p className="text-gray-300 mb-6 text-lg">
+            ¿Listo para ser el próximo cliente satisfecho?
+          </p>
+          <motion.button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaEnvelope className="text-lg" />
+            <span>Comienza tu proyecto</span>
+          </motion.button>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Componente de Proceso de Trabajo
+const WorkProcessSection: React.FC = () => {
+  const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+
+  const processSteps = [
+    {
+      step: "01",
+      title: "Consulta Inicial",
+      description: "Analizamos tus necesidades y objetivos para crear la estrategia perfecta para tu proyecto.",
+      icon: "💬",
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      step: "02",
+      title: "Planificación",
+      description: "Desarrollamos un plan detallado con cronograma, funcionalidades y presupuesto transparente.",
+      icon: "📋",
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      step: "03",
+      title: "Diseño & Desarrollo",
+      description: "Creamos tu proyecto con las mejores tecnologías, siguiendo estándares de calidad internacional.",
+      icon: "⚡",
+      color: "from-orange-500 to-red-500"
+    },
+    {
+      step: "04",
+      title: "Pruebas & Optimización",
+      description: "Realizamos pruebas exhaustivas y optimizamos el rendimiento para garantizar la excelencia.",
+      icon: "🔍",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      step: "05",
+      title: "Lanzamiento",
+      description: "Desplegamos tu proyecto con todas las configuraciones necesarias para el éxito inmediato.",
+      icon: "🚀",
+      color: "from-cyan-500 to-blue-500"
+    },
+    {
+      step: "06",
+      title: "Soporte Continuo",
+      description: "Te acompaño con soporte técnico y mantenimiento para que tu proyecto siga creciendo.",
+      icon: "🛠️",
+      color: "from-indigo-500 to-purple-500"
+    }
+  ];
+
+  return (
+    <section 
+      ref={containerRef}
+      className="py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
+      id="process"
+    >
+      {/* Fondo con patrón */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Mi{' '}
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              proceso
+            </span>{' '}
+            de trabajo
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Un método probado y eficiente que garantiza resultados excepcionales en cada proyecto.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {processSteps.map((step, index) => (
+            <motion.div
+              key={step.step}
+              className="relative group"
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              {/* Glow effect */}
+              <div className={`absolute -inset-1 bg-gradient-to-r ${step.color} rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-1000`} />
+              
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300 h-full">
+                {/* Step number */}
+                <div className={`inline-block px-4 py-2 bg-gradient-to-r ${step.color} text-white font-bold rounded-full text-sm mb-6`}>
+                  {step.step}
+                </div>
+
+                {/* Icon */}
+                <div className="text-4xl mb-4">{step.icon}</div>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-300 leading-relaxed">
+                  {step.description}
+                </p>
+
+                {/* Arrow connector */}
+                {index < processSteps.length - 1 && (
+                  <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500" />
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA adicional */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <p className="text-gray-300 mb-6 text-lg">
+            ¿Te gustaría conocer más sobre mi proceso de trabajo?
+          </p>
+          <motion.button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaEnvelope className="text-lg" />
+            <span>Agenda una consulta</span>
+          </motion.button>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const Landing: React.FC = () => {
   return (
     <div className="relative">
@@ -356,6 +674,12 @@ const Landing: React.FC = () => {
       
       {/* Services Section */}
       <Services />
+      
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+      
+      {/* Work Process Section */}
+      <WorkProcessSection />
       
       {/* Contact Section */}
       <Contact />

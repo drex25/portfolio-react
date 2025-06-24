@@ -5,6 +5,8 @@ export default {
     projects: 'Projects',
     skills: 'Skills',
     services: 'Services',
+    testimonials: 'Testimonials',
+    process: 'Process',
     contact: 'Contact'
   },
   home: {
@@ -91,6 +93,28 @@ export default {
     emailContact: 'Contact via Email',
     selectCurrency: 'Select Currency',
     savings: 'Savings'
+  },
+  testimonials: {
+    title: 'Testimonials',
+    subtitle: 'What my clients say',
+    description: 'My clients\' satisfaction is my greatest achievement. Each project is an opportunity to exceed expectations.',
+    readyToJoin: 'Ready to be the next satisfied client?',
+    startProject: 'Start your project'
+  },
+  process: {
+    title: 'Work Process',
+    subtitle: 'My proven method',
+    description: 'A proven and efficient method that guarantees exceptional results in every project.',
+    steps: {
+      consultation: 'Initial Consultation',
+      planning: 'Planning',
+      development: 'Design & Development',
+      testing: 'Testing & Optimization',
+      launch: 'Launch',
+      support: 'Ongoing Support'
+    },
+    learnMore: 'Would you like to learn more about my work process?',
+    scheduleConsultation: 'Schedule a consultation'
   },
   contact: {
     title: 'Contact',
