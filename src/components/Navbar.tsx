@@ -340,7 +340,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9999] lg:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -350,7 +350,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
               initial="closed"
               animate="open"
               exit="closed"
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-slate-900/98 to-slate-800/98 backdrop-blur-xl border-l border-white/10 z-[9999] lg:hidden overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-slate-900/98 to-slate-800/98 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden overflow-y-auto"
             >
               {/* Header del menú */}
               <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/10 p-6">

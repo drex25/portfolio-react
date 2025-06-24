@@ -82,9 +82,7 @@ const Contact: React.FC = () => {
       bgColor: 'from-green-500/10 to-emerald-500/10',
       borderColor: 'border-green-500/20',
       description: 'Lun-Vie 9AM-6PM',
-      // fix: always show on mobile
-      alwaysShow: true,
-      badge: 'Directo' // Added badge for phone
+      badge: 'Directo'
     },
     {
       icon: FaMapMarkerAlt,
