@@ -91,6 +91,14 @@ export const REGIONAL_PRICING = {
 // Moneda por defecto
 export const DEFAULT_CURRENCY = 'USD';
 
+// Configuración específica para producción
+export const PRODUCTION_CONFIG = {
+  // Forzar Argentina como región por defecto en producción
+  FORCE_ARGENTINA_IN_PRODUCTION: true,
+  // Región por defecto para producción
+  PRODUCTION_DEFAULT_REGION: 'AR'
+};
+
 // Función para obtener la URL completa
 export const getFullUrl = (path: string = ''): string => {
   const baseUrl = ENV_CONFIG.IS_PRODUCTION 

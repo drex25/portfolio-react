@@ -61,7 +61,7 @@ interface AddOn {
 
 const Services: React.FC = () => {
   const { t } = useTranslation();
-  const { formatPrice, isInitialized } = useCurrency();
+  const { formatPrice, isInitialized, currencyChangeKey } = useCurrency();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = true; // Forzar siempre visible para depuración
@@ -361,31 +361,6 @@ const Services: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* Benefits */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={benefit.title}
-              className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: index * 0.1 + 0.5 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-            >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-400/30">
-                <div className="text-2xl text-cyan-400">{benefit.icon}</div>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">{benefit.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
         {/* Category Filters */}
         <motion.div
           className="flex flex-wrap justify-center gap-4 mb-12"
@@ -462,7 +437,7 @@ const Services: React.FC = () => {
                   <div className="mb-6">
                     <motion.div 
                       className="flex items-baseline gap-2 mb-2"
-                      key={`${service.id}-${isInitialized}`}
+                      key={`${service.id}-price-${currencyChangeKey}`}
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3 }}
@@ -475,7 +450,7 @@ const Services: React.FC = () => {
                     {service.originalPrice && (
                       <motion.div 
                         className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold"
-                        key={`savings-${service.id}-${isInitialized}`}
+                        key={`${service.id}-savings-${currencyChangeKey}`}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: 0.1 }}
@@ -535,6 +510,40 @@ const Services: React.FC = () => {
           ))}
         </div>
 
+        {/* Benefits - Movido después de los servicios */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">¿Por qué Elegirnos?</h3>
+            <p className="text-gray-400">Garantizamos la calidad y satisfacción en cada proyecto</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={benefit.title}
+                className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-400/30">
+                  <div className="text-2xl text-cyan-400">{benefit.icon}</div>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{benefit.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Add-ons Section */}
         <motion.div
           className="mb-20"
@@ -564,7 +573,15 @@ const Services: React.FC = () => {
                 </div>
                 <h4 className="text-lg font-bold text-white mb-2">{addon.name}</h4>
                 <p className="text-gray-400 text-sm mb-4">{addon.description}</p>
-                <div className="text-2xl font-bold text-cyan-400">{formatPrice(addon.price)}</div>
+                <motion.div 
+                  className="text-2xl font-bold text-cyan-400"
+                  key={`addon-${addon.id}-${currencyChangeKey}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {formatPrice(addon.price)}
+                </motion.div>
               </motion.div>
             ))}
           </div>
