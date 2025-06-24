@@ -32,6 +32,8 @@ import {
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { getContactEmail } from '../config/environment';
+import { useCurrency } from '../hooks/useCurrency';
+import CurrencySelector from '../components/CurrencySelector';
 
 interface Service {
   id: string;
@@ -59,6 +61,7 @@ interface AddOn {
 
 const Services: React.FC = () => {
   const { t } = useTranslation();
+  const { formatPrice, isInitialized } = useCurrency();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = true; // Forzar siempre visible para depuración
@@ -343,9 +346,19 @@ const Services: React.FC = () => {
             Servicios & Precios
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             Soluciones digitales profesionales con precios transparentes. Desde landing pages hasta e-commerce empresarial.
           </p>
+          
+          {/* Currency Selector */}
+          <motion.div
+            className="flex justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <CurrencySelector />
+          </motion.div>
         </motion.div>
 
         {/* Benefits */}
@@ -447,17 +460,29 @@ const Services: React.FC = () => {
 
                   {/* Price */}
                   <div className="mb-6">
-                    <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-4xl font-black text-white">${service.price}</span>
+                    <motion.div 
+                      className="flex items-baseline gap-2 mb-2"
+                      key={`${service.id}-${isInitialized}`}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className="text-4xl font-black text-white">{formatPrice(service.price)}</span>
                       {service.originalPrice && (
-                        <span className="text-lg text-gray-500 line-through">${service.originalPrice}</span>
+                        <span className="text-lg text-gray-500 line-through">{formatPrice(service.originalPrice)}</span>
                       )}
-                    </div>
+                    </motion.div>
                     {service.originalPrice && (
-                      <div className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold">
+                      <motion.div 
+                        className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold"
+                        key={`savings-${service.id}-${isInitialized}`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
                         <FaGift className="text-xs" />
-                        Ahorro ${service.originalPrice - service.price}
-                      </div>
+                        {t('services.savings', 'Ahorro')} {formatPrice(service.originalPrice - service.price)}
+                      </motion.div>
                     )}
                   </div>
 
@@ -539,7 +564,7 @@ const Services: React.FC = () => {
                 </div>
                 <h4 className="text-lg font-bold text-white mb-2">{addon.name}</h4>
                 <p className="text-gray-400 text-sm mb-4">{addon.description}</p>
-                <div className="text-2xl font-bold text-cyan-400">${addon.price}</div>
+                <div className="text-2xl font-bold text-cyan-400">{formatPrice(addon.price)}</div>
               </motion.div>
             ))}
           </div>

@@ -28,6 +28,69 @@ export const ENV_CONFIG = {
   APP_AUTHOR: import.meta.env.VITE_APP_AUTHOR || 'Sylvain Drexler',
 };
 
+// Configuración de precios regionales
+export const REGIONAL_PRICING = {
+  'AR': { 
+    currency: 'ARS', 
+    rate: 1210, 
+    symbol: '$',
+    name: 'Peso Argentino',
+    locale: 'es-AR'
+  },
+  'US': { 
+    currency: 'USD', 
+    rate: 1, 
+    symbol: '$',
+    name: 'Dólar Estadounidense',
+    locale: 'en-US'
+  },
+  'EU': { 
+    currency: 'EUR', 
+    rate: 0.85, 
+    symbol: '€',
+    name: 'Euro',
+    locale: 'es-ES'
+  },
+  'MX': { 
+    currency: 'MXN', 
+    rate: 18.5, 
+    symbol: '$',
+    name: 'Peso Mexicano',
+    locale: 'es-MX'
+  },
+  'CL': { 
+    currency: 'CLP', 
+    rate: 950, 
+    symbol: '$',
+    name: 'Peso Chileno',
+    locale: 'es-CL'
+  },
+  'CO': { 
+    currency: 'COP', 
+    rate: 4000, 
+    symbol: '$',
+    name: 'Peso Colombiano',
+    locale: 'es-CO'
+  },
+  'PE': { 
+    currency: 'PEN', 
+    rate: 3.8, 
+    symbol: 'S/',
+    name: 'Sol Peruano',
+    locale: 'es-PE'
+  },
+  'BR': { 
+    currency: 'BRL', 
+    rate: 5.2, 
+    symbol: 'R$',
+    name: 'Real Brasileño',
+    locale: 'pt-BR'
+  }
+};
+
+// Moneda por defecto
+export const DEFAULT_CURRENCY = 'USD';
+
 // Función para obtener la URL completa
 export const getFullUrl = (path: string = ''): string => {
   const baseUrl = ENV_CONFIG.IS_PRODUCTION 

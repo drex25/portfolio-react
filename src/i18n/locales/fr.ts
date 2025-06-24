@@ -88,7 +88,9 @@ export default {
     getStarted: 'Commencer',
     contactForQuote: 'Demander un Devis',
     whatsappContact: 'Contacter via WhatsApp',
-    emailContact: 'Contacter via Email'
+    emailContact: 'Contacter via Email',
+    selectCurrency: 'Sélectionner la Devise',
+    savings: 'Économies'
   },
   contact: {
     title: 'Contact',

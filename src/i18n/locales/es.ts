@@ -88,7 +88,9 @@ export default {
     getStarted: 'Comenzar',
     contactForQuote: 'Solicitar Cotización',
     whatsappContact: 'Consultar por WhatsApp',
-    emailContact: 'Consultar por Email'
+    emailContact: 'Consultar por Email',
+    selectCurrency: 'Seleccionar Moneda',
+    savings: 'Ahorro'
   },
   contact: {
     title: 'Contacto',
