@@ -29,16 +29,16 @@ import {
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
-// Datos actualizados con tu información
+// Datos actualizados con mi experiencia
 const experiences = [
   {
     title: 'Desarrollador WordPress',
     company: 'Agencia Tributaria de Misiones (ATM)',
     period: '2024',
     location: 'Misiones, Argentina',
-    description: 'Desarrollé un plugin de calendario de vencimientos y un tema hijo personalizado, mejorando la experiencia de usuario y optimizando la gestión de contenidos institucionales.',
+    description: 'Colaboré activamente en el desarrollo de un plugin de calendario de vencimientos y un tema hijo personalizado, trabajando en equipo para mejorar la experiencia de usuario y optimizar la gestión de contenidos institucionales. Mi contribución incluyó el desarrollo del 60% del plugin, demostrando capacidad técnica y trabajo colaborativo efectivo.',
     technologies: ['WordPress', 'PHP', 'JavaScript', 'CSS'],
-    achievements: ['Plugin personalizado implementado', 'Mejora del 40% en UX'],
+    achievements: ['Plugin personalizado implementado', 'Mejora del 50% en UX', 'Trabajo colaborativo exitoso'],
     icon: FaBriefcase,
     color: 'from-blue-500 to-cyan-500'
   },
@@ -49,21 +49,11 @@ const experiences = [
     location: 'Posadas, Misiones',
     description: 'Responsable de la gestión y desarrollo de sitios web corporativos utilizando tecnologías modernas. Trabajo híbrido enfocado en soluciones escalables.',
     technologies: ['PHP', 'JavaScript', 'React', 'Laravel', 'WordPress'],
-    achievements: ['15+ sitios web desarrollados', 'Implementación de CI/CD'],
+    achievements: ['5+ sitios web desarrollados', 'Mantenimiento WEB', 'Website Manager'],
     icon: FaBriefcase,
     color: 'from-purple-500 to-pink-500'
   },
-  {
-    title: 'Web Designer',
-    company: 'Wiltechnology',
-    period: 'mar. 2020 - abr. 2023',
-    location: 'Remoto',
-    description: 'Diseño y desarrollo de sitios web a medida, creando soluciones digitales personalizadas para clientes de diversos sectores.',
-    technologies: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'Figma'],
-    achievements: ['30+ proyectos completados', '98% satisfacción del cliente'],
-    icon: FaBriefcase,
-    color: 'from-green-500 to-teal-500'
-  },
+
   {
     title: 'Desarrollador Freelance',
     company: 'eCommerce & Dropshipping',
@@ -71,7 +61,7 @@ const experiences = [
     location: 'Remoto',
     description: 'Desarrollo de tiendas online y soluciones eCommerce personalizadas, ayudando a negocios a potenciar sus ventas digitales.',
     technologies: ['WooCommerce', 'AliDropship', 'WordPress', 'PHP'],
-    achievements: ['25+ tiendas online', 'Aumento promedio del 60% en ventas'],
+    achievements: ['10+ tiendas online', 'Aumento promedio del 60% en ventas'],
     icon: FaBriefcase,
     color: 'from-orange-500 to-red-500'
   }
@@ -79,13 +69,15 @@ const experiences = [
 
 const education = [
   {
-    degree: 'Tecnicatura en Análisis de Sistemas Informáticos',
+    degree: 'Analista de Sistemas Informáticos',
     institution: 'Instituto Tecnológico nro.3',
     period: 'mar. 2019 - dic. 2022',
     location: 'Argentina',
     description: 'Formación integral en análisis, diseño y desarrollo de sistemas informáticos, con enfoque en resolución de problemas y optimización de procesos.',
     icon: FaGraduationCap,
-    color: 'from-indigo-500 to-purple-500'
+    color: 'from-indigo-500 to-purple-500',
+    type: 'carrera',
+    badge: 'Carrera'
   },
   {
     degree: 'Desarrollo Web Completo',
@@ -94,7 +86,9 @@ const education = [
     location: 'Online',
     description: 'Curso intensivo en HTML5, CSS3, JavaScript, AJAX, PHP y MySQL orientado a la creación de aplicaciones web modernas.',
     icon: FaGraduationCap,
-    color: 'from-blue-500 to-indigo-500'
+    color: 'from-blue-500 to-indigo-500',
+    type: 'curso',
+    badge: 'Curso'
   },
   {
     degree: 'Desarrollo Web Completo',
@@ -103,7 +97,9 @@ const education = [
     location: 'Online',
     description: 'Capacitación práctica en desarrollo web, desde fundamentos hasta implementación de proyectos reales.',
     icon: FaGraduationCap,
-    color: 'from-cyan-500 to-blue-500'
+    color: 'from-cyan-500 to-blue-500',
+    type: 'curso',
+    badge: 'Curso'
   }
 ];
 
@@ -454,9 +450,31 @@ const About: React.FC = () => {
                   {/* Contenido principal */}
                   <div className="lg:col-span-3 space-y-4">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 hover:text-cyan-400 transition-colors">
-                        {'title' in item ? item.title : item.degree}
-                      </h3>
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-xl sm:text-2xl font-bold text-white hover:text-cyan-400 transition-colors">
+                          {'title' in item ? item.title : item.degree}
+                        </h3>
+                        {/* Badge para educación */}
+                        {'badge' in item && item.badge && (
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${
+                            item.type === 'carrera' 
+                              ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg' 
+                              : 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg'
+                          }`}>
+                            {item.type === 'carrera' ? (
+                              <>
+                                <FaAward className="text-xs" />
+                                {item.badge}
+                              </>
+                            ) : (
+                              <>
+                                <FaGraduationCap className="text-xs" />
+                                {item.badge}
+                              </>
+                            )}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-cyan-400 font-semibold text-lg">{'company' in item ? item.company : item.institution}</p>
                     </div>
 
