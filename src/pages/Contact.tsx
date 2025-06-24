@@ -124,6 +124,17 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
+      // Obtener fecha y hora actual
+      const now = new Date();
+      const formattedDate = now.toLocaleString('es-AR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'America/Argentina/Buenos_Aires'
+      });
+
       // Preparar los parámetros para EmailJS
       const templateParams = {
         from_name: formData.name,
@@ -131,7 +142,8 @@ const Contact: React.FC = () => {
         subject: formData.subject,
         message: formData.message,
         to_name: 'Sylvain Drexler', // Tu nombre
-        reply_to: formData.email,
+        reply_to: 'https://itsdrex.dev', // Dominio del sitio
+        current_date: formattedDate, // Fecha real
       };
 
       // Enviar email usando EmailJS
