@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaBars, 
@@ -16,7 +16,8 @@ import {
   FaChevronRight,
   FaExternalLinkAlt,
   FaStore,
-  FaStar
+  FaStar,
+  FaCalculator
 } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { useTranslation } from 'react-i18next';
@@ -42,9 +43,10 @@ const groupedNavLinks: Array<{
   external?: boolean;
 }> = [
   { path: '#about', label: 'nav.trajectory', scrollTo: 'about', icon: FaUser },
-  { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
   { path: '#projects', label: 'nav.projects', scrollTo: 'projects', icon: FaFolder },
-  { path: '#contact', label: 'nav.contact', scrollTo: 'contact', icon: FaEnvelope }
+  { path: '#services', label: 'nav.services', scrollTo: 'services', icon: FaStore },
+  { path: '#contact', label: 'nav.contact', scrollTo: 'contact', icon: FaEnvelope },
+  { path: '/presupuesto', label: 'nav.quote', scrollTo: null, icon: FaCalculator }
 ];
 
 const pageTitles: Record<string, string> = {
@@ -67,37 +69,43 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
   );
   const [mobileMenuMounted, setMobileMenuMounted] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const title = pageTitles[location.pathname] || 'Sylvain Drexler - Portfolio';
     document.title = title;
   }, [location.pathname]);
 
+  // Sincronizar sección activa con la ruta
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Detectar sección activa
-      const sections = ['home', 'about', 'projects', 'services', 'testimonials', 'process', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
+    if (location.pathname === '/presupuesto') {
+      setActiveSection('presupuesto');
+    } else if (location.pathname === '/') {
+      // Dejar que el scroll lo maneje
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 20);
+        const sections = ['home', 'about', 'projects', 'services', 'testimonials', 'process', 'contact'];
+        const scrollPosition = window.scrollY + 100;
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const offsetTop = element.offsetTop;
+            const offsetHeight = element.offsetHeight;
+            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      };
+      window.addEventListener('scroll', handleScroll);
+      // Ejecutar una vez para setear el estado inicial
+      handleScroll();
+      return () => window.removeEventListener('scroll', handleScroll);
+    } else {
+      setActiveSection(''); // Ninguna sección activa para otras rutas
+    }
+  }, [location.pathname]);
 
   // Cerrar menús al hacer clic fuera
   useEffect(() => {
@@ -226,77 +234,75 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 w-full">
           {/* Logo empresarial espectacular */}
-          <motion.button 
-            onClick={() => scrollToSection('home')}
-            className="flex items-center gap-3 group z-50 relative"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {/* Glow effect detrás del logo */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-2xl border border-white/20 group-hover:border-cyan-400/50 transition-all duration-300">
-              <motion.div
-                animate={{ 
-                  rotate: [0, 5, -5, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-              >
-                <FaCode />
-              </motion.div>
-              
-              {/* Partículas orbitales */}
-              <div className="absolute inset-0">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-                    style={{
-                      top: '50%',
-                      left: '50%',
-                      transformOrigin: `${15 + i * 5}px 0px`,
-                    }}
-                    animate={{
-                      rotate: 360,
-                    }}
-                    transition={{
-                      duration: 3 + i,
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: i * 0.5
-                    }}
-                  />
-                ))}
+          <Link to="/" className="flex items-center gap-3 group z-50 relative">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-3"
+            >
+              {/* Glow effect detrás del logo */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-2xl border border-white/20 group-hover:border-cyan-400/50 transition-all duration-300">
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                >
+                  <FaCode />
+                </motion.div>
+                {/* Partículas orbitales */}
+                <div className="absolute inset-0">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+                      style={{
+                        top: '50%',
+                        left: '50%',
+                        transformOrigin: `${15 + i * 5}px 0px`,
+                      }}
+                      animate={{
+                        rotate: 360,
+                      }}
+                      transition={{
+                        duration: 3 + i,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: i * 0.5
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            
-            <div className="flex flex-col items-start relative">
-              <motion.span 
-                className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  backgroundSize: "200% 200%"
-                }}
-              >
-                Drex
-              </motion.span>
-              <span className="text-xs text-gray-300 tracking-[0.2em] font-bold opacity-80 group-hover:opacity-100 transition-opacity">
-                DEVELOPER
-              </span>
-            </div>
-          </motion.button>
+              <div className="flex flex-col items-start relative">
+                <motion.span 
+                  className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent"
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    backgroundSize: "200% 200%"
+                  }}
+                >
+                  Drex
+                </motion.span>
+                <span className="text-xs text-gray-300 tracking-[0.2em] font-bold opacity-80 group-hover:opacity-100 transition-opacity">
+                  DEVELOPER
+                </span>
+              </div>
+            </motion.div>
+          </Link>
 
           {/* Menú centrado con efectos increíbles */}
           <div className="flex-1 flex justify-center">
@@ -305,14 +311,16 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                 <button
                   key={idx}
                   onClick={() => {
-                    if (item.scrollTo) {
+                    if (item.path === '/presupuesto') {
+                      navigate('/presupuesto');
+                    } else if (item.scrollTo) {
                       scrollToSection(item.scrollTo);
                     } else if ('external' in item && item.external) {
                       window.open(item.path, '_blank');
                     }
                   }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    activeSection === item.scrollTo
+                    (location.pathname === '/presupuesto' && item.path === '/presupuesto') || (activeSection === item.scrollTo)
                       ? 'text-cyan-400 bg-cyan-400/10'
                       : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }`}
@@ -327,24 +335,6 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
 
           {/* Botón de contacto y selector de idioma a la derecha */}
           <div className="flex items-center gap-2 sm:gap-4 ml-2">
-            {/* Botón destacado de contacto con efectos espectaculares */}
-            <motion.button
-              onClick={() => scrollToSection('contact')}
-              className="relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 border-2 border-cyan-400/30 hover:border-cyan-400 overflow-hidden group"
-              whileHover={{ scale: 1.07, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              {/* Efecto de brillo que se mueve */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ["-100%", "100%"] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              />
-              
-              <FaEnvelope className="text-lg relative z-10" />
-              <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
-            </motion.button>
-            
             {/* Selector de idioma visual con efectos */}
             <div className="relative z-50">
               <motion.button
@@ -397,7 +387,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
           </div>
 
           {/* Menú móvil con hamburger espectacular */}
-          <div className="md:hidden flex items-center z-50">
+          <div className="md:hidden flex items-center z-50 gap-4">
             <motion.button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
               className="relative p-3 rounded-full bg-white/10 hover:bg-cyan-400/10 text-white transition-all duration-300 border border-white/10 hover:border-cyan-400/50 backdrop-blur-sm overflow-hidden group"
@@ -517,7 +507,9 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                       className="w-full flex items-center gap-3 px-6 py-4 rounded-xl text-xl font-bold text-white/90 hover:text-cyan-400 bg-white/5 hover:bg-cyan-400/10 transition-all duration-300 mb-2 mobile-menu-item"
                       onClick={() => { 
                         setIsMobileMenuOpen(false); 
-                        if (item.scrollTo) {
+                        if (item.path === '/presupuesto') {
+                          navigate('/presupuesto');
+                        } else if (item.scrollTo) {
                           scrollToSection(item.scrollTo);
                         } else if ('external' in item && item.external) {
                           window.open(item.path, '_blank');
@@ -532,26 +524,6 @@ const Navbar: React.FC<NavbarProps> = ({ onLanguageChange }) => {
                     </motion.button>
                   ))}
                 </motion.nav>
-                
-                {/* Botón de contacto destacado */}
-                <motion.button
-                  className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-3 mt-2 mb-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 text-lg relative overflow-hidden"
-                  onClick={() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  {/* Efecto de brillo */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    animate={{ x: ["-100%", "100%"] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  />
-                  <FaEnvelope className="text-xl relative z-10" />
-                  <span className="relative z-10">{t('nav.contact', 'Contacto')}</span>
-                </motion.button>
                 
                 {/* Selector de idioma visual */}
                 <motion.div 

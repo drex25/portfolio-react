@@ -1,16 +1,10 @@
 export default {
   nav: {
-    home: 'Accueil',
-    about: 'À propos',
     trajectory: 'Trajectoire',
     projects: 'Projets',
-    skills: 'Compétences',
     services: 'Services',
-    portfolio: 'Portfolio',
-    testimonials: 'Témoignages',
-    process: 'Processus',
     contact: 'Contact',
-    cv: 'CV'
+    quote: 'Devis'
   },
   home: {
     greeting: 'Bonjour, je suis',

@@ -5,19 +5,25 @@ import App from './App';
 import './index.css';
 import './i18n/config';
 import { initEmailJS } from './config/emailjs';
+import { HelmetProvider } from 'react-helmet-async';
+import { CurrencyProvider } from './hooks/useCurrency';
 
 // Inicializar EmailJS
 initEmailJS();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true
-      }}
-    >
-      <App />
-    </BrowserRouter>
+    <HelmetProvider>
+      <CurrencyProvider>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
+          <App />
+        </BrowserRouter>
+      </CurrencyProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

@@ -11,6 +11,7 @@ import Skills from './pages/Skills';
 import Contact from './pages/Contact';
 import CV from './pages/CV';
 import CustomLoader from './components/CustomLoader';
+import CostCalculatorPage from './pages/CostCalculatorPage';
 
 const App: React.FC = () => {
   const { i18n } = useTranslation();
@@ -45,6 +46,7 @@ const App: React.FC = () => {
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cv" element={<CV />} />
+          <Route path="/presupuesto" element={<CostCalculatorPage />} />
         </Routes>
       </main>
       {/* Solo mostrar Footer si no estamos en la página CV */}

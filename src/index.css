@@ -10,6 +10,7 @@
 /* Asegurar que el contenido esté por debajo del menú móvil */
 body {
   position: relative;
+  overflow-x: hidden;
 }
 
 /* Cuando el menú móvil está abierto, el contenido debe estar por debajo */
@@ -29,6 +30,7 @@ body.mobile-menu-open {
   height: 100vh !important;
   pointer-events: auto !important;
   isolation: isolate !important;
+  overflow-x: hidden !important;
 }
 
 /* Forzar que el menú móvil esté por encima de cualquier contenido */
