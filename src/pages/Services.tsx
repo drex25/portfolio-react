@@ -61,7 +61,7 @@ interface AddOn {
 
 const Services: React.FC = () => {
   const { t } = useTranslation();
-  const { formatPrice, isInitialized, currencyChangeKey } = useCurrency();
+  const { formatPrice, isInitialized, currencyChangeKey, convertPrice, currentCurrency, currencyConfig } = useCurrency();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = true; // Forzar siempre visible para depuración
@@ -419,9 +419,9 @@ const Services: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <span className="text-4xl font-black text-white">{formatPrice(service.price)}</span>
+                      <span className="text-4xl font-black text-white">{formatPrice(convertPrice(service.price))}</span>
                       {service.originalPrice && (
-                        <span className="text-lg text-gray-500 line-through">{formatPrice(service.originalPrice)}</span>
+                        <span className="text-lg text-gray-500 line-through">{formatPrice(convertPrice(service.originalPrice))}</span>
                       )}
                     </motion.div>
                     {service.originalPrice && (
@@ -433,7 +433,7 @@ const Services: React.FC = () => {
                         transition={{ duration: 0.3, delay: 0.1 }}
                       >
                         <FaGift className="text-xs" />
-                        {t('services.savings', 'Ahorro')} {formatPrice(service.originalPrice - service.price)}
+                        {t('services.savings', 'Ahorro')} {formatPrice(convertPrice(service.originalPrice) - convertPrice(service.price))}
                       </motion.div>
                     )}
                   </div>
@@ -557,7 +557,7 @@ const Services: React.FC = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {formatPrice(addon.price)}
+                  {formatPrice(convertPrice(addon.price))}
                 </motion.div>
               </motion.div>
             ))}

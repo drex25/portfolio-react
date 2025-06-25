@@ -10,7 +10,8 @@ export default {
     testimonials: 'Testimonials',
     process: 'Process',
     contact: 'Contact',
-    cv: 'CV'
+    cv: 'CV',
+    quote: 'Quote'
   },
   home: {
     greeting: 'Hi, I am',

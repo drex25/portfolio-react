@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaCode, FaRocket, FaDownload, FaStore, FaCheckCircle, FaShieldAlt, FaHeadset, FaAward, FaStar, FaEnvelope } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 
 // Importar los componentes de las otras páginas
 import About from './About';
@@ -83,16 +84,6 @@ const TypewriterText: React.FC<{ text: string; className?: string }> = ({ text, 
 const HeroSection: React.FC = () => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-    layoutEffect: false
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-
   const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
   const guarantees = [
@@ -180,7 +171,6 @@ const HeroSection: React.FC = () => {
       {/* Contenido principal */}
       <motion.div 
         className="relative z-10 text-center px-4 max-w-6xl mx-auto flex-1 flex flex-col justify-center"
-        style={{ y, opacity, scale }}
       >
         <div className="pt-10" />
         <motion.p 
@@ -315,29 +305,6 @@ const HeroSection: React.FC = () => {
             <FaHeadset className="text-lg" />
             <span>Contactar</span>
           </motion.button>
-        </motion.div>
-
-        {/* Garantías comerciales */}
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.8, duration: 0.6 }}
-        >
-          {guarantees.map((guarantee, index) => (
-            <motion.div
-              key={guarantee.title}
-              className="text-center p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8 + index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-            >
-              <div className="text-2xl text-cyan-400 mb-2">{guarantee.icon}</div>
-              <h3 className="text-sm font-bold text-white mb-1">{guarantee.title}</h3>
-              <p className="text-xs text-gray-400">{guarantee.description}</p>
-            </motion.div>
-          ))}
         </motion.div>
       </motion.div>
 
@@ -667,9 +634,42 @@ const FuturisticSeparator: React.FC = () => (
   </div>
 );
 
+const DOMAIN = 'https://itsdrex.dev';
+const OG_IMAGE = DOMAIN + '/assets/portfolio.png';
+const FAVICON = '/assets/favicon.png';
+const THEME_COLOR = '#06b6d4';
+
 const Landing: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'es';
+  const title = `Sylvain Drexler | ${t('home.role', 'Full Stack')} - Portfolio`;
+  const description = t('home.description', 'Transformo ideas en experiencias digitales excepcionales. Especializado en desarrollo web moderno, optimización de procesos y consultoría tecnológica con más de 5 años de experiencia.');
+  const url = DOMAIN + '/';
+
   return (
     <div className="relative">
+      <Helmet>
+        <html lang={lang} />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="theme-color" content={THEME_COLOR} />
+        <link rel="icon" type="image/png" href={FAVICON} />
+        <link rel="canonical" href={url} />
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content={lang === 'es' ? 'es_ES' : lang === 'en' ? 'en_US' : 'fr_FR'} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:alt" content="Portfolio de Sylvain Drexler" />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={OG_IMAGE} />
+        <meta name="twitter:image:alt" content="Portfolio de Sylvain Drexler" />
+      </Helmet>
       {/* Hero Section */}
       <HeroSection />
       
