@@ -30,7 +30,13 @@ import {
   FaLock,
   FaCloudUploadAlt,
   FaBuilding,
-  FaHandshake
+  FaHandshake,
+  FaUsers,
+  FaCogs,
+  FaClipboardList,
+  FaMoneyBillWave,
+  FaFileContract,
+  FaChartPie
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { getContactEmail } from '../config/environment';
@@ -62,12 +68,110 @@ interface AddOn {
   icon: React.ReactNode;
 }
 
+interface CollaborationModel {
+  scenario: string;
+  description: string;
+  drexPercentage: number;
+  dsaPercentage: number;
+  responsibilities: {
+    drex: string[];
+    dsa: string[];
+  };
+  icon: React.ReactNode;
+  color: string;
+}
+
 const Services: React.FC = () => {
   const { t } = useTranslation();
   const { formatPrice, isInitialized, currencyChangeKey, convertPrice, currentCurrency, currencyConfig } = useCurrency();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom' | 'strategy'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = true; // Forzar siempre visible para depuración
+
+  // MODELO DE REPARTO SEGÚN EL PROMPT
+  const collaborationModels: CollaborationModel[] = [
+    {
+      scenario: "Clientes por DSA Business",
+      description: "DSA hace contacto, cotiza y gestiona al cliente. Drex ejecuta el desarrollo técnico.",
+      drexPercentage: 60,
+      dsaPercentage: 40,
+      responsibilities: {
+        drex: ["Desarrollo técnico completo", "Implementación", "Testing", "Soporte técnico"],
+        dsa: ["Captación del cliente", "Cotización", "Gestión comercial", "Dirección estratégica"]
+      },
+      icon: <FaUsers />,
+      color: "from-blue-500 to-cyan-600"
+    },
+    {
+      scenario: "Clientes por Drex",
+      description: "Drex cotiza y presenta desarrollo. DSA se integra como consultor estratégico.",
+      drexPercentage: 70,
+      dsaPercentage: 30,
+      responsibilities: {
+        drex: ["Captación del cliente", "Cotización técnica", "Desarrollo", "Gestión del proyecto"],
+        dsa: ["Consultoría estratégica", "Análisis de negocio", "Validación comercial", "Brief estratégico"]
+      },
+      icon: <FaCode />,
+      color: "from-purple-500 to-pink-600"
+    },
+    {
+      scenario: "Proyectos 100% Conjuntos",
+      description: "Propuesta desde ambos, división equilibrada del trabajo según carga estimada.",
+      drexPercentage: 50,
+      dsaPercentage: 50,
+      responsibilities: {
+        drex: ["Desarrollo técnico", "Arquitectura", "Implementación", "Optimización"],
+        dsa: ["Estrategia comercial", "Análisis de mercado", "Gestión comercial", "Seguimiento"]
+      },
+      icon: <FaHandshake />,
+      color: "from-emerald-500 to-cyan-600"
+    }
+  ];
+
+  const workflowSteps = [
+    {
+      step: "1",
+      title: "Cliente Entra",
+      description: "Por DSA Business o Drex",
+      icon: <FaUsers />,
+      color: "text-blue-400"
+    },
+    {
+      step: "2", 
+      title: "Análisis",
+      description: "Se evalúa si necesita trabajo conjunto",
+      icon: <FaClipboardList />,
+      color: "text-purple-400"
+    },
+    {
+      step: "3",
+      title: "Propuesta",
+      description: "Se define propuesta conjunta o individual",
+      icon: <FaFileContract />,
+      color: "text-emerald-400"
+    },
+    {
+      step: "4",
+      title: "Asignación",
+      description: "Roles, tiempos y % acordado",
+      icon: <FaCogs />,
+      color: "text-orange-400"
+    },
+    {
+      step: "5",
+      title: "Ejecución",
+      description: "Se ejecuta y entrega el proyecto",
+      icon: <FaRocket />,
+      color: "text-cyan-400"
+    },
+    {
+      step: "6",
+      title: "Facturación",
+      description: "Se cobra → se reparte según acuerdo",
+      icon: <FaMoneyBillWave />,
+      color: "text-green-400"
+    }
+  ];
 
   const services: Service[] = [
     // SERVICIOS ACTUALIZADOS CON PRECIOS DEL PROMPT
@@ -572,6 +676,206 @@ const Services: React.FC = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* NUEVA SECCIÓN: Modelo de Colaboración */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-16">
+            <h3 className="text-4xl font-bold text-white mb-4">
+              Modelo de{' '}
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+                Colaboración
+              </span>
+            </h3>
+            <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+              Estructura transparente de trabajo conjunto entre Drex y DSA Business para maximizar el valor de cada proyecto
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            {collaborationModels.map((model, index) => (
+              <motion.div
+                key={model.scenario}
+                className="relative group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+              >
+                <div className={`absolute -inset-1 bg-gradient-to-r ${model.color} rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-1000`} />
+                
+                <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-emerald-400/50 transition-all duration-300 h-full">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${model.color} flex items-center justify-center text-white text-2xl shadow-xl`}>
+                      {model.icon}
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                        {model.scenario}
+                      </h4>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    {model.description}
+                  </p>
+
+                  {/* Porcentajes */}
+                  <div className="mb-6 p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-xl border border-emerald-500/20">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-cyan-400 font-semibold">Reparto de Ganancias:</span>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-white font-medium">Drex (Desarrollo):</span>
+                        <span className="text-cyan-400 font-bold text-lg">{model.drexPercentage}%</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-white font-medium">DSA (Estrategia):</span>
+                        <span className="text-emerald-400 font-bold text-lg">{model.dsaPercentage}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Responsabilidades */}
+                  <div className="space-y-4">
+                    <div>
+                      <h5 className="text-cyan-400 font-semibold mb-2 flex items-center gap-2">
+                        <FaCode className="text-sm" />
+                        Responsabilidades Drex:
+                      </h5>
+                      <ul className="space-y-1">
+                        {model.responsibilities.drex.map((resp, i) => (
+                          <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
+                            <div className="w-1 h-1 bg-cyan-400 rounded-full flex-shrink-0" />
+                            {resp}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h5 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">
+                        <FaHandshake className="text-sm" />
+                        Responsabilidades DSA:
+                      </h5>
+                      <ul className="space-y-1">
+                        {model.responsibilities.dsa.map((resp, i) => (
+                          <li key={i} className="text-sm text-gray-300 flex items-center gap-2">
+                            <div className="w-1 h-1 bg-emerald-400 rounded-full flex-shrink-0" />
+                            {resp}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* NUEVA SECCIÓN: Flujo de Trabajo */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-16">
+            <h3 className="text-4xl font-bold text-white mb-4">
+              Flujo de{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Trabajo
+              </span>
+            </h3>
+            <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+              Proceso colaborativo optimizado para garantizar transparencia y eficiencia en cada proyecto
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {workflowSteps.map((step, index) => (
+              <motion.div
+                key={step.step}
+                className="relative group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 text-center h-full">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-xl">
+                        {step.icon}
+                      </div>
+                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-emerald-500 to-cyan-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        {step.step}
+                      </div>
+                    </div>
+                  </div>
+                  <h4 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                    {step.title}
+                  </h4>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Formalidad mínima */}
+          <motion.div
+            className="mt-12 p-8 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.8 }}
+          >
+            <div className="text-center mb-6">
+              <h4 className="text-2xl font-bold text-white mb-3 flex items-center justify-center gap-3">
+                <FaFileContract className="text-emerald-400" />
+                Formalidad Mínima por Proyecto
+              </h4>
+              <p className="text-gray-300">
+                Para evitar problemas, acordamos por mensaje lo siguiente en cada proyecto:
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: <FaUsers />, title: "Quién factura", desc: "Definir responsable de facturación" },
+                { icon: <FaCogs />, title: "Tareas de cada uno", desc: "Asignación clara de responsabilidades" },
+                { icon: <FaMoneyBillWave />, title: "Cuánto y cuándo", desc: "Monto total y cronograma de pagos" },
+                { icon: <FaChartPie />, title: "Comisión/Participación", desc: "Porcentaje acordado para cada parte" }
+              ].map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  className="text-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-emerald-400/30 transition-all duration-300"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.9 + index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="text-2xl text-emerald-400 mb-3">{item.icon}</div>
+                  <h5 className="font-semibold text-white mb-2">{item.title}</h5>
+                  <p className="text-xs text-gray-400">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Benefits - Movido después de los servicios */}
         <motion.div
