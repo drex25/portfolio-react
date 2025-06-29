@@ -38,7 +38,14 @@ import {
   FaDocker,
   FaAws,
   FaGithub,
-  FaLinkedin
+  FaLinkedin,
+  FaHandshake,
+  FaBuilding,
+  FaFlag,
+  FaExternalLinkAlt,
+  FaArrowRight,
+  FaTrophy,
+  FaHeart
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -795,6 +802,167 @@ const About: React.FC = () => {
               ))}
             </motion.div>
           </AnimatePresence>
+        </motion.div>
+
+        {/* NUEVA SECCIÓN: Colaboración Estratégica con DSA BUSINESS */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Colaboración{' '}
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+                Estratégica
+              </span>
+            </h3>
+            <p className="text-gray-400 text-lg">Alianza profesional para soluciones integrales</p>
+          </div>
+
+          <motion.div
+            className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-emerald-400/50 transition-all duration-500 p-8 sm:p-12 relative overflow-hidden"
+            whileHover={{ 
+              scale: 1.02, 
+              y: -8,
+              boxShadow: "0 25px 50px -12px rgba(16, 185, 129, 0.25)"
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {/* Glow effect específico para DSA */}
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative z-10">
+              {/* Header de la colaboración */}
+              <div className="flex flex-col lg:flex-row items-center gap-8 mb-8">
+                <div className="flex items-center gap-6">
+                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-emerald-500 to-cyan-600 flex items-center justify-center text-white text-3xl shadow-2xl">
+                    <FaHandshake />
+                  </div>
+                  <div className="text-center lg:text-left">
+                    <h4 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                      Trabajo en alianza con{' '}
+                      <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+                        DSA BUSINESS
+                      </span>
+                    </h4>
+                    <p className="text-emerald-400 font-semibold text-lg">
+                      Consultora en estrategia de negocios con base en Paraguay
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Badges de ubicación */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-300 rounded-full text-sm font-bold border border-emerald-500/30">
+                    <FaFlag className="text-xs" />
+                    Desde Paraguay
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-full text-sm font-bold border border-cyan-500/30">
+                    <FaFlag className="text-xs" />
+                    y Argentina
+                  </div>
+                </div>
+              </div>
+
+              {/* Descripción de la colaboración */}
+              <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                <div className="space-y-6">
+                  <p className="text-lg text-gray-300 leading-relaxed">
+                    Junto a <strong className="text-emerald-400">Diego Alvarenga</strong>, ayudamos a emprendedores y empresas de 
+                    Latinoamérica a transformar ideas en productos digitales sostenibles, combinando estrategia, 
+                    análisis de negocio y desarrollo fullstack.
+                  </p>
+                  
+                  <div className="p-6 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
+                    <div className="flex items-center gap-3 mb-3">
+                      <FaTrophy className="text-emerald-400 text-xl" />
+                      <span className="text-emerald-400 font-bold text-lg">Nuestra Fórmula</span>
+                    </div>
+                    <p className="text-emerald-300 font-semibold text-xl">
+                      Estrategia + Desarrollo = Soluciones que funcionan
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <FaGlobe className="text-cyan-400" />
+                    <span>Para marcas de toda la región LATAM</span>
+                  </div>
+                </div>
+
+                {/* Qué hacemos juntos */}
+                <div className="space-y-6">
+                  <h5 className="text-xl font-bold text-white flex items-center gap-3">
+                    <FaBuilding className="text-emerald-400" />
+                    ¿Qué hacemos juntos?
+                  </h5>
+                  
+                  <div className="space-y-4">
+                    {[
+                      'Planificación y validación de proyectos digitales',
+                      'Diseño de servicios y experiencia de usuario',
+                      'Desarrollo web completo con visión comercial',
+                      'Acompañamiento a marcas en crecimiento'
+                    ].map((service, index) => (
+                      <motion.div
+                        key={service}
+                        className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10 hover:border-emerald-400/30 transition-all duration-300"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        whileHover={{ x: 5 }}
+                      >
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0" />
+                        <span className="text-gray-300">{service}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Call to action para DSA */}
+              <div className="text-center">
+                <p className="text-gray-400 mb-6 text-lg">
+                  📩 Consultá por proyectos conjuntos desde el sitio de DSA BUSINESS o escribime directamente.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <motion.button
+                    onClick={() => {
+                      // Aquí iría el enlace a DSA BUSINESS cuando esté disponible
+                      window.open('https://dsabusiness.com', '_blank');
+                    }}
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-cyan-600 text-white font-semibold rounded-full shadow-lg hover:shadow-emerald-500/25 transition-all duration-300"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <FaExternalLinkAlt className="text-lg" />
+                    <span>Conocé DSA BUSINESS</span>
+                  </motion.button>
+                  
+                  <motion.button
+                    onClick={() => {
+                      const contactSection = document.getElementById('contact');
+                      if (contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="inline-flex items-center gap-3 px-8 py-4 border-2 border-emerald-400 text-emerald-400 font-semibold rounded-full hover:bg-emerald-400 hover:text-slate-900 transition-all duration-300"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <FaEnvelope className="text-lg" />
+                    <span>Contacto Directo</span>
+                  </motion.button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Call to Action moderno */}
