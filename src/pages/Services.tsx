@@ -28,7 +28,9 @@ import {
   FaGlobe,
   FaDatabase,
   FaLock,
-  FaCloudUploadAlt
+  FaCloudUploadAlt,
+  FaBuilding,
+  FaHandshake
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { getContactEmail } from '../config/environment';
@@ -41,11 +43,12 @@ interface Service {
   description: string;
   price: number;
   originalPrice?: number;
-  category: 'web' | 'ecommerce' | 'custom';
+  category: 'web' | 'ecommerce' | 'custom' | 'strategy';
   features: string[];
   deliveryTime: string;
   popular?: boolean;
   premium?: boolean;
+  collaboration?: boolean;
   icon: React.ReactNode;
   color: string;
   gradient: string;
@@ -62,39 +65,90 @@ interface AddOn {
 const Services: React.FC = () => {
   const { t } = useTranslation();
   const { formatPrice, isInitialized, currencyChangeKey, convertPrice, currentCurrency, currencyConfig } = useCurrency();
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'web' | 'ecommerce' | 'custom' | 'strategy'>('all');
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = true; // Forzar siempre visible para depuración
 
   const services: Service[] = [
+    // SERVICIOS ACTUALIZADOS CON PRECIOS DEL PROMPT
     {
-      id: 'landing',
-      name: 'Landing Page Profesional',
-      description: 'Página web de alta conversión diseñada para captar leads y generar ventas. Perfecta para lanzamientos de productos o servicios.',
-      price: 299,
-      originalPrice: 399,
+      id: 'landing-basic',
+      name: 'Landing Page Estática',
+      description: 'Página web de una sola sección, perfecta para presentar tu producto o servicio de manera efectiva.',
+      price: 250, // USD 200-300 según prompt
+      originalPrice: 350,
       category: 'web',
       features: [
+        'Una sección principal optimizada',
         'Diseño responsive premium',
+        'Formulario de contacto básico',
         'Optimización SEO básica',
-        'Formulario de contacto',
-        'Integración con Google Analytics',
         'Hosting gratuito por 3 meses',
         'SSL certificado incluido',
         'Velocidad de carga optimizada',
-        '3 revisiones incluidas'
+        '2 revisiones incluidas'
       ],
-      deliveryTime: '5-7 días',
+      deliveryTime: '3-5 días',
       icon: <FaRocket />,
       color: 'text-orange-400',
       gradient: 'from-orange-500 to-red-600'
     },
     {
+      id: 'web-institutional',
+      name: 'Web Institucional',
+      description: 'Sitio web corporativo completo con 3-5 secciones para mostrar profesionalmente tu empresa.',
+      price: 700, // USD 500-900 según prompt
+      originalPrice: 900,
+      category: 'web',
+      features: [
+        '3-5 secciones principales',
+        'Página de servicios detallada',
+        'Sección sobre nosotros',
+        'Blog integrado',
+        'Galería de imágenes',
+        'Formularios avanzados',
+        'Optimización SEO completa',
+        'Panel de administración básico',
+        'Capacitación incluida',
+        'Soporte 30 días'
+      ],
+      deliveryTime: '7-10 días',
+      popular: true,
+      icon: <FaBuilding />,
+      color: 'text-blue-400',
+      gradient: 'from-blue-500 to-indigo-600'
+    },
+    {
+      id: 'web-backend',
+      name: 'Web con Backend/Admin Panel',
+      description: 'Aplicación web completa con panel de administración y funcionalidades avanzadas.',
+      price: 1400, // Desde USD 1400 según prompt
+      category: 'custom',
+      features: [
+        'Frontend personalizado',
+        'Backend con Laravel/PHP',
+        'Panel de administración completo',
+        'Base de datos optimizada',
+        'Sistema de usuarios',
+        'API REST completa',
+        'Autenticación segura',
+        'Gestión de contenidos',
+        'Reportes y analytics',
+        'Documentación técnica',
+        'Soporte 60 días'
+      ],
+      deliveryTime: '3-4 semanas',
+      premium: true,
+      icon: <FaCode />,
+      color: 'text-purple-400',
+      gradient: 'from-purple-500 to-pink-600'
+    },
+    {
       id: 'ecommerce-basic',
       name: 'Tienda Online Básica',
-      description: 'E-commerce completo con carrito de compras, pasarela de pagos y panel de administración. Ideal para emprendedores.',
-      price: 799,
-      originalPrice: 999,
+      description: 'E-commerce completo con carrito de compras, pasarela de pagos y gestión de productos.',
+      price: 850, // Ajustado dentro del rango
+      originalPrice: 1100,
       category: 'ecommerce',
       features: [
         'Hasta 50 productos',
@@ -109,15 +163,62 @@ const Services: React.FC = () => {
         'Capacitación incluida'
       ],
       deliveryTime: '10-14 días',
-      popular: true,
       icon: <FaShoppingCart />,
       color: 'text-green-400',
       gradient: 'from-green-500 to-emerald-600'
     },
     {
+      id: 'strategy-diagnosis',
+      name: 'Diagnóstico Estratégico + Brief',
+      description: 'Análisis completo de tu proyecto digital con brief detallado y recomendaciones estratégicas.',
+      price: 150, // USD 150 según prompt
+      category: 'strategy',
+      features: [
+        'Análisis de mercado y competencia',
+        'Definición de objetivos digitales',
+        'Brief técnico detallado',
+        'Recomendaciones estratégicas',
+        'Plan de implementación',
+        'Estimación de costos',
+        'Roadmap del proyecto',
+        'Sesión de consultoría 1-a-1'
+      ],
+      deliveryTime: '3-5 días',
+      collaboration: true,
+      icon: <FaLightbulb />,
+      color: 'text-yellow-400',
+      gradient: 'from-yellow-500 to-orange-600'
+    },
+    {
+      id: 'complete-pack',
+      name: 'Pack Completo: Estrategia + Desarrollo',
+      description: 'Solución integral que combina análisis estratégico con desarrollo completo del proyecto.',
+      price: 1100, // USD 900-1200 según prompt
+      originalPrice: 1400,
+      category: 'strategy',
+      features: [
+        'Diagnóstico estratégico completo',
+        'Desarrollo web personalizado',
+        'Diseño UX/UI profesional',
+        'Implementación técnica',
+        'Optimización para conversiones',
+        'Plan de marketing digital',
+        'Capacitación del equipo',
+        'Soporte estratégico 90 días',
+        'Colaboración DSA Business',
+        'Seguimiento de resultados'
+      ],
+      deliveryTime: '4-6 semanas',
+      premium: true,
+      collaboration: true,
+      icon: <FaHandshake />,
+      color: 'text-emerald-400',
+      gradient: 'from-emerald-500 to-cyan-600'
+    },
+    {
       id: 'wordpress',
       name: 'Sitio WordPress Personalizado',
-      description: 'Sitio web corporativo con WordPress, tema personalizado y funcionalidades avanzadas para tu negocio.',
+      description: 'Sitio web corporativo con WordPress, tema personalizado y funcionalidades avanzadas.',
       price: 599,
       originalPrice: 749,
       category: 'web',
@@ -139,33 +240,9 @@ const Services: React.FC = () => {
       gradient: 'from-blue-500 to-indigo-600'
     },
     {
-      id: 'webapp',
-      name: 'Aplicación Web Personalizada',
-      description: 'Desarrollo de aplicación web a medida con React/Laravel según tus necesidades específicas de negocio.',
-      price: 1299,
-      category: 'custom',
-      features: [
-        'Análisis de requerimientos',
-        'Diseño UX/UI personalizado',
-        'Frontend con React/TypeScript',
-        'Backend con Laravel/PHP',
-        'Base de datos optimizada',
-        'API REST completa',
-        'Panel de administración',
-        'Autenticación de usuarios',
-        'Documentación técnica',
-        'Soporte 60 días'
-      ],
-      deliveryTime: '3-4 semanas',
-      premium: true,
-      icon: <FaCode />,
-      color: 'text-purple-400',
-      gradient: 'from-purple-500 to-pink-600'
-    },
-    {
       id: 'ecommerce-enterprise',
       name: 'E-commerce Empresarial',
-      description: 'Solución e-commerce completa para empresas con múltiples funcionalidades avanzadas y escalabilidad.',
+      description: 'Solución e-commerce completa para empresas con múltiples funcionalidades avanzadas.',
       price: 1899,
       category: 'ecommerce',
       features: [
@@ -189,7 +266,7 @@ const Services: React.FC = () => {
     {
       id: 'maintenance',
       name: 'Mantenimiento Mensual',
-      description: 'Servicio de mantenimiento continuo para mantener tu sitio web seguro, actualizado y funcionando perfectamente.',
+      description: 'Servicio de mantenimiento continuo para mantener tu sitio web seguro y actualizado.',
       price: 99,
       category: 'web',
       features: [
@@ -244,7 +321,8 @@ const Services: React.FC = () => {
     { id: 'all', name: 'Todos los Servicios', icon: <FaGlobe /> },
     { id: 'web', name: 'Sitios Web', icon: <FaRocket /> },
     { id: 'ecommerce', name: 'E-commerce', icon: <FaShoppingCart /> },
-    { id: 'custom', name: 'Desarrollo Custom', icon: <FaCode /> }
+    { id: 'custom', name: 'Desarrollo Custom', icon: <FaCode /> },
+    { id: 'strategy', name: 'Estrategia + DSA', icon: <FaHandshake /> }
   ];
 
   const benefits = [
@@ -324,7 +402,7 @@ const Services: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-8" />
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-            Soluciones digitales profesionales con precios transparentes. Desde landing pages hasta e-commerce empresarial.
+            Soluciones digitales profesionales con precios transparentes. Desde landing pages hasta proyectos estratégicos completos.
           </p>
           
           {/* Currency Selector */}
@@ -378,7 +456,9 @@ const Services: React.FC = () => {
               
               <div className={`relative bg-white/5 backdrop-blur-sm rounded-3xl overflow-hidden border border-white/10 group-hover:border-cyan-400/50 transition-all duration-300 ${
                 service.popular ? 'ring-2 ring-cyan-400/50' : ''
-              } ${service.premium ? 'ring-2 ring-purple-400/50' : ''}`}>
+              } ${service.premium ? 'ring-2 ring-purple-400/50' : ''} ${
+                service.collaboration ? 'ring-2 ring-emerald-400/50' : ''
+              }`}>
                 
                 {/* Badges */}
                 <div className="absolute top-4 right-4 flex flex-col gap-2">
@@ -392,6 +472,12 @@ const Services: React.FC = () => {
                     <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-full text-xs font-bold flex items-center gap-1">
                       <FaCrown className="text-xs" />
                       PREMIUM
+                    </span>
+                  )}
+                  {service.collaboration && (
+                    <span className="px-3 py-1 bg-gradient-to-r from-emerald-500 to-cyan-600 text-white rounded-full text-xs font-bold flex items-center gap-1">
+                      <FaHandshake className="text-xs" />
+                      CON DSA
                     </span>
                   )}
                 </div>
@@ -663,7 +749,7 @@ const Services: React.FC = () => {
             {[
               {
                 question: "¿Cuánto tiempo toma desarrollar un proyecto?",
-                answer: "El tiempo varía según la complejidad. Una landing page toma 5-7 días, un e-commerce 10-14 días, y aplicaciones personalizadas 3-4 semanas. Siempre te doy un cronograma detallado al inicio."
+                answer: "El tiempo varía según la complejidad. Una landing page toma 3-5 días, un sitio institucional 7-10 días, y aplicaciones personalizadas 3-4 semanas. Siempre te doy un cronograma detallado al inicio."
               },
               {
                 question: "¿Incluyes hosting y dominio en los precios?",
@@ -671,15 +757,15 @@ const Services: React.FC = () => {
               },
               {
                 question: "¿Qué pasa si no estoy satisfecho con el resultado?",
-                answer: "Mi objetivo es tu satisfacción total. Incluyo 3 revisiones gratuitas en todos los proyectos y trabajo hasta que estés completamente satisfecho con el resultado."
+                answer: "Mi objetivo es tu satisfacción total. Incluyo revisiones gratuitas en todos los proyectos y trabajo hasta que estés completamente satisfecho con el resultado."
               },
               {
                 question: "¿Ofreces mantenimiento después del lanzamiento?",
                 answer: "Sí, ofrezco planes de mantenimiento mensual que incluyen actualizaciones de seguridad, backups, optimización de velocidad y soporte técnico prioritario."
               },
               {
-                question: "¿Puedo hacer cambios después de que el proyecto esté terminado?",
-                answer: "Por supuesto. Incluyo 30 días de soporte post-lanzamiento para ajustes menores. Para cambios mayores, podemos discutir un presupuesto adicional."
+                question: "¿Qué es la colaboración con DSA Business?",
+                answer: "DSA Business es mi socio estratégico para proyectos que requieren análisis comercial profundo. Juntos ofrecemos soluciones integrales que combinan estrategia de negocio con desarrollo técnico."
               },
               {
                 question: "¿Trabajas con empresas de otros países?",
