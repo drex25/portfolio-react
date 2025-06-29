@@ -229,10 +229,10 @@ const Footer: React.FC = () => {
                 features: ["MercadoPago/Stripe", "Gestión de Inventario", "Panel Admin"]
               },
               {
-                title: "Aplicaciones Web",
-                description: "Aplicaciones personalizadas para necesidades específicas",
-                icon: "⚡",
-                features: ["Laravel/PHP", "Base de Datos", "API REST"]
+                title: "Estrategia + DSA",
+                description: "Análisis estratégico completo con desarrollo técnico",
+                icon: "🤝",
+                features: ["Análisis de Mercado", "Brief Técnico", "Implementación"]
               }
             ].map((service, index) => (
               <motion.div
